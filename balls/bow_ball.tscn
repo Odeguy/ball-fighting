@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://dfmid1on1rohv"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_277rf"]
+[ext_resource type="Texture2D" uid="uid://uhlbg31rfta" path="res://weapon_images/bow_image.png" id="2_f3qnb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_277rf"]
+resource_local_to_scene = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[node name="ball" instance=ExtResource("1_277rf")]
+color = Color(0.345098, 0.545098, 0.223529, 1)
+radius = 50
+speed = 1
+health = 50
+attack = 2
+weapon_image = ExtResource("2_f3qnb")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_277rf")

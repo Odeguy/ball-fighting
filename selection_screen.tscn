@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://cod0lxjttge88"]
+
+[ext_resource type="Script" uid="uid://ckqxeg45f4cxg" path="res://selection_screen_script.gd" id="1_t8mf8"]
+
+[node name="selection_screen" type="Node2D"]
+script = ExtResource("1_t8mf8")
+
+[node name="ball_grid" type="ItemList" parent="."]
+offset_left = 413.0
+offset_top = 258.0
+offset_right = 817.0
+offset_bottom = 534.0
+item_count = 2
+max_columns = 6
+same_column_width = true
+item_0/text = "Sword"
+item_1/text = "Bow"
+
+[connection signal="item_clicked" from="ball_grid" to="." method="_on_ball_grid_item_clicked"]

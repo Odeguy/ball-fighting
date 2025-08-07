@@ -1,0 +1,4 @@
+{
+	"Sword": "res://balls/sword_ball.tscn",
+	"Bow": "res://balls/bow_ball.tscn"
+}

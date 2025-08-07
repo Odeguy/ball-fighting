@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlbkv65emj76"]
+
+[ext_resource type="Script" uid="uid://dckntke6583cf" path="res://main_menu_script.gd" id="1_06t4h"]
+[ext_resource type="PackedScene" uid="uid://cod0lxjttge88" path="res://selection_screen.tscn" id="2_7vrkn"]
+[ext_resource type="PackedScene" uid="uid://bb5o5pfrluj52" path="res://battle_scene.tscn" id="3_fu7sn"]
+
+[node name="main_menu" type="Node2D"]
+script = ExtResource("1_06t4h")
+selection_screen = ExtResource("2_7vrkn")
+battle_scene = ExtResource("3_fu7sn")
+
+[node name="start_button" type="Button" parent="."]
+offset_left = 239.0
+offset_top = 126.0
+offset_right = 883.0
+offset_bottom = 511.0
+text = "Start"
+
+[connection signal="pressed" from="start_button" to="." method="_on_start_button_pressed"]
