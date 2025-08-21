@@ -6,14 +6,19 @@
 script = ExtResource("1_t8mf8")
 
 [node name="ball_grid" type="ItemList" parent="."]
-offset_left = 413.0
-offset_top = 258.0
-offset_right = 817.0
-offset_bottom = 534.0
-item_count = 2
+offset_left = 192.0
+offset_top = 256.0
+offset_right = 640.0
+offset_bottom = 532.0
 max_columns = 6
 same_column_width = true
-item_0/text = "Sword"
-item_1/text = "Bow"
+
+[node name="Button" type="Button" parent="."]
+offset_left = 320.0
+offset_top = 576.0
+offset_right = 512.0
+offset_bottom = 640.0
+text = "Done"
 
 [connection signal="item_clicked" from="ball_grid" to="." method="_on_ball_grid_item_clicked"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

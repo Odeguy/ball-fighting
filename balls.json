@@ -1,4 +1,5 @@
 {
 	"Sword": "res://balls/sword_ball.tscn",
-	"Bow": "res://balls/bow_ball.tscn"
+	"Bow": "res://balls/bow_ball.tscn",
+	"Flash": "res://balls/flash_ball.tscn"
 }

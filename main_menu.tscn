@@ -5,15 +5,16 @@
 [ext_resource type="PackedScene" uid="uid://bb5o5pfrluj52" path="res://battle_scene.tscn" id="3_fu7sn"]
 
 [node name="main_menu" type="Node2D"]
+scale = Vector2(0.99724, 1)
 script = ExtResource("1_06t4h")
 selection_screen = ExtResource("2_7vrkn")
 battle_scene = ExtResource("3_fu7sn")
 
 [node name="start_button" type="Button" parent="."]
-offset_left = 239.0
-offset_top = 126.0
-offset_right = 883.0
-offset_bottom = 511.0
+offset_left = 257.0
+offset_top = 312.0
+offset_right = 578.0
+offset_bottom = 677.0
 text = "Start"
 
 [connection signal="pressed" from="start_button" to="." method="_on_start_button_pressed"]

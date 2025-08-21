@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://fseg6tovuwog"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_vmmo3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r4s7v"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[node name="ball" instance=ExtResource("1_vmmo3")]
+color = Color(0.624618, 0.0966638, 0.14593, 1)
+border_color = Color(0.916857, 0.733477, 0, 1)
+radius = 45
+accel = 8
+speed = 8
+health = 80
+attack = 2
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_r4s7v")

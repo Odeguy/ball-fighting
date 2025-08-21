@@ -11,7 +11,7 @@ func go_to_select() -> Array:
 	add_sibling(select_screen)
 	self.hide()
 	var selections: Array
-	selections = await select_screen.get_selections(2)
+	selections = await select_screen.get_selections()
 	select_screen.hide()
 	remove_child(select_screen)
 	return selections

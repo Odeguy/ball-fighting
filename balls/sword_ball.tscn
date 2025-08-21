@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://nr0vhbo5hion"]
+[gd_scene load_steps=3 format=3 uid="uid://nr0vhbo5hion"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_yro6t"]
-[ext_resource type="Texture2D" uid="uid://cldnkdfu5fxeh" path="res://weapon_images/sword_image.png" id="2_0r3bk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yro6t"]
 resource_local_to_scene = true
@@ -9,14 +8,15 @@ corner_radius_top_left = 999
 corner_radius_top_right = 999
 corner_radius_bottom_right = 999
 corner_radius_bottom_left = 999
+expand_margin_left = 10.0
 
 [node name="ball" instance=ExtResource("1_yro6t")]
 color = Color(0.345098, 0.545098, 0.8, 1)
 radius = 50
-speed = 1
+accel = 4
+speed = 2
 health = 75
-attack = 5
-weapon_image = ExtResource("2_0r3bk")
+attack = 3
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_yro6t")
