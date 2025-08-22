@@ -8,10 +8,16 @@ class_name Ball
 @export var speed: int
 @export var health: int
 @export var attack: int
+@export var weapon: bool
 var speed_bonus: float
+@export var trail: bool
+var hits: int
+var total_damage: int
 
 
 func _ready() -> void:
+	hits = 0
+	total_damage = 0
 	var border_width := radius / 20
 	$RigidBody2D/CollisionShape2D.shape.set_radius(radius)
 	$RigidBody2D/Face.get_theme_stylebox("panel").expand_margin_left = radius
@@ -25,21 +31,28 @@ func _ready() -> void:
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_top = border_width
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_bottom = border_width
 	$RigidBody2D.linear_velocity = Vector2(get_viewport_rect().size.x / 2 - self.position.x  * -1 * speed / 2, get_viewport_rect().size.y / 2 - self.position.y  * -1 * speed / 2)
+	$AvgDmg.global_position.y += 500
+	$AvgDmg.add_theme_color_override("font_color", color)
+	$AvgDmg.add_theme_color_override("font_outline_color", border_color)
 	
 	
 func _physics_process(delta: float) -> void:
 	if $RigidBody2D.linear_velocity.length() < speed * 500: 
-		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * accel / 7)
-		
+		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * accel / 4)
 	else: 
-		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * -1)
+		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * -16 / accel)
 	$RigidBody2D/Label.text = str(health)
 	speed_bonus = get_velocity_mag() / 500
+	if trail: leave_trail()
 
 func _on_rigid_body_2d_body_entered(body: Node) -> void:
+	hits += 1
+	total_damage += self.attack + self.speed_bonus
+	$AvgDmg.text = "Average\nDamage: " + str(total_damage / hits)
 	var opp = body.get_parent()
-	if opp is Ball: 
+	if opp is Ball && !opp.weapon || opp is Weapon: 
 		health -= opp.attack + opp.speed_bonus
+		damage_effect(opp.attack + opp.speed_bonus)
 		if health <= 0:
 			self.hide()
 			self.queue_free()
@@ -52,3 +65,28 @@ func set_collision_layer(layer: int):
 
 func get_velocity_mag() -> int:
 	return $RigidBody2D.linear_velocity.length()
+	
+func damage_effect(num: int):
+	var effect = RichTextLabel.new()
+	effect.set_position($RigidBody2D.position + Vector2(int($RigidBody2D.linear_velocity.x) % 10 * -1, int($RigidBody2D.linear_velocity.y) % 10 * -1))
+	effect.push_font_size(25)
+	effect.push_color(color)
+	effect.set_size(Vector2(100, 100))
+	effect.push_bold()
+	effect.append_text(str(num))
+	effect.z_index = 99
+	add_child(effect)
+	while effect.modulate.a != 0:
+		effect.modulate.a -= 0.01
+		await get_tree().process_frame
+	effect.queue_free()
+
+func leave_trail():
+	var effect = $RigidBody2D/Face.duplicate()
+	effect.z_index = -1
+	effect.position = $RigidBody2D.position
+	add_child(effect)
+	while effect.modulate.a != 0:
+		effect.modulate.a -= 0.1
+		await get_tree().process_frame
+	effect.queue_free()

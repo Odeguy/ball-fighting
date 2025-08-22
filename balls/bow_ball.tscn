@@ -14,7 +14,7 @@ color = Color(0.345098, 0.545098, 0.223529, 1)
 radius = 40
 accel = 7
 speed = 3
-health = 50
+health = 150
 attack = 2
 
 [node name="Face" parent="RigidBody2D" index="1"]

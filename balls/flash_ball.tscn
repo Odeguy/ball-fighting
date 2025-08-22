@@ -21,8 +21,9 @@ border_color = Color(0.916857, 0.733477, 0, 1)
 radius = 45
 accel = 8
 speed = 8
-health = 80
+health = 140
 attack = 2
+trail = true
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_r4s7v")

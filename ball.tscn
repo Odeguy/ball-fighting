@@ -1,10 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://vncgfvhdwod8"]
+[gd_scene load_steps=6 format=3 uid="uid://vncgfvhdwod8"]
 
 [ext_resource type="Script" uid="uid://843d781qmk57" path="res://ball_script.gd" id="1_x8fbi"]
+[ext_resource type="Script" uid="uid://b1jtml33gq0q" path="res://weapon_script.gd" id="2_41u45"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x8fbi"]
 friction = 0.0
-bounce = 1.0
+bounce = 1.4
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x8fbi"]
 radius = 56.0089
@@ -25,6 +26,15 @@ corner_radius_bottom_left = 999
 [node name="ball" type="Node2D"]
 editor_description = "bouncy"
 script = ExtResource("1_x8fbi")
+color = null
+border_color = null
+radius = null
+accel = null
+speed = null
+health = null
+attack = null
+weapon = null
+trail = null
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 collision_layer = 0
@@ -58,6 +68,34 @@ theme_override_font_sizes/font_size = 40
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Weapon" type="Node2D" parent="RigidBody2D"]
+z_index = 7
+script = ExtResource("2_41u45")
+
+[node name="AvgDmg" type="Label" parent="."]
+z_index = 10
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -14.0
+offset_right = 74.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.914029, 0.914029, 0.914029, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 5
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 40
+text = "Average
+Damage: 0"
+horizontal_alignment = 1
 
 [connection signal="body_entered" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_entered"]
 [connection signal="body_exited" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_exited"]

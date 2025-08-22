@@ -17,6 +17,9 @@ bg_color = Color(8.73185e-06, 8.73184e-06, 8.73182e-06, 1)
 bg_color = Color(0.301961, 0.301961, 0.301961, 1)
 
 [sub_resource type="FontFile" id="FontFile_fw8re"]
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/400/0/ascent = 0.0
 cache/0/400/0/descent = 0.0
 cache/0/400/0/underline_position = 0.0
@@ -53,13 +56,14 @@ position = Vector2(496, 968)
 shape = SubResource("ConcavePolygonShape2D_fw8re")
 
 [node name="Bakcground" type="Panel" parent="."]
-z_index = -1
+z_index = -10
 offset_right = 1184.0
 offset_bottom = 2552.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_fw8re")
 metadata/_edit_use_anchors_ = true
 
 [node name="ArenaBorder" type="Panel" parent="."]
+z_index = -9
 offset_left = 167.0
 offset_top = 431.0
 offset_right = 1017.0
@@ -67,6 +71,7 @@ offset_bottom = 1239.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_5g7vw")
 
 [node name="Arena" type="Panel" parent="."]
+z_index = -8
 offset_left = 182.0
 offset_top = 445.0
 offset_right = 1002.0
@@ -75,6 +80,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_r5l0u")
 
 [node name="Label" type="Label" parent="."]
 process_mode = 2
+visible = false
 offset_left = 182.0
 offset_top = 445.0
 offset_right = 1002.0

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://nr0vhbo5hion"]
+[gd_scene load_steps=5 format=3 uid="uid://nr0vhbo5hion"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_yro6t"]
+[ext_resource type="Texture2D" uid="uid://cldnkdfu5fxeh" path="res://weapon_images/sword_image.png" id="2_0r3bk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yro6t"]
 resource_local_to_scene = true
@@ -10,13 +11,30 @@ corner_radius_bottom_right = 999
 corner_radius_bottom_left = 999
 expand_margin_left = 10.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1i5ti"]
+
 [node name="ball" instance=ExtResource("1_yro6t")]
 color = Color(0.345098, 0.545098, 0.8, 1)
 radius = 50
 accel = 4
 speed = 2
-health = 75
+health = 175
 attack = 3
+weapon = true
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_yro6t")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RigidBody2D" index="3"]
+position = Vector2(0, -106)
+scale = Vector2(1.05141, 2.47325)
+shape = SubResource("CapsuleShape2D_1i5ti")
+
+[node name="TextureRect" type="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+offset_left = -52.0
+offset_top = -103.0
+offset_right = 818.0
+offset_bottom = 1024.0
+rotation = -0.657715
+scale = Vector2(0.0747743, 0.0747743)
+texture = ExtResource("2_0r3bk")

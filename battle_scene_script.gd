@@ -19,13 +19,6 @@ func begin(fighters: Array):
 	for fighter in fighters:
 		spawn(fighter, spawn_points[i], i + 1)
 		i+=1
-	get_tree().paused = true
-	for n in range(3, 0, -1):
-		$Label.text = str(n)
-		await get_tree().create_timer(0.5).timeout
-	$Label.hide()
-	$Label.queue_free()
-	get_tree().paused = false
 		
 func spawn(name: String, pos: Vector2, layer: int):
 	var ball_scene = load(balls[name])
@@ -34,3 +27,11 @@ func spawn(name: String, pos: Vector2, layer: int):
 	ball.set_collision_layer(layer)
 	add_child(ball)
 	
+func countdown() -> void:
+	$Label.show()
+	get_tree().paused = true
+	for n in range(3, 0, -1):
+		$Label.text = str(n)
+		await get_tree().create_timer(0.5).timeout
+	$Label.hide()
+	get_tree().paused = false
