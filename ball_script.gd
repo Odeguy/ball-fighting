@@ -46,22 +46,7 @@ func _physics_process(delta: float) -> void:
 	if trail: leave_trail()
 
 func _on_rigid_body_2d_body_entered(body: Node) -> void:
-	hits += 1
-	total_damage += self.attack + self.speed_bonus
-	$AvgDmg.text = "Average\nDamage: " + str(total_damage / hits)
-	var opp = body.get_parent()
-	if body is Weapon || opp is Ball && !opp.weapon: 
-		health -= opp.attack + opp.speed_bonus
-		damage_effect(opp.attack + opp.speed_bonus)
-		if health <= 0:
-			$RigidBody2D.linear_velocity = Vector2(0, 0)
-			$RigidBody2D/CollisionShape2D.disabled = true
-			if weapon: $RigidBody2D/WeaponShape2D.disabled = true
-			health = 0
-			while modulate.a <= 0:
-				modulate.a -= 0.05
-				await get_tree().process_frame
-			self.queue_free()
+	pass
 		
 func set_collision_layer(layer: int):
 	for i in range(1, 33):
@@ -96,3 +81,24 @@ func leave_trail():
 		effect.modulate.a -= 0.1
 		await get_tree().process_frame
 	effect.queue_free()
+
+
+func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
+	hits += 1
+	total_damage += self.attack + self.speed_bonus
+	$AvgDmg.text = "Average\nDamage: " + str(total_damage / hits)
+	var opp = body.get_parent()
+	var enemyCollider = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
+	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
+	if enemyCollider is Weapon && selfCollider is not Weapon || opp is Ball && !opp.weapon  && selfCollider is not Weapon: 
+		health -= opp.attack + opp.speed_bonus
+		damage_effect(opp.attack + opp.speed_bonus)
+		if health <= 0:
+			$RigidBody2D.linear_velocity = Vector2(0, 0)
+			$RigidBody2D/CollisionShape2D.disabled = true
+			if weapon: $RigidBody2D/WeaponShape2D.disabled = true
+			health = 0
+			while modulate.a <= 0:
+				modulate.a -= 0.05
+				await get_tree().process_frame
+			self.queue_free()

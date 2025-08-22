@@ -96,3 +96,4 @@ horizontal_alignment = 1
 
 [connection signal="body_entered" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_entered"]
 [connection signal="body_exited" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_exited"]
+[connection signal="body_shape_entered" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_shape_entered"]
