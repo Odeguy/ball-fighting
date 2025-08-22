@@ -31,7 +31,7 @@ func _ready() -> void:
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_top = border_width
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_bottom = border_width
 	$RigidBody2D.linear_velocity = Vector2(get_viewport_rect().size.x / 2 - self.position.x  * -1 * speed / 2, get_viewport_rect().size.y / 2 - self.position.y  * -1 * speed / 2)
-	$AvgDmg.global_position.y += 500
+	$AvgDmg.global_position.y += 750
 	$AvgDmg.add_theme_color_override("font_color", color)
 	$AvgDmg.add_theme_color_override("font_outline_color", border_color)
 	
@@ -50,11 +50,17 @@ func _on_rigid_body_2d_body_entered(body: Node) -> void:
 	total_damage += self.attack + self.speed_bonus
 	$AvgDmg.text = "Average\nDamage: " + str(total_damage / hits)
 	var opp = body.get_parent()
-	if opp is Ball && !opp.weapon || opp is Weapon: 
+	if body is Weapon || opp is Ball && !opp.weapon: 
 		health -= opp.attack + opp.speed_bonus
 		damage_effect(opp.attack + opp.speed_bonus)
 		if health <= 0:
-			self.hide()
+			$RigidBody2D.linear_velocity = Vector2(0, 0)
+			$RigidBody2D/CollisionShape2D.disabled = true
+			if weapon: $RigidBody2D/WeaponShape2D.disabled = true
+			health = 0
+			while modulate.a <= 0:
+				modulate.a -= 0.05
+				await get_tree().process_frame
 			self.queue_free()
 		
 func set_collision_layer(layer: int):

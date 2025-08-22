@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://vncgfvhdwod8"]
 
 [ext_resource type="Script" uid="uid://843d781qmk57" path="res://ball_script.gd" id="1_x8fbi"]
-[ext_resource type="Script" uid="uid://b1jtml33gq0q" path="res://weapon_script.gd" id="2_41u45"]
+[ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="2_41u45"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x8fbi"]
 friction = 0.0
@@ -26,15 +26,6 @@ corner_radius_bottom_left = 999
 [node name="ball" type="Node2D"]
 editor_description = "bouncy"
 script = ExtResource("1_x8fbi")
-color = null
-border_color = null
-radius = null
-accel = null
-speed = null
-health = null
-attack = null
-weapon = null
-trail = null
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 collision_layer = 0
@@ -71,6 +62,12 @@ vertical_alignment = 1
 
 [node name="Weapon" type="Node2D" parent="RigidBody2D"]
 z_index = 7
+
+[node name="TextureRect" type="TextureRect" parent="RigidBody2D/Weapon"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WeaponShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 script = ExtResource("2_41u45")
 
 [node name="AvgDmg" type="Label" parent="."]

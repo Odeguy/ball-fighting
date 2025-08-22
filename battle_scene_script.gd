@@ -11,7 +11,7 @@ func _ready() -> void:
 	screen_size = get_viewport_rect().size
 	arena_origin = $Arena.position
 	arena_size = $Arena.size
-	spawn_points = [Vector2(arena_origin.x + arena_size.x / 4, arena_origin.y + arena_size.y / 4), Vector2(arena_origin.x + arena_size.x * 3 / 4, arena_origin.y + arena_size.y / 4), Vector2(arena_origin.x + arena_size.x / 4, arena_origin.y + arena_size.y * 3 / 4), Vector2(arena_origin.x + arena_size.x * 3 / 4, arena_origin.y + arena_size.y * 3 / 4)]
+	spawn_points = [Vector2(arena_origin.x + arena_size.x / 4, arena_origin.y + arena_size.y / 2), Vector2(arena_origin.x + arena_size.x * 3 / 4, arena_origin.y + arena_size.y / 2), Vector2(arena_origin.x + arena_size.x / 4, arena_origin.y + arena_size.y * 3 / 4), Vector2(arena_origin.x + arena_size.x * 3 / 4, arena_origin.y + arena_size.y * 3 / 4)]
 	
 #the final ball number population limit should be <= 32
 func begin(fighters: Array):

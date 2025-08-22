@@ -5,7 +5,7 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fw8re"]
 
 [sub_resource type="ConcavePolygonShape2D" id="ConcavePolygonShape2D_fw8re"]
-segments = PackedVector2Array(-353.713, -538.655, 466.581, -538.655, -353.713, 240.699, -353.713, -538.655, 466.581, -538.655, 466.581, 240.699, 466.581, 240.699, -353.713, 240.699)
+segments = PackedVector2Array(-432.932, -528.847, 546.862, -528.847, -432.932, 695.852, -432.932, -528.847, 546.862, -528.847, 546.862, 695.852, 546.862, 695.852, -432.932, 695.852)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fw8re"]
 bg_color = Color(0.574679, 0.598603, 0.671371, 1)
@@ -52,7 +52,7 @@ collision_mask = 4294967295
 physics_material_override = SubResource("PhysicsMaterial_fw8re")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(496, 968)
+position = Vector2(495.469, 624.184)
 shape = SubResource("ConcavePolygonShape2D_fw8re")
 
 [node name="Bakcground" type="Panel" parent="."]
@@ -64,18 +64,20 @@ metadata/_edit_use_anchors_ = true
 
 [node name="ArenaBorder" type="Panel" parent="."]
 z_index = -9
-offset_left = 167.0
-offset_top = 431.0
-offset_right = 1017.0
-offset_bottom = 1239.0
+offset_left = 91.0
+offset_top = 97.0
+offset_right = 1093.0
+offset_bottom = 905.0
+scale = Vector2(1, 1.55668)
 theme_override_styles/panel = SubResource("StyleBoxFlat_5g7vw")
 
 [node name="Arena" type="Panel" parent="."]
 z_index = -8
-offset_left = 182.0
-offset_top = 445.0
-offset_right = 1002.0
-offset_bottom = 1224.0
+offset_left = 103.0
+offset_top = 111.0
+offset_right = 1072.0
+offset_bottom = 896.0
+scale = Vector2(1.01106, 1.56099)
 theme_override_styles/panel = SubResource("StyleBoxFlat_r5l0u")
 
 [node name="Label" type="Label" parent="."]

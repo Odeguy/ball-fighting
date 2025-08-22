@@ -11,7 +11,9 @@ corner_radius_bottom_right = 999
 corner_radius_bottom_left = 999
 expand_margin_left = 10.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1i5ti"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0r3bk"]
+radius = 1.49928
+height = 29.8084
 
 [node name="ball" instance=ExtResource("1_yro6t")]
 color = Color(0.345098, 0.545098, 0.8, 1)
@@ -25,16 +27,19 @@ weapon = true
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_yro6t")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="RigidBody2D" index="3"]
-position = Vector2(0, -106)
-scale = Vector2(1.05141, 2.47325)
-shape = SubResource("CapsuleShape2D_1i5ti")
+[node name="Weapon" parent="RigidBody2D" index="3"]
+script = null
 
-[node name="TextureRect" type="TextureRect" parent="RigidBody2D/Weapon" index="0"]
-offset_left = -52.0
-offset_top = -103.0
-offset_right = 818.0
-offset_bottom = 1024.0
-rotation = -0.657715
-scale = Vector2(0.0747743, 0.0747743)
+[node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+offset_left = -45.0
+offset_top = -97.0
+offset_right = 825.0
+offset_bottom = 822.0
+rotation = -0.746887
+scale = Vector2(0.0678363, 0.0705273)
 texture = ExtResource("2_0r3bk")
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="4"]
+position = Vector2(-1, -91)
+scale = Vector2(-6.00288, 3.08638)
+shape = SubResource("CapsuleShape2D_0r3bk")

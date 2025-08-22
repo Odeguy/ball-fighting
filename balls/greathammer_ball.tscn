@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfmid1on1rohv"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_qdpdn"]
+[ext_resource type="Texture2D" uid="uid://cvrvfcd0bw20o" path="res://weapon_images/giant-crusher_elden_ring_wiki_guide_200px_png.png" id="2_bh02i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_277rf"]
+resource_local_to_scene = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2xmt6"]
+radius = 61.0
+height = 194.643
+
+[node name="ball" instance=ExtResource("1_qdpdn")]
+color = Color(0.345098, 0.545098, 0.223529, 1)
+radius = 40
+accel = 3
+speed = 2
+health = 130
+attack = 4
+weapon = true
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_277rf")
+
+[node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+offset_left = -137.0
+offset_top = -175.0
+offset_right = 63.0
+offset_bottom = 25.0
+rotation = -0.781844
+texture = ExtResource("2_bh02i")
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="4"]
+position = Vector2(0, -155)
+scale = Vector2(1, 1.12)
+shape = SubResource("CapsuleShape2D_2xmt6")
