@@ -1,0 +1,119 @@
+[gd_scene load_steps=9 format=3 uid="uid://b07row7ljtjqc"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_fhiuv"]
+[ext_resource type="Script" uid="uid://dtvjcxqy0almb" path="res://balls/ball_script.gd" id="2_3difo"]
+[ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="3_ivewg"]
+[ext_resource type="Texture2D" uid="uid://bgnerg3k027fs" path="res://weapon_images/1200px-Soccerball.svg_png.png" id="4_3difo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ea8hu"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vnkg3"]
+friction = 0.0
+bounce = 0.2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g6ybe"]
+radius = 56.0089
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xqtmv"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[node name="isagi_ball" instance=ExtResource("1_fhiuv")]
+color = Color(0.139459, 0.374668, 1, 1)
+border_color = Color(0.0823506, 0.0823506, 0.0823506, 1)
+radius = 40
+lin_accel = 1
+lin_speed = 2
+health = 170
+attack = 3
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_ea8hu")
+
+[node name="Ball" type="Node2D" parent="." index="2"]
+position = Vector2(24, 104)
+scale = Vector2(0.593196, 0.517725)
+script = ExtResource("2_3difo")
+health = 99999999
+attack = 3
+center_force = true
+metadata/_custom_type_script = "uid://843d781qmk57"
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Ball" index="0"]
+collision_layer = 0
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_vnkg3")
+center_of_mass_mode = 1
+contact_monitor = true
+max_contacts_reported = 2
+linear_damp_mode = 1
+angular_damp_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball/RigidBody2D" index="0"]
+position = Vector2(-23.601, -23.1783)
+scale = Vector2(0.517498, 0.517498)
+shape = SubResource("CircleShape2D_g6ybe")
+
+[node name="Face" type="Panel" parent="Ball/RigidBody2D" index="1"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xqtmv")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Ball/RigidBody2D" index="2"]
+visible = false
+offset_left = -40.0
+offset_top = -32.0
+offset_right = 40.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Weapon" type="Node2D" parent="Ball/RigidBody2D" index="3"]
+visible = false
+z_index = 7
+
+[node name="TextureRect" type="TextureRect" parent="Ball/RigidBody2D/Weapon" index="0"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WeaponShape2D" type="CollisionShape2D" parent="Ball/RigidBody2D" index="4"]
+visible = false
+script = ExtResource("3_ivewg")
+
+[node name="TextureRect" type="TextureRect" parent="Ball/RigidBody2D" index="5"]
+offset_left = -53.9451
+offset_top = -54.0828
+offset_right = 1146.05
+offset_bottom = 1145.92
+scale = Vector2(0.0505447, 0.0505447)
+texture = ExtResource("4_3difo")

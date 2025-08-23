@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://cod0lxjttge88"]
+[gd_scene load_steps=3 format=3 uid="uid://cod0lxjttge88"]
 
 [ext_resource type="Script" uid="uid://ckqxeg45f4cxg" path="res://selection_screen_script.gd" id="1_t8mf8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t8mf8"]
+bg_color = Color(0.427583, 0.642252, 0.675322, 1)
 
 [node name="selection_screen" type="Node2D"]
 script = ExtResource("1_t8mf8")
@@ -10,8 +13,10 @@ offset_left = 192.0
 offset_top = 256.0
 offset_right = 640.0
 offset_bottom = 532.0
-max_columns = 6
+wraparound_items = false
+max_columns = 3
 same_column_width = true
+icon_mode = 0
 
 [node name="Button" type="Button" parent="."]
 offset_left = 320.0
@@ -19,6 +24,25 @@ offset_top = 576.0
 offset_right = 512.0
 offset_bottom = 640.0
 text = "Done"
+
+[node name="Panel" type="Panel" parent="."]
+z_index = -5
+offset_right = 840.0
+offset_bottom = 1280.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t8mf8")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 320.0
+offset_top = 64.0
+offset_right = 512.0
+offset_bottom = 192.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 5
+theme_override_font_sizes/font_size = 80
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="item_clicked" from="ball_grid" to="." method="_on_ball_grid_item_clicked"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

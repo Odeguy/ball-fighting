@@ -5,7 +5,7 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x8fbi"]
 friction = 0.0
-bounce = 1.4
+bounce = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x8fbi"]
 radius = 56.0089
@@ -49,6 +49,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_x8fbi")
+metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="RigidBody2D"]
 offset_left = -40.0
@@ -59,6 +60,7 @@ theme_override_font_sizes/font_size = 40
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="Weapon" type="Node2D" parent="RigidBody2D"]
 z_index = 7

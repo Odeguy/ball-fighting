@@ -18,17 +18,14 @@ height = 29.8084
 [node name="ball" instance=ExtResource("1_yro6t")]
 color = Color(0.345098, 0.545098, 0.8, 1)
 radius = 50
-accel = 4
-speed = 2
+lin_accel = 2
+lin_speed = 2
 health = 175
 attack = 3
 weapon = true
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_yro6t")
-
-[node name="Weapon" parent="RigidBody2D" index="3"]
-script = null
 
 [node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
 offset_left = -45.0

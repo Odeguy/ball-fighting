@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7ceis0i4fc3f"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_rhcii"]
+[ext_resource type="Texture2D" uid="uid://lrk2oo16to7o" path="res://weapon_images/latest.png" id="2_yf1fq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yf1fq"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_osp1s"]
+radius = 9.00395
+
+[node name="thor_ball" instance=ExtResource("1_rhcii")]
+color = Color(0.354563, 0.354563, 0.354563, 1)
+border_color = Color(0.597743, 0, 0, 1)
+radius = 60
+lin_accel = 1
+ang_accel = 7
+lin_speed = 1
+ang_speed = 9
+health = 150
+attack = 2
+weapon = true
+trail = true
+center_force = true
+
+[node name="RigidBody2D" parent="." index="0"]
+gravity_scale = 0.0
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_yf1fq")
+
+[node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+offset_left = -104.0
+offset_top = -120.0
+offset_right = 1516.0
+offset_bottom = 880.0
+scale = Vector2(0.0834512, 0.0834512)
+texture = ExtResource("2_yf1fq")
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="4"]
+position = Vector2(-80, -88)
+rotation = 0.496227
+scale = Vector2(2.76702, 2.34943)
+shape = SubResource("CapsuleShape2D_osp1s")

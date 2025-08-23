@@ -11,14 +11,14 @@ corner_radius_bottom_right = 999
 corner_radius_bottom_left = 999
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2xmt6"]
-radius = 61.0
-height = 194.643
+radius = 57.0
+height = 258.929
 
 [node name="ball" instance=ExtResource("1_qdpdn")]
 color = Color(0.345098, 0.545098, 0.223529, 1)
 radius = 40
-accel = 3
-speed = 2
+lin_accel = 2
+lin_speed = 2
 health = 130
 attack = 4
 weapon = true
@@ -35,6 +35,6 @@ rotation = -0.781844
 texture = ExtResource("2_bh02i")
 
 [node name="WeaponShape2D" parent="RigidBody2D" index="4"]
-position = Vector2(0, -155)
+position = Vector2(-1, -129)
 scale = Vector2(1, 1.12)
 shape = SubResource("CapsuleShape2D_2xmt6")

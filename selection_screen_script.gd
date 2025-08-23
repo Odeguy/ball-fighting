@@ -9,6 +9,7 @@ var selection
 func get_selections() -> Array:
 	var selections: Array
 	for i in range(0, 4):
+		$Label.text = str(i)
 		selection = null
 		while selection == null:
 			await get_tree().process_frame
