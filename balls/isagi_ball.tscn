@@ -1,7 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://b07row7ljtjqc"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_fhiuv"]
-[ext_resource type="Script" uid="uid://dtvjcxqy0almb" path="res://balls/ball_script.gd" id="2_3difo"]
 [ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="3_ivewg"]
 [ext_resource type="Texture2D" uid="uid://bgnerg3k027fs" path="res://weapon_images/1200px-Soccerball.svg_png.png" id="4_3difo"]
 
@@ -17,6 +16,80 @@ corner_radius_top_left = 999
 corner_radius_top_right = 999
 corner_radius_bottom_right = 999
 corner_radius_bottom_left = 999
+
+[sub_resource type="GDScript" id="GDScript_fhiuv"]
+script/source = "extends Ball
+
+#@export var color: Color
+#@export var border_color: Color
+#@export var radius: int
+#@export var lin_accel: int
+#@export var ang_accel: int
+#@export var lin_speed: int
+#@export var ang_speed: int
+#@export var health: int
+#@export var attack: int
+#@export var weapon: bool
+#var speed_bonus: float
+#@export var trail: bool
+#var hits: int
+#var total_damage: int
+#@export var center_force: bool
+#var center: Vector2
+@export var vulnerable: bool
+
+
+func _ready() -> void:
+	center = get_parent().center
+	$RigidBody2D.angular_velocity = ang_speed
+	set_collision_layer(0)
+	
+	
+func _physics_process(delta: float) -> void:
+	$RigidBody2D.apply_central_force((get_parent().get_body().position - $RigidBody2D.position) * 20)
+	speed_bonus = abs(get_velocity_mag()) / 1000 + abs($RigidBody2D.angular_velocity) / 24
+	
+func _on_rigid_body_2d_body_entered(body: Node) -> void:
+	pass
+		
+func set_collision_layer(layer: int):
+	for i in range(1, 33):
+		$RigidBody2D.set_collision_mask_value(i, true)
+		$RigidBody2D.set_collision_layer_value(i, true)
+	
+
+
+func leave_trail():
+	pass
+
+
+func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
+	var opp = body.get_parent()
+	var enemyCollider = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
+	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
+	if vulnerable:
+		if enemyCollider is Weapon || opp is Ball && !opp.weapon  && selfCollider is not Weapon && opp.get_parent() != self && opp.get_parent() != self.get_parent(): 
+			health -= opp.attack + opp.speed_bonus
+			damage_effect(opp.attack + opp.speed_bonus)
+			opp.hits += 1
+			opp.total_damage += opp.attack + opp.speed_bonus
+			opp.recalc_avg_dmg()
+			if health <= 0:
+				$RigidBody2D.linear_velocity = Vector2(0, 0)
+				$RigidBody2D.angular_velocity = 0
+				$RigidBody2D/CollisionShape2D.disabled = true
+				if weapon: $RigidBody2D/WeaponShape2D.disabled = true
+				health = 0
+				while modulate.a <= 0:
+					modulate.a -= 0.05
+					await get_tree().process_frame
+				self.queue_free()
+	
+func recalc_avg_dmg():
+	get_parent().hits = hits
+	get_parent().total_damage = total_damage
+	get_parent().recalc_avg_dmg()
+"
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vnkg3"]
 friction = 0.0
@@ -54,9 +127,11 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ea8hu")
 [node name="Ball" type="Node2D" parent="." index="2"]
 position = Vector2(24, 104)
 scale = Vector2(0.593196, 0.517725)
-script = ExtResource("2_3difo")
+script = SubResource("GDScript_fhiuv")
+lin_accel = 2
+lin_speed = 3
 health = 99999999
-attack = 3
+attack = 2
 center_force = true
 metadata/_custom_type_script = "uid://843d781qmk57"
 
@@ -118,3 +193,5 @@ offset_right = 1146.05
 offset_bottom = 1145.92
 scale = Vector2(0.0505447, 0.0505447)
 texture = ExtResource("4_3difo")
+
+[connection signal="body_shape_entered" from="Ball/RigidBody2D" to="Ball" method="_on_rigid_body_2d_body_shape_entered"]

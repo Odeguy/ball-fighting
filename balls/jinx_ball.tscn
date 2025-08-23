@@ -1,0 +1,130 @@
+[gd_scene load_steps=10 format=3 uid="uid://dby0mhnoi73su"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_y6mpy"]
+[ext_resource type="Script" uid="uid://j6dtg4kg2i2" path="res://balls/bomb_script.gd" id="2_y6mpy"]
+[ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="3_d4n4s"]
+[ext_resource type="Texture2D" uid="uid://bpq7r558sygqi" path="res://weapon_images/latest(1).png" id="3_hy5f6"]
+[ext_resource type="Texture2D" uid="uid://c2l26shrlfyps" path="res://weapon_images/cc6edd3acc98a79ced26b4df1c8e91c1_png.png" id="4_y6mpy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ea8hu"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vnkg3"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g6ybe"]
+radius = 56.0089
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xqtmv"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[node name="jinx_ball" instance=ExtResource("1_y6mpy")]
+color = Color(0.356863, 0.203922, 0.301961, 1)
+border_color = Color(0.176471, 0.423529, 0.6, 1)
+radius = 50
+lin_accel = 1
+lin_speed = 2
+health = 170
+attack = 3
+weapon = true
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_ea8hu")
+
+[node name="Ball" type="Node2D" parent="." index="2"]
+visible = false
+position = Vector2(24, 104)
+scale = Vector2(0.593196, 0.517725)
+script = ExtResource("2_y6mpy")
+explosion_texture = ExtResource("3_hy5f6")
+spawn_rate = 2
+lin_accel = 3
+lin_speed = 4
+health = 99999999
+attack = 2
+center_force = true
+metadata/_custom_type_script = "uid://843d781qmk57"
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Ball" index="0"]
+collision_layer = 0
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_vnkg3")
+center_of_mass_mode = 1
+contact_monitor = true
+max_contacts_reported = 2
+linear_damp_mode = 1
+angular_damp_mode = 1
+angular_damp = 12.715
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball/RigidBody2D" index="0"]
+position = Vector2(43.8304, -36.699)
+scale = Vector2(0.508144, 0.780714)
+shape = SubResource("CircleShape2D_g6ybe")
+disabled = true
+
+[node name="Face" type="Panel" parent="Ball/RigidBody2D" index="1"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xqtmv")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Ball/RigidBody2D" index="2"]
+visible = false
+offset_left = -40.0
+offset_top = -32.0
+offset_right = 40.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Weapon" type="Node2D" parent="Ball/RigidBody2D" index="3"]
+visible = false
+z_index = 7
+
+[node name="TextureRect" type="TextureRect" parent="Ball/RigidBody2D/Weapon" index="0"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WeaponShape2D" type="CollisionShape2D" parent="Ball/RigidBody2D" index="4"]
+visible = false
+script = ExtResource("3_d4n4s")
+
+[node name="TextureRect" type="TextureRect" parent="Ball/RigidBody2D" index="5"]
+offset_left = -30.3441
+offset_top = -90.7818
+offset_right = 3112.66
+offset_bottom = 1873.22
+scale = Vector2(0.0505447, 0.0505447)
+texture = ExtResource("4_y6mpy")
+
+[connection signal="body_shape_entered" from="Ball/RigidBody2D" to="Ball" method="_on_rigid_body_2d_body_shape_entered"]

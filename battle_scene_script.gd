@@ -6,9 +6,13 @@ var arena_origin: Vector2
 var arena_size: Vector2
 var spawn_points: Array
 var fighting: Array
+var showing: bool
 @export var selection_screen: PackedScene
+@export_range (0, 1.0) var button_opacity: float
 
 func _ready() -> void:
+	$Button.modulate.a = button_opacity
+	showing = true
 	balls = JSON.parse_string(FileAccess.get_file_as_string("res://balls.json"))
 	screen_size = get_viewport_rect().size
 	arena_origin = $Arena.position
@@ -21,6 +25,12 @@ func begin(fighters: Array):
 	for fighter in fighters:
 		spawn(fighter, spawn_points[i], i + 1)
 		i+=1
+		
+func _process(delta: float) -> void:
+	if showing && get_global_mouse_position().x > arena_origin.x && get_global_mouse_position().y > arena_origin.y && get_global_mouse_position().x < arena_origin.x + arena_size.x && get_global_mouse_position().y < arena_origin.y + arena_size.y:
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		
 func spawn(name: String, pos: Vector2, layer: int):
 	var ball_scene = load(balls[name])
@@ -41,8 +51,10 @@ func countdown() -> void:
 
 
 func _on_button_pressed() -> void:
-	for ball in fighting:
-		fighting.erase(ball)
+	for i in range(fighting.size() - 1, -1, -1):
+		print(i)
+		var ball = fighting[i]
+		fighting.remove_at(i)
 		ball.queue_free()
 	var select_screen = selection_screen.instantiate()
 	add_sibling(select_screen)
@@ -53,7 +65,14 @@ func _on_button_pressed() -> void:
 	tween.tween_property($start_button, "modulate:a", 0, 1)
 	tween.tween_property($Panel, "modulate:a", 0, 2)
 	var selections: Array
+	$Button.z_index = -10
+	showing = false
 	selections = await select_screen.get_selections()
 	select_screen.hide()
 	select_screen.queue_free()
 	begin(selections)
+	$Button.z_index = 1
+	showing = true
+	
+func set_mouse_mode(mode: int) -> void:
+	$Aren

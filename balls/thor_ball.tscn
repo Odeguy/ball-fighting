@@ -30,7 +30,6 @@ ang_speed = 9
 health = 150
 attack = 2
 weapon = true
-trail = true
 center_force = true
 
 [node name="RigidBody2D" parent="." index="0"]

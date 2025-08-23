@@ -1,0 +1,483 @@
+[gd_scene load_steps=13 format=3 uid="uid://cp20th7vd525e"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_5h73n"]
+[ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="3_aqu1e"]
+[ext_resource type="Texture2D" uid="uid://cmmdai4kqgk1b" path="res://weapon_images/terrific/ball1.png" id="4_5x382"]
+[ext_resource type="Texture2D" uid="uid://ch25l8tyhxrb3" path="res://weapon_images/terrific/ball2.png" id="5_ygh6p"]
+[ext_resource type="Texture2D" uid="uid://b85kto3kh5ac2" path="res://weapon_images/terrific/ball3.png" id="6_ms60a"]
+[ext_resource type="Texture2D" uid="uid://dfctqkltshw1o" path="res://weapon_images/terrific/ball4.png" id="7_na4er"]
+[ext_resource type="Texture2D" uid="uid://dix14h6766tee" path="res://weapon_images/terrific/ball5.png" id="8_qbh7i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b6i2y"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="GDScript" id="GDScript_fhiuv"]
+script/source = "extends Ball
+
+#@export var color: Color
+#@export var border_color: Color
+#@export var radius: int
+#@export var lin_accel: int
+#@export var ang_accel: int
+#@export var lin_speed: int
+#@export var ang_speed: int
+#@export var health: int
+#@export var attack: int
+#@export var weapon: bool
+#var speed_bonus: float
+#@export var trail: bool
+#var hits: int
+#var total_damage: int
+#@export var center_force: bool
+#var center: Vector2
+@export var vulnerable: bool
+
+
+func _ready() -> void:
+	center = get_parent().center
+	$RigidBody2D.angular_velocity = ang_speed
+	set_collision_layer(0)
+	
+	
+func _physics_process(delta: float) -> void:
+	$RigidBody2D.apply_central_force((get_parent().get_body().position - $RigidBody2D.position) * 20)
+	speed_bonus = abs(get_velocity_mag()) / 1000 + abs($RigidBody2D.angular_velocity) / 24
+	
+func _on_rigid_body_2d_body_entered(body: Node) -> void:
+	pass
+		
+func set_collision_layer(layer: int):
+	for i in range(1, 33):
+		$RigidBody2D.set_collision_mask_value(i, true)
+		$RigidBody2D.set_collision_layer_value(i, true)
+	
+
+
+func leave_trail():
+	pass
+
+
+func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
+	var opp = body.get_parent()
+	var enemyCollider = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
+	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
+	if vulnerable:
+		if enemyCollider is Weapon || opp is Ball && !opp.weapon  && selfCollider is not Weapon && opp.get_parent() != self && opp.get_parent() != self.get_parent(): 
+			health -= opp.attack + opp.speed_bonus
+			damage_effect(opp.attack + opp.speed_bonus)
+			opp.hits += 1
+			opp.total_damage += opp.attack + opp.speed_bonus
+			opp.recalc_avg_dmg()
+			if health <= 0:
+				$RigidBody2D.linear_velocity = Vector2(0, 0)
+				$RigidBody2D.angular_velocity = 0
+				$RigidBody2D/CollisionShape2D.disabled = true
+				if weapon: $RigidBody2D/WeaponShape2D.disabled = true
+				health = 0
+				while modulate.a <= 0:
+					modulate.a -= 0.05
+					await get_tree().process_frame
+				self.queue_free()
+	
+func recalc_avg_dmg():
+	get_parent().hits = hits
+	get_parent().total_damage = total_damage
+	get_parent().recalc_avg_dmg()
+"
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qwvqu"]
+friction = 0.0
+bounce = 0.2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3vudl"]
+radius = 56.0089
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1pa3p"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[node name="mrterrific_ball" instance=ExtResource("1_5h73n")]
+color = Color(1, 1, 1, 1)
+border_color = Color(0.0331262, 0, 0, 1)
+radius = 45
+lin_accel = 2
+lin_speed = 2
+health = 100
+attack = 2
+center_force = true
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_b6i2y")
+
+[node name="Label" parent="RigidBody2D" index="2"]
+theme_override_colors/font_color = Color(0.976471, 0.0156863, 0.0156863, 1)
+
+[node name="Ball1" type="Node2D" parent="." index="2"]
+position = Vector2(152, -72)
+scale = Vector2(0.679389, 0.592953)
+script = SubResource("GDScript_fhiuv")
+vulnerable = true
+health = 80
+attack = 1
+center_force = true
+metadata/_custom_type_script = "uid://843d781qmk57"
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Ball1" index="0"]
+collision_layer = 0
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_qwvqu")
+center_of_mass_mode = 1
+contact_monitor = true
+max_contacts_reported = 2
+linear_damp_mode = 1
+angular_damp_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball1/RigidBody2D" index="0"]
+position = Vector2(-23.601, -23.1783)
+scale = Vector2(0.517498, 0.517498)
+shape = SubResource("CircleShape2D_3vudl")
+
+[node name="Face" type="Panel" parent="Ball1/RigidBody2D" index="1"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1pa3p")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Ball1/RigidBody2D" index="2"]
+visible = false
+offset_left = -40.0
+offset_top = -32.0
+offset_right = 40.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Weapon" type="Node2D" parent="Ball1/RigidBody2D" index="3"]
+visible = false
+z_index = 7
+
+[node name="TextureRect" type="TextureRect" parent="Ball1/RigidBody2D/Weapon" index="0"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WeaponShape2D" type="CollisionShape2D" parent="Ball1/RigidBody2D" index="4"]
+visible = false
+script = ExtResource("3_aqu1e")
+
+[node name="TextureRect" type="TextureRect" parent="Ball1/RigidBody2D" index="5"]
+offset_left = -65.4408
+offset_top = -64.983
+offset_right = 1134.55
+offset_bottom = 1135.02
+scale = Vector2(0.0681986, 0.0719179)
+texture = ExtResource("4_5x382")
+
+[node name="Ball2" type="Node2D" parent="." index="3"]
+position = Vector2(-96, 96)
+scale = Vector2(0.679389, 0.592953)
+script = SubResource("GDScript_fhiuv")
+vulnerable = true
+health = 80
+attack = 1
+center_force = true
+metadata/_custom_type_script = "uid://843d781qmk57"
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Ball2" index="0"]
+collision_layer = 0
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_qwvqu")
+center_of_mass_mode = 1
+contact_monitor = true
+max_contacts_reported = 2
+linear_damp_mode = 1
+angular_damp_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball2/RigidBody2D" index="0"]
+position = Vector2(-23.601, -23.1783)
+scale = Vector2(0.517498, 0.517498)
+shape = SubResource("CircleShape2D_3vudl")
+
+[node name="Face" type="Panel" parent="Ball2/RigidBody2D" index="1"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1pa3p")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Ball2/RigidBody2D" index="2"]
+visible = false
+offset_left = -40.0
+offset_top = -32.0
+offset_right = 40.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Weapon" type="Node2D" parent="Ball2/RigidBody2D" index="3"]
+visible = false
+z_index = 7
+
+[node name="TextureRect" type="TextureRect" parent="Ball2/RigidBody2D/Weapon" index="0"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WeaponShape2D" type="CollisionShape2D" parent="Ball2/RigidBody2D" index="4"]
+visible = false
+script = ExtResource("3_aqu1e")
+
+[node name="TextureRect" type="TextureRect" parent="Ball2/RigidBody2D" index="5"]
+offset_left = -74.1663
+offset_top = -69.9817
+offset_right = 1125.83
+offset_bottom = 1130.02
+scale = Vector2(0.0787622, 0.0779341)
+texture = ExtResource("5_ygh6p")
+
+[node name="Ball3" type="Node2D" parent="." index="4"]
+position = Vector2(168, 32)
+scale = Vector2(0.679389, 0.592953)
+script = SubResource("GDScript_fhiuv")
+vulnerable = true
+health = 80
+attack = 1
+center_force = true
+metadata/_custom_type_script = "uid://843d781qmk57"
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Ball3" index="0"]
+collision_layer = 0
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_qwvqu")
+center_of_mass_mode = 1
+contact_monitor = true
+max_contacts_reported = 2
+linear_damp_mode = 1
+angular_damp_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball3/RigidBody2D" index="0"]
+position = Vector2(-23.601, -23.1783)
+scale = Vector2(0.517498, 0.517498)
+shape = SubResource("CircleShape2D_3vudl")
+
+[node name="Face" type="Panel" parent="Ball3/RigidBody2D" index="1"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1pa3p")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Ball3/RigidBody2D" index="2"]
+visible = false
+offset_left = -40.0
+offset_top = -32.0
+offset_right = 40.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Weapon" type="Node2D" parent="Ball3/RigidBody2D" index="3"]
+visible = false
+z_index = 7
+
+[node name="TextureRect" type="TextureRect" parent="Ball3/RigidBody2D/Weapon" index="0"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WeaponShape2D" type="CollisionShape2D" parent="Ball3/RigidBody2D" index="4"]
+visible = false
+script = ExtResource("3_aqu1e")
+
+[node name="TextureRect" type="TextureRect" parent="Ball3/RigidBody2D" index="5"]
+offset_left = -65.4408
+offset_top = -64.9831
+offset_right = 1134.55
+offset_bottom = 1135.02
+scale = Vector2(0.0710646, 0.0705574)
+texture = ExtResource("6_ms60a")
+
+[node name="Ball4" type="Node2D" parent="." index="5"]
+position = Vector2(-88, -72)
+scale = Vector2(0.679389, 0.592953)
+script = SubResource("GDScript_fhiuv")
+vulnerable = true
+health = 80
+attack = 1
+center_force = true
+metadata/_custom_type_script = "uid://843d781qmk57"
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Ball4" index="0"]
+collision_layer = 0
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_qwvqu")
+center_of_mass_mode = 1
+contact_monitor = true
+max_contacts_reported = 2
+linear_damp_mode = 1
+angular_damp_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball4/RigidBody2D" index="0"]
+position = Vector2(-23.601, -23.1783)
+scale = Vector2(0.517498, 0.517498)
+shape = SubResource("CircleShape2D_3vudl")
+
+[node name="Face" type="Panel" parent="Ball4/RigidBody2D" index="1"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1pa3p")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Ball4/RigidBody2D" index="2"]
+visible = false
+offset_left = -40.0
+offset_top = -32.0
+offset_right = 40.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Weapon" type="Node2D" parent="Ball4/RigidBody2D" index="3"]
+visible = false
+z_index = 7
+
+[node name="TextureRect" type="TextureRect" parent="Ball4/RigidBody2D/Weapon" index="0"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WeaponShape2D" type="CollisionShape2D" parent="Ball4/RigidBody2D" index="4"]
+visible = false
+script = ExtResource("3_aqu1e")
+
+[node name="TextureRect" type="TextureRect" parent="Ball4/RigidBody2D" index="5"]
+offset_left = -65.4408
+offset_top = -64.983
+offset_right = 1134.55
+offset_bottom = 1135.02
+scale = Vector2(0.0707372, 0.0724318)
+texture = ExtResource("7_na4er")
+
+[node name="Ball5" type="Node2D" parent="." index="6"]
+position = Vector2(24, 104)
+scale = Vector2(0.679389, 0.592953)
+script = SubResource("GDScript_fhiuv")
+vulnerable = true
+health = 80
+attack = 1
+center_force = true
+metadata/_custom_type_script = "uid://843d781qmk57"
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Ball5" index="0"]
+collision_layer = 0
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_qwvqu")
+center_of_mass_mode = 1
+contact_monitor = true
+max_contacts_reported = 2
+linear_damp_mode = 1
+angular_damp_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball5/RigidBody2D" index="0"]
+position = Vector2(-23.601, -23.1783)
+scale = Vector2(0.517498, 0.517498)
+shape = SubResource("CircleShape2D_3vudl")
+
+[node name="Face" type="Panel" parent="Ball5/RigidBody2D" index="1"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1pa3p")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Ball5/RigidBody2D" index="2"]
+visible = false
+offset_left = -40.0
+offset_top = -32.0
+offset_right = 40.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Weapon" type="Node2D" parent="Ball5/RigidBody2D" index="3"]
+visible = false
+z_index = 7
+
+[node name="TextureRect" type="TextureRect" parent="Ball5/RigidBody2D/Weapon" index="0"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WeaponShape2D" type="CollisionShape2D" parent="Ball5/RigidBody2D" index="4"]
+visible = false
+script = ExtResource("3_aqu1e")
+
+[node name="TextureRect" type="TextureRect" parent="Ball5/RigidBody2D" index="5"]
+offset_left = -65.4408
+offset_top = -69.9817
+offset_right = 1134.55
+offset_bottom = 1130.02
+scale = Vector2(0.071729, 0.0719841)
+texture = ExtResource("8_qbh7i")
+
+[connection signal="body_shape_entered" from="Ball1/RigidBody2D" to="Ball1" method="_on_rigid_body_2d_body_shape_entered"]
+[connection signal="body_shape_entered" from="Ball2/RigidBody2D" to="Ball2" method="_on_rigid_body_2d_body_shape_entered"]
+[connection signal="body_shape_entered" from="Ball3/RigidBody2D" to="Ball3" method="_on_rigid_body_2d_body_shape_entered"]
+[connection signal="body_shape_entered" from="Ball4/RigidBody2D" to="Ball4" method="_on_rigid_body_2d_body_shape_entered"]
+[connection signal="body_shape_entered" from="Ball5/RigidBody2D" to="Ball5" method="_on_rigid_body_2d_body_shape_entered"]
