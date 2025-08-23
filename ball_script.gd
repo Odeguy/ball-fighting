@@ -100,7 +100,7 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 	var opp = body.get_parent()
 	var enemyCollider = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
 	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
-	if enemyCollider is Weapon && selfCollider is not Weapon || opp is Ball && !opp.weapon  && selfCollider is not Weapon: 
+	if enemyCollider is Weapon && selfCollider is not Weapon || opp is Ball && !opp.weapon  && selfCollider is not Weapon and opp.get_parent() != self: 
 		health -= opp.attack + opp.speed_bonus
 		damage_effect(opp.attack + opp.speed_bonus)
 		hits += 1

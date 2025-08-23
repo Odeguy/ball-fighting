@@ -5,6 +5,8 @@ var screen_size: Vector2
 var arena_origin: Vector2
 var arena_size: Vector2
 var spawn_points: Array
+var fighting: Array
+@export var selection_screen: PackedScene
 
 func _ready() -> void:
 	balls = JSON.parse_string(FileAccess.get_file_as_string("res://balls.json"))
@@ -26,6 +28,7 @@ func spawn(name: String, pos: Vector2, layer: int):
 	ball.position = pos
 	ball.set_collision_layer(layer)
 	add_child(ball)
+	fighting.append(ball)
 	
 func countdown() -> void:
 	$Label.show()
@@ -35,3 +38,22 @@ func countdown() -> void:
 		await get_tree().create_timer(0.5).timeout
 	$Label.hide()
 	get_tree().paused = false
+
+
+func _on_button_pressed() -> void:
+	for ball in fighting:
+		fighting.erase(ball)
+		ball.queue_free()
+	var select_screen = selection_screen.instantiate()
+	add_sibling(select_screen)
+	var tween = create_tween()
+	tween.set_parallel()
+	tween.set_speed_scale(6)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property($start_button, "modulate:a", 0, 1)
+	tween.tween_property($Panel, "modulate:a", 0, 2)
+	var selections: Array
+	selections = await select_screen.get_selections()
+	select_screen.hide()
+	select_screen.queue_free()
+	begin(selections)

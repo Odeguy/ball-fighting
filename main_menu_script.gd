@@ -20,7 +20,7 @@ func go_to_select() -> Array:
 	var selections: Array
 	selections = await select_screen.get_selections()
 	select_screen.hide()
-	remove_child(select_screen)
+	select_screen.queue_free()
 	return selections
 	
 func battle(selections: Array):
