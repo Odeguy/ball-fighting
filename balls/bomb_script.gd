@@ -2,24 +2,23 @@ extends "res://balls/floater_script.gd"
 
 @export var explosion_texture: Texture2D
 @export var spawn_rate: int
+@export var duped: bool
 var spawn_timer: int
 
 func _ready() -> void:
-	spawn_rate *= 1000
 	set_collision_layer(0)
-	$RigidBody2D.linear_velocity = Vector2(get_viewport_rect().size.x / 2 - self.global_position.x  * -1 * lin_speed / 2 * (randf() / 5 + 1), get_viewport_rect().size.y / 2 - self.global_position.y  * -1 * lin_speed / 2 * (randf() / 5 + 1))
 	spawn_timer = 0
+	if duped:
+		while !($RigidBody2D.global_position.x > get_parent().arena_origin.x && $RigidBody2D.global_position.y > get_parent().arena_origin.y && $RigidBody2D.global_position.x < get_parent().arena_origin.x + get_parent().arena_size.x && $RigidBody2D.global_position.y < get_parent().arena_origin.y + get_parent().arena_size.y):
+			$RigidBody2D.global_position = get_parent().global_position + Vector2(randi() % 51, randi() % 51)
 	
 func _physics_process(delta: float) -> void:
 	$RigidBody2D.apply_central_force((get_parent().get_body().position - $RigidBody2D.position) * 0.01)
-	$RigidBody2D.apply_central_force(Vector2(1000, 0))
-	speed_bonus = abs(get_velocity_mag()) / 1000 + abs($RigidBody2D.angular_velocity) / 24
 	if center_force:
 		$RigidBody2D.apply_central_force(Vector2(center.x - $RigidBody2D.global_position.x, center.y - $RigidBody2D.global_position.y) * 2)
 	if trail: leave_trail()
 	spawn_timer += 1
 	if spawn_timer % spawn_rate == 0: create_bomb()
-	
 	
 func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	var opp = body.get_parent()
@@ -42,22 +41,30 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 					modulate.a -= 0.05
 					await get_tree().process_frame
 				self.queue_free()
-	elif opp is Ball && opp != self.get_parent() || opp is Weapon && opp != self.get_parent():
+	if opp is Ball && opp != self.get_parent() && self.get_parent() != opp.get_parent():
 		$RigidBody2D.linear_velocity = Vector2(0, 0)
 		$RigidBody2D.angular_velocity = 0
+		$RigidBody2D.freeze = true
 		$RigidBody2D/CollisionShape2D.disabled = true
-		$RigidBody2D/Weapon/TextureRect.texture = explosion_texture
-		while modulate.a <= 0:
-			modulate.a -= 0.05
+		$RigidBody2D/TextureRect.visible = false
+		$RigidBody2D/TextureRect2.visible = true
+		while modulate.a > 0:
+			modulate.a -= 0.02
 			await get_tree().process_frame
 		self.queue_free()
 
 func create_bomb() -> void:
 	var dupe = self.duplicate()
-	dupe.position = center
+	dupe.modulate.a = 1
+	center = get_parent().center
 	dupe.visible = true
 	dupe.get_collider().disabled = false
-	add_sibling(dupe)
+	dupe.get_body().freeze = false
+	dupe.get_body().linear_velocity = Vector2(0, 0)
+	dupe.get_body().angular_velocity = 0
+	dupe.duped = true
+	dupe.spawn_rate *= self.spawn_rate * 3
+	await add_sibling(dupe)
 	
 func get_collider():
 	return $RigidBody2D/CollisionShape2D

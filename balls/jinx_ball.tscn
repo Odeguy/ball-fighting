@@ -43,10 +43,9 @@ corner_radius_bottom_left = 999
 color = Color(0.356863, 0.203922, 0.301961, 1)
 border_color = Color(0.176471, 0.423529, 0.6, 1)
 radius = 50
-lin_accel = 1
-lin_speed = 2
+lin_accel = 5
+lin_speed = 6
 health = 170
-attack = 3
 weapon = true
 
 [node name="Face" parent="RigidBody2D" index="1"]
@@ -58,11 +57,12 @@ position = Vector2(24, 104)
 scale = Vector2(0.593196, 0.517725)
 script = ExtResource("2_y6mpy")
 explosion_texture = ExtResource("3_hy5f6")
-spawn_rate = 2
+spawn_rate = 200
+vulnerable = true
 lin_accel = 3
 lin_speed = 4
-health = 99999999
-attack = 2
+health = 20
+attack = 6
 center_force = true
 metadata/_custom_type_script = "uid://843d781qmk57"
 
@@ -78,8 +78,8 @@ angular_damp_mode = 1
 angular_damp = 12.715
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ball/RigidBody2D" index="0"]
-position = Vector2(43.8304, -36.699)
-scale = Vector2(0.508144, 0.780714)
+position = Vector2(32.0299, -23.1783)
+scale = Vector2(0.401428, 0.790438)
 shape = SubResource("CircleShape2D_g6ybe")
 disabled = true
 
@@ -117,14 +117,24 @@ offset_bottom = 40.0
 
 [node name="WeaponShape2D" type="CollisionShape2D" parent="Ball/RigidBody2D" index="4"]
 visible = false
+disabled = true
 script = ExtResource("3_d4n4s")
 
 [node name="TextureRect" type="TextureRect" parent="Ball/RigidBody2D" index="5"]
-offset_left = -30.3441
-offset_top = -90.7818
-offset_right = 3112.66
-offset_bottom = 1873.22
+offset_left = -15.0
+offset_top = -74.0
+offset_right = 1905.0
+offset_bottom = 1855.0
 scale = Vector2(0.0505447, 0.0505447)
 texture = ExtResource("4_y6mpy")
+
+[node name="TextureRect2" type="TextureRect" parent="Ball/RigidBody2D" index="6"]
+visible = false
+offset_left = -32.0
+offset_top = -129.0
+offset_right = 3070.0
+offset_bottom = 3501.0
+scale = Vector2(0.0505447, 0.0505447)
+texture = ExtResource("3_hy5f6")
 
 [connection signal="body_shape_entered" from="Ball/RigidBody2D" to="Ball" method="_on_rigid_body_2d_body_shape_entered"]

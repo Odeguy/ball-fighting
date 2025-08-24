@@ -18,10 +18,14 @@ var hits: int
 var total_damage: int
 @export var center_force: bool
 var center: Vector2
+var arena_origin: Vector2
+var arena_size: Vector2
 
 
 func _ready() -> void:
-	center = get_parent().arena_origin + get_parent().arena_size / 2
+	arena_origin = get_parent().arena_origin
+	arena_size = get_parent().arena_size
+	center = arena_origin + arena_size / 2
 	hits = 0
 	total_damage = 0
 	var border_width := radius / 20
