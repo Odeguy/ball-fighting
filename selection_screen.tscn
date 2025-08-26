@@ -12,7 +12,7 @@ script = ExtResource("1_t8mf8")
 offset_left = 192.0
 offset_top = 256.0
 offset_right = 640.0
-offset_bottom = 532.0
+offset_bottom = 512.0
 wraparound_items = false
 max_columns = 3
 same_column_width = true
@@ -44,5 +44,37 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Team 1" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 232.0
+offset_right = 152.0
+offset_bottom = 280.0
+text = "Team 1"
+
+[node name="Team 2" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 296.0
+offset_right = 152.0
+offset_bottom = 344.0
+text = "Team 2"
+
+[node name="Team 3" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 360.0
+offset_right = 152.0
+offset_bottom = 408.0
+text = "Team 3"
+
+[node name="Team 4" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 424.0
+offset_right = 152.0
+offset_bottom = 472.0
+text = "Team 4"
+
 [connection signal="item_clicked" from="ball_grid" to="." method="_on_ball_grid_item_clicked"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Team 1" to="." method="_on_team_1_pressed"]
+[connection signal="pressed" from="Team 2" to="." method="_on_team_2_pressed"]
+[connection signal="pressed" from="Team 3" to="." method="_on_team_3_pressed"]
+[connection signal="pressed" from="Team 4" to="." method="_on_team_4_pressed"]

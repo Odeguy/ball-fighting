@@ -20,9 +20,14 @@ var total_damage: int
 var center: Vector2
 var arena_origin: Vector2
 var arena_size: Vector2
+@export var attack_sound: AudioStreamMP3
+@export var team: String
+var hit_limit: float
 
 
 func _ready() -> void:
+	$AudioStreamPlayer2D.stream = attack_sound
+	hit_limit = 0.2
 	arena_origin = get_parent().arena_origin
 	arena_size = get_parent().arena_size
 	center = arena_origin + arena_size / 2
@@ -59,6 +64,7 @@ func _physics_process(delta: float) -> void:
 		
 	if center_force:
 		$RigidBody2D.apply_central_force(Vector2(center.x - $RigidBody2D.global_position.x, center.y - $RigidBody2D.global_position.y) * 2)
+	if hit_limit < 0.2: hit_limit += 0.01
 	
 	$RigidBody2D/Label.text = str(health)
 	speed_bonus = abs(get_velocity_mag()) / 500 + abs($RigidBody2D.angular_velocity) / 8
@@ -79,6 +85,8 @@ func get_velocity_mag() -> int:
 	
 func damage_effect(num: int):
 	var effect = RichTextLabel.new()
+	$AudioStreamPlayer2D.stop()
+	$AudioStreamPlayer2D.play()
 	effect.set_position($RigidBody2D.position + Vector2(int($RigidBody2D.linear_velocity.x) % 10 * -1, int($RigidBody2D.linear_velocity.y) % 10 * -1))
 	effect.push_font_size(25)
 	effect.push_color(color)
@@ -124,9 +132,10 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 	var opp = body.get_parent()
 	var enemyCollider = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
 	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
-	if enemyCollider is Weapon && selfCollider is not Weapon || opp is Ball && !opp.weapon  && selfCollider is not Weapon and opp.get_parent() != self: 
+	if enemyCollider is Weapon && selfCollider is not Weapon && opp.team != self.team && hit_limit >= 0.2 || opp is Ball && !opp.weapon  && selfCollider is not Weapon and opp.get_parent() != self && opp.team != self.team && hit_limit == 0.2: 
 		health -= opp.attack + opp.speed_bonus
-		damage_effect(opp.attack + opp.speed_bonus)
+		hit_limit = 0
+		opp.damage_effect(opp.attack + opp.speed_bonus)
 		opp.hits += 1
 		opp.total_damage += opp.attack + opp.speed_bonus
 		opp.recalc_avg_dmg()
@@ -147,3 +156,6 @@ func get_body():
 
 func recalc_avg_dmg():
 		$AvgDmg.text = "Average\nDamage: " + str(total_damage / hits)
+
+func get_audio() -> AudioStreamPlayer2D:
+	return $AudioStreamPlayer2D

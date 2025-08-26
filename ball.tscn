@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://vncgfvhdwod8"]
+[gd_scene load_steps=8 format=3 uid="uid://vncgfvhdwod8"]
 
 [ext_resource type="Script" uid="uid://843d781qmk57" path="res://ball_script.gd" id="1_x8fbi"]
 [ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="2_41u45"]
+[ext_resource type="FontFile" uid="uid://dj3iqqjqchyt3" path="res://fonts/Super Squad.otf" id="2_ktgx5"]
+[ext_resource type="FontFile" uid="uid://cp8ckbrt1edkh" path="res://fonts/BarberChop.otf" id="4_hgol0"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x8fbi"]
 friction = 0.0
@@ -56,6 +58,7 @@ offset_left = -40.0
 offset_top = -32.0
 offset_right = 40.0
 offset_bottom = 32.0
+theme_override_fonts/font = ExtResource("2_ktgx5")
 theme_override_font_sizes/font_size = 40
 text = "0"
 horizontal_alignment = 1
@@ -91,10 +94,13 @@ theme_override_colors/font_outline_color = Color(0.914029, 0.914029, 0.914029, 1
 theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 2
 theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("4_hgol0")
 theme_override_font_sizes/font_size = 25
 text = "Average
 Damage: 0"
 horizontal_alignment = 1
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="body_entered" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_entered"]
 [connection signal="body_exited" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_exited"]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://nr0vhbo5hion"]
+[gd_scene load_steps=6 format=3 uid="uid://nr0vhbo5hion"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_yro6t"]
-[ext_resource type="Texture2D" uid="uid://cldnkdfu5fxeh" path="res://weapon_images/sword_image.png" id="2_0r3bk"]
+[ext_resource type="AudioStream" uid="uid://dttchcrkh22y" path="res://sounds/sword.mp3" id="2_1i5ti"]
+[ext_resource type="Texture2D" uid="uid://bni8e7y5gb18r" path="res://weapon_images/greatsword_colossal_swords_elden_ring_wiki_guide_200px_png.png" id="3_1i5ti"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yro6t"]
 resource_local_to_scene = true
@@ -12,31 +13,34 @@ corner_radius_bottom_left = 999
 expand_margin_left = 10.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0r3bk"]
-radius = 1.49928
-height = 29.8084
+radius = 1.3446
+height = 29.2111
 
 [node name="ball" instance=ExtResource("1_yro6t")]
 color = Color(0.345098, 0.545098, 0.8, 1)
 radius = 50
 lin_accel = 2
 lin_speed = 2
-health = 175
-attack = 3
+health = 150
+attack = 6
 weapon = true
+attack_sound = ExtResource("2_1i5ti")
+team = "sword"
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_yro6t")
 
 [node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
-offset_left = -45.0
-offset_top = -97.0
-offset_right = 825.0
-offset_bottom = 822.0
-rotation = -0.746887
+offset_left = -34.0
+offset_top = -159.0
+offset_right = 1958.0
+offset_bottom = 1945.0
+rotation = 1.59662
 scale = Vector2(0.0678363, 0.0705273)
-texture = ExtResource("2_0r3bk")
+texture = ExtResource("3_1i5ti")
 
 [node name="WeaponShape2D" parent="RigidBody2D" index="4"]
-position = Vector2(-1, -91)
-scale = Vector2(-6.00288, 3.08638)
+position = Vector2(-106, -90)
+rotation = -0.834373
+scale = Vector2(11.3497, 7.50411)
 shape = SubResource("CapsuleShape2D_0r3bk")

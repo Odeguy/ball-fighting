@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://cp20th7vd525e"]
+[gd_scene load_steps=14 format=3 uid="uid://cp20th7vd525e"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_5h73n"]
-[ext_resource type="Script" uid="uid://dtvjcxqy0almb" path="res://balls/floater_script.gd" id="2_5h73n"]
+[ext_resource type="Script" uid="uid://dtvjcxqy0almb" path="res://floater_script.gd" id="2_5h73n"]
+[ext_resource type="AudioStream" uid="uid://45i5ppufj3hs" path="res://sounds/terrific.mp3" id="2_lqjt4"]
 [ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="3_aqu1e"]
 [ext_resource type="Texture2D" uid="uid://cmmdai4kqgk1b" path="res://weapon_images/terrific/ball1.png" id="4_5x382"]
 [ext_resource type="Texture2D" uid="uid://ch25l8tyhxrb3" path="res://weapon_images/terrific/ball2.png" id="5_ygh6p"]
@@ -51,6 +52,8 @@ lin_speed = 2
 health = 100
 attack = 2
 center_force = true
+attack_sound = ExtResource("2_lqjt4")
+team = "mrterrific"
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_b6i2y")

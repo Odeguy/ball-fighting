@@ -1,4 +1,4 @@
-extends "res://balls/floater_script.gd"
+extends "res://floater_script.gd"
 
 @export var explosion_texture: Texture2D
 @export var spawn_rate: int
@@ -6,6 +6,7 @@ extends "res://balls/floater_script.gd"
 var spawn_timer: int
 
 func _ready() -> void:
+	hit_limit = 0.2
 	set_collision_layer(0)
 	spawn_timer = 0
 	if duped:
@@ -19,14 +20,16 @@ func _physics_process(delta: float) -> void:
 	if trail: leave_trail()
 	spawn_timer += 1
 	if spawn_timer % spawn_rate == 0: create_bomb()
+	if hit_limit < 0.2: hit_limit += 0.01
 	
 func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	var opp = body.get_parent()
 	var enemyCollider = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
 	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
 	if vulnerable:
-		if enemyCollider is Weapon || opp is Ball && !opp.weapon  && selfCollider is not Weapon && opp.get_parent() != self && opp.get_parent() != self.get_parent(): 
+		if enemyCollider is Weapon && opp.team != self.team && hit_limit >= 0.2 || opp is Ball && !opp.weapon  && selfCollider is not Weapon && opp.get_parent() != self && opp.get_parent() != self.get_parent() && opp.team != self.team && hit_limit >= 0.2: 
 			health -= opp.attack + opp.speed_bonus
+			hit_limit = 0
 			damage_effect(opp.attack + opp.speed_bonus)
 			opp.hits += 1
 			opp.total_damage += opp.attack + opp.speed_bonus
@@ -41,7 +44,7 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 					modulate.a -= 0.05
 					await get_tree().process_frame
 				self.queue_free()
-	if opp is Ball && opp != self.get_parent() && self.get_parent() != opp.get_parent():
+	if opp is Ball && opp != self.get_parent() && self.get_parent() != opp.get_parent() && opp.team != self.team:
 		$RigidBody2D.linear_velocity = Vector2(0, 0)
 		$RigidBody2D.angular_velocity = 0
 		$RigidBody2D.freeze = true

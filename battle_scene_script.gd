@@ -7,10 +7,14 @@ var arena_size: Vector2
 var spawn_points: Array
 var fighting: Array
 var showing: bool
+var prev_teams: Dictionary
+var teams: Dictionary
+var winner: bool
 @export var selection_screen: PackedScene
 @export_range (0, 1.0) var button_opacity: float
 
 func _ready() -> void:
+	winner = false
 	$Button.modulate.a = button_opacity
 	showing = true
 	balls = JSON.parse_string(FileAccess.get_file_as_string("res://balls.json"))
@@ -25,16 +29,26 @@ func begin(fighters: Array):
 	for fighter in fighters:
 		spawn(fighter, spawn_points[i], i + 1)
 		i+=1
+		teams[fighter.team] = 0
+	if teams.size() == 2:
+		if prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[0] && teams.keys()[1] == prev_teams.keys()[1] || prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[1] && teams.keys()[1] == prev_teams.keys()[0]:
+			teams = prev_teams
+		$Scoreboard.show()
+	else: $Scoreboard.hide()
 		
 func _process(delta: float) -> void:
 	if showing && get_global_mouse_position().x > arena_origin.x && get_global_mouse_position().y > arena_origin.y && get_global_mouse_position().x < arena_origin.x + arena_size.x && get_global_mouse_position().y < arena_origin.y + arena_size.y:
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	if fighting.size() == 1 && !winner:
+		winner = true
+		teams[fighting[0].team] += 1
+		$AudioStreamPlayer2D.play()
+	if teams.size() == 2: $Scoreboard.text = str(teams[teams.keys()[0]]) + " - " + str(teams[teams.keys()[1]])
 		
-func spawn(name: String, pos: Vector2, layer: int):
-	var ball_scene = load(balls[name])
-	var ball = ball_scene.instantiate()
+func spawn(ball: Object, pos: Vector2, layer: int):
 	ball.position = pos
 	ball.set_collision_layer(layer)
 	add_child(ball)
@@ -52,7 +66,6 @@ func countdown() -> void:
 
 func _on_button_pressed() -> void:
 	for i in range(fighting.size() - 1, -1, -1):
-		print(i)
 		var ball = fighting[i]
 		fighting.remove_at(i)
 		ball.queue_free()
@@ -67,6 +80,10 @@ func _on_button_pressed() -> void:
 	var selections: Array
 	$Button.z_index = -10
 	showing = false
+	winner = false
+	prev_teams = teams
+	$Scoreboard.hide()
+	teams = {}
 	selections = await select_screen.get_selections()
 	select_screen.hide()
 	select_screen.queue_free()

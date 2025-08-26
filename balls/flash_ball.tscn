@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://fseg6tovuwog"]
+[gd_scene load_steps=4 format=3 uid="uid://fseg6tovuwog"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_vmmo3"]
+[ext_resource type="AudioStream" uid="uid://cxnutgjeel0i5" path="res://sounds/flash.mp3" id="2_vlgg5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r4s7v"]
 resource_local_to_scene = true
@@ -24,6 +25,8 @@ lin_speed = 8
 health = 140
 attack = 2
 trail = true
+attack_sound = ExtResource("2_vlgg5")
+team = "flash"
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_r4s7v")

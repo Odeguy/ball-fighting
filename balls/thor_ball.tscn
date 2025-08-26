@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c7ceis0i4fc3f"]
+[gd_scene load_steps=6 format=3 uid="uid://c7ceis0i4fc3f"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_rhcii"]
+[ext_resource type="AudioStream" uid="uid://bk0po0gga6k2k" path="res://sounds/thor.mp3" id="2_osp1s"]
 [ext_resource type="Texture2D" uid="uid://lrk2oo16to7o" path="res://weapon_images/latest.png" id="2_yf1fq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yf1fq"]
@@ -31,6 +32,8 @@ health = 150
 attack = 2
 weapon = true
 center_force = true
+attack_sound = ExtResource("2_osp1s")
+team = "thor"
 
 [node name="RigidBody2D" parent="." index="0"]
 gravity_scale = 0.0
