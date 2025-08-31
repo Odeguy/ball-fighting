@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://otthmhcay78q"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_m65ug"]
+[ext_resource type="AudioStream" uid="uid://bagqclcokcgmp" path="res://sounds/dragon-ball-z-heavy-punch.mp3" id="2_m65ug"]
+[ext_resource type="AudioStream" uid="uid://djenups4e0ead" path="res://sounds/teleport-dbz-sound-effect-made-with-Voicemod.mp3" id="3_fhyl4"]
+[ext_resource type="Shader" uid="uid://b6feltswonh0h" path="res://balls/pulse.gdshader" id="3_h7wsn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwcmg"]
+resource_local_to_scene = true
+bg_color = Color(0.984314, 0.988235, 0.964706, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fhyl4"]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h7wsn"]
+shader = ExtResource("3_h7wsn")
+shader_parameter/glow_color = Color(0.433289, 0.585598, 0.783799, 0.45098)
+shader_parameter/intensity = 1.2
+shader_parameter/spread = 2.0
+shader_parameter/pulse_speed = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fhyl4"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[node name="ui_goku_ball" instance=ExtResource("1_m65ug")]
+color = Color(0.101961, 0.239216, 0.423529, 1)
+border_color = Color(1, 0.529412, 0.117647, 1)
+health_color = Color(1, 0.529412, 0.117647, 1)
+radius = 40
+lin_accel = 10
+lin_speed = 6
+health = 170
+attack = 7
+trail = true
+field_type = "dodge_field"
+attack_sound = ExtResource("2_m65ug")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_qwcmg")
+
+[node name="AudioStreamPlayer2D" parent="RigidBody2D/WeaponShape2D" index="0"]
+stream = null
+
+[node name="Sensory Field" parent="RigidBody2D" index="5"]
+visible = true
+field_multiply = 2.0
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_fhyl4")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+material = SubResource("ShaderMaterial_h7wsn")
+theme_override_styles/panel = SubResource("StyleBoxFlat_fhyl4")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="RigidBody2D/Sensory Field" index="2"]
+stream = ExtResource("3_fhyl4")

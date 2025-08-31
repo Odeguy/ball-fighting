@@ -20,9 +20,7 @@ extends Ball
 
 
 func _ready() -> void:
-	hit_limit = 0.2
 	team = get_parent().team
-	print(team)
 	center = get_parent().center
 	$RigidBody2D.angular_velocity = ang_speed
 	set_collision_layer(0)
@@ -34,7 +32,6 @@ func _physics_process(delta: float) -> void:
 	if center_force:
 		$RigidBody2D.apply_central_force(Vector2(center.x - $RigidBody2D.global_position.x, center.y - $RigidBody2D.global_position.y) * 2)
 	if trail: leave_trail()
-	if hit_limit < 0.2: hit_limit += 0.01
 	
 func _on_rigid_body_2d_body_entered(body: Node) -> void:
 	pass
@@ -54,7 +51,7 @@ func damage_effect(num: int):
 	get_parent().get_audio().play()
 	effect.set_position($RigidBody2D.position + Vector2(int($RigidBody2D.linear_velocity.x) % 10 * -1, int($RigidBody2D.linear_velocity.y) % 10 * -1))
 	effect.push_font_size(25)
-	effect.push_color(color)
+	effect.push_color(get_parent().color)
 	effect.set_size(Vector2(100, 100))
 	effect.push_bold()
 	effect.append_text(str(num))
@@ -70,9 +67,8 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 	var enemyCollider = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
 	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
 	if vulnerable:
-		if enemyCollider is Weapon && opp.team != self.team && hit_limit >= 0.2 || opp is Ball && !opp.weapon  && selfCollider is not Weapon && opp.get_parent() != self && opp.get_parent() != self.get_parent() && opp.team != self.team && hit_limit >= 0.2: 
+		if enemyCollider is Weapon && opp.team != self.team|| opp is Ball && !opp.weapon  && selfCollider is not Weapon && opp.get_parent() != self && opp.get_parent() != self.get_parent() && opp.team != self.team: 
 			health -= opp.attack + opp.speed_bonus
-			hit_limit = 0
 			damage_effect(opp.attack + opp.speed_bonus)
 			opp.hits += 1
 			opp.total_damage += opp.attack + opp.speed_bonus

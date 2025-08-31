@@ -5,5 +5,10 @@
 	"Thor": "res://balls/thor_ball.tscn",
 	"Isagi": "res://balls/isagi_ball.tscn",
 	"Mr. Terrific": "res://balls/mrterrific_ball.tscn",
-	"Jinx": "res://balls/jinx_ball.tscn"
+	"Jinx": "res://balls/jinx_ball.tscn",
+	"Professor Zoom": "res://balls/professor_zoom_ball.tscn",
+	"Rebirth Flash": "res://balls/rebirth_flash_ball.tscn",
+	"Superman": "res://balls/superman_ball.tscn",
+	"UI Goku": "res://balls/ui_goku_ball.tscn",
+	"The Enigma": "res://balls/the_enigma_ball.tscn"
 }

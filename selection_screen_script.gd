@@ -10,16 +10,18 @@ var selection
 var previous
 func get_selections() -> Array:
 	var selections: Array
-	for i in range(0, 4):
+	for i in range(0, 5):
 		$Label.text = str(i)
 		selection = null
 		while selection == null:
 			await get_tree().process_frame
-		if selection == "Done": break
-		var ball_scene = load(balls[selection])
-		var ball = ball_scene.instantiate()
-		selections.push_back(ball)
-		previous = ball
+		if i < 4:
+			if selection == "Done": break
+			var ball_scene = load(balls[selection])
+			var ball = ball_scene.instantiate()
+			selections.push_back(ball)
+			previous = ball
+			ball.team += str(randi())
 	return selections
 		
 

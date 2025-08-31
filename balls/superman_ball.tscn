@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfgqrg70e5keb"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_0mfp7"]
+[ext_resource type="AudioStream" uid="uid://di5m8xth1jyeh" path="res://sounds/punch-87756-[AudioTrimmer.com].mp3" id="2_uy7fn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0sds5"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uy7fn"]
+resource_local_to_scene = true
+
+[node name="superman_ball" instance=ExtResource("1_0mfp7")]
+color = Color(0.00784314, 0.380392, 0.509804, 1)
+border_color = Color(0.529412, 0.223529, 0.223529, 1)
+radius = 45
+lin_accel = 3
+lin_speed = 2
+health = 200
+attack = 8
+field_type = "attack_field"
+attack_sound = ExtResource("2_uy7fn")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_0sds5")
+
+[node name="Sensory Field" parent="RigidBody2D" index="5"]
+field_multiply = 3.0
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_uy7fn")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_0sds5")

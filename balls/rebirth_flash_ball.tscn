@@ -1,0 +1,66 @@
+[gd_scene load_steps=8 format=3 uid="uid://c0x7sxj7wjcw2"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_1u15m"]
+[ext_resource type="AudioStream" uid="uid://cxnutgjeel0i5" path="res://sounds/flash.mp3" id="2_i5rss"]
+[ext_resource type="Shader" uid="uid://b6feltswonh0h" path="res://balls/pulse.gdshader" id="3_i5rss"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i5rss"]
+shader = ExtResource("3_i5rss")
+shader_parameter/glow_color = Color(0.286275, 0.52549, 0.772549, 1)
+shader_parameter/intensity = 0.5
+shader_parameter/spread = 1.0
+shader_parameter/pulse_speed = 2.276
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r4s7v"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nostf"]
+resource_local_to_scene = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1u15m"]
+bg_color = Color(0.00392157, 0.396078, 0.588235, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[node name="ball" instance=ExtResource("1_1u15m")]
+color = Color(0.286275, 0.52549, 0.772549, 1)
+border_color = Color(0.47451, 0.803922, 0.843137, 1)
+radius = 45
+lin_accel = 8
+lin_speed = 16
+health = 140
+trail = true
+field_type = "time_field"
+time_factor = 50
+attack_sound = ExtResource("2_i5rss")
+team = "flash"
+
+[node name="Face" parent="RigidBody2D" index="1"]
+material = SubResource("ShaderMaterial_i5rss")
+theme_override_styles/panel = SubResource("StyleBoxFlat_r4s7v")
+
+[node name="Label" parent="RigidBody2D" index="2"]
+z_index = 1
+
+[node name="Sensory Field" parent="RigidBody2D" index="5"]
+visible = true
+field_multiply = 99.0
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_nostf")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_1u15m")

@@ -3,7 +3,9 @@ class_name Ball
 
 @export var color: Color
 @export var border_color: Color
+@export var health_color: Color
 @export var radius: int
+@export var border_width: int
 @export var lin_accel: int
 @export var ang_accel: int
 @export var lin_speed: int
@@ -17,15 +19,19 @@ var speed_bonus: float
 var hits: int
 var total_damage: int
 @export var center_force: bool
+@export_enum("time_field", "attack_field", "dodge_field") var field_type: String
+@export var time_factor: int
 var center: Vector2
 var arena_origin: Vector2
 var arena_size: Vector2
 @export var attack_sound: AudioStreamMP3
 @export var team: String
 var hit_limit: float
+var cooldown = 0
 
 
 func _ready() -> void:
+	if border_width == 0: border_width = radius / 15
 	$AudioStreamPlayer2D.stream = attack_sound
 	hit_limit = 0.2
 	arena_origin = get_parent().arena_origin
@@ -33,7 +39,6 @@ func _ready() -> void:
 	center = arena_origin + arena_size / 2
 	hits = 0
 	total_damage = 0
-	var border_width := radius / 20
 	$RigidBody2D/CollisionShape2D.shape.set_radius(radius)
 	$RigidBody2D/Face.get_theme_stylebox("panel").expand_margin_left = radius
 	$RigidBody2D/Face.get_theme_stylebox("panel").expand_margin_right = radius
@@ -41,6 +46,7 @@ func _ready() -> void:
 	$RigidBody2D/Face.get_theme_stylebox("panel").expand_margin_bottom = radius
 	$RigidBody2D/Face.get_theme_stylebox("panel").bg_color = color
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_color = border_color
+	$RigidBody2D/Label.add_theme_color_override("font_color", health_color)
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_left = border_width
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_right = border_width
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_top = border_width
@@ -55,7 +61,7 @@ func _ready() -> void:
 	
 func _physics_process(delta: float) -> void:
 	if $RigidBody2D.linear_velocity.length() < lin_speed * 500: 
-		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * lin_accel / 4)
+		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * lin_accel)
 	else: 
 		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * -16 / lin_accel)
 		
@@ -132,7 +138,7 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 	var opp = body.get_parent()
 	var enemyCollider = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
 	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
-	if enemyCollider is Weapon && selfCollider is not Weapon && opp.team != self.team && hit_limit >= 0.2 || opp is Ball && !opp.weapon  && selfCollider is not Weapon and opp.get_parent() != self && opp.team != self.team && hit_limit == 0.2: 
+	if enemyCollider is Weapon && selfCollider is not Weapon && opp.team != self.team && hit_limit >= 0.2 || opp is Ball && !opp.weapon  && selfCollider is not Weapon and opp.get_parent() != self && opp.team != self.team && hit_limit >= 0.2: 
 		health -= opp.attack + opp.speed_bonus
 		hit_limit = 0
 		opp.damage_effect(opp.attack + opp.speed_bonus)
@@ -159,3 +165,38 @@ func recalc_avg_dmg():
 
 func get_audio() -> AudioStreamPlayer2D:
 	return $AudioStreamPlayer2D
+
+func _on_sensory_field_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+	var opp = body.get_parent()
+	var enemyCollider = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
+	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
+	match field_type:
+		"time_field":
+			if opp != self:
+				body.linear_damp = time_factor
+				body.angular_damp = time_factor
+		"attack_field":
+			if opp is Ball && opp != self && cooldown == 0:
+				$RigidBody2D.apply_force((body.global_position - $RigidBody2D.global_position) * 4000)
+				$RigidBody2D.linear_damp = ProjectSettings.get_setting("physics/2d/default_linear_damp")
+				$RigidBody2D.angular_damp = ProjectSettings.get_setting("physics/2d/default_angular_damp")
+		"dodge_field":
+			if opp is Ball && cooldown == 0 || enemyCollider is Weapon:
+				$"RigidBody2D/Sensory Field/AudioStreamPlayer2D".play()
+				var pos = $RigidBody2D.global_position + 2 * (body.global_position - $RigidBody2D.global_position)
+				if pos.x > arena_origin.x && pos.y > arena_origin.y && pos.x < arena_origin.x + arena_size.x && pos.y < arena_origin.y + arena_size.y: $RigidBody2D.global_position = pos
+				$RigidBody2D.apply_force((body.global_position - $RigidBody2D.global_position) * 4000)
+				$RigidBody2D.linear_damp = ProjectSettings.get_setting("physics/2d/default_linear_damp")
+				$RigidBody2D.angular_damp = ProjectSettings.get_setting("physics/2d/default_angular_damp")
+				cooldown = 2
+	if cooldown > 0: cooldown -= 1
+					
+		
+
+
+func _on_sensory_field_body_shape_exited(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+	if body != null && field_type == "time_field":
+		var opp = body.get_parent()
+		body.linear_damp = 0
+		body.angular_damp = 0
+		if opp.lin_accel > 0: body.linear_velocity = Vector2(randi() % (opp.lin_accel * 2) - opp.lin_accel, randi() % (opp.lin_accel * 2) - opp.lin_accel) * 50

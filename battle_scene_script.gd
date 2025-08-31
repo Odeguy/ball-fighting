@@ -79,17 +79,21 @@ func _on_button_pressed() -> void:
 	tween.tween_property($Panel, "modulate:a", 0, 2)
 	var selections: Array
 	$Button.z_index = -10
+	$Button.disabled = true
 	showing = false
 	winner = false
 	prev_teams = teams
 	$Scoreboard.hide()
+	self.hide()
 	teams = {}
 	selections = await select_screen.get_selections()
 	select_screen.hide()
 	select_screen.queue_free()
 	begin(selections)
+	$Button.disabled = false
 	$Button.z_index = 1
 	showing = true
+	self.show()
 	
 func set_mouse_mode(mode: int) -> void:
 	$Aren

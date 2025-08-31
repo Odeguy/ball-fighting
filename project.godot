@@ -19,6 +19,10 @@ config/features=PackedStringArray("4.4", "Mobile")
 window/size/viewport_width=832
 window/size/viewport_height=1276
 
+[editor]
+
+movie_writer/movie_file="C:/Users/lereo/OneDrive/Documents/ball-fighting/videos/video.avi"
+
 [physics]
 
 common/physics_ticks_per_second=360

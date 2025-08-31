@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://cvm6kw50sj80q"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_s48vm"]
+[ext_resource type="AudioStream" uid="uid://cxnutgjeel0i5" path="res://sounds/flash.mp3" id="2_42etv"]
+[ext_resource type="Shader" uid="uid://caivp7u1y28mq" path="res://shaders/blur.gdshader" id="3_42etv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r4s7v"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_42etv"]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hjwsu"]
+shader = ExtResource("3_42etv")
+shader_parameter/blur_size = Vector2(1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s48vm"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[node name="professor_zoom" instance=ExtResource("1_s48vm")]
+color = Color(0.917647, 0.733333, 0, 1)
+border_color = Color(0.623529, 0.0980392, 0.145098, 1)
+health_color = Color(0.623529, 0.0980392, 0.145098, 1)
+radius = 45
+lin_accel = 8
+lin_speed = 8
+health = 140
+attack = 2
+trail = true
+field_type = "time_field"
+time_factor = 5
+attack_sound = ExtResource("2_42etv")
+team = "flash"
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_r4s7v")
+
+[node name="Label" parent="RigidBody2D" index="2"]
+z_index = 1
+
+[node name="Sensory Field" parent="RigidBody2D" index="5"]
+visible = true
+z_as_relative = false
+priority = 1
+field_multiply = 3.0
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_42etv")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+z_index = 2
+material = SubResource("ShaderMaterial_hjwsu")
+theme_override_styles/panel = SubResource("StyleBoxFlat_s48vm")

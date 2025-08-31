@@ -1,0 +1,82 @@
+[gd_scene load_steps=8 format=3 uid="uid://cuejqs1fsvhrj"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_ofwe0"]
+[ext_resource type="AudioStream" uid="uid://cxnutgjeel0i5" path="res://sounds/flash.mp3" id="2_ohd8i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r4s7v"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o66jt"]
+
+[sub_resource type="Shader" id="Shader_qyd4w"]
+code = "shader_type canvas_item;
+render_mode blend_add;
+uniform vec4 glow_color : source_color = vec4(1.0, 0.9, 0.5, 1.0);
+uniform float intensity : hint_range(0.0, 5.0) = 1.5;
+uniform float spread : hint_range(0.1, 2.0) = 1.0;
+uniform float pulse_speed : hint_range(0.0, 10.0) = 1.0;
+void fragment() {
+    vec2 centered_uv = UV - vec2(0.5);
+    float dist = length(centered_uv) * spread;
+    float alpha = max(0.0, 1.0 - dist);
+    alpha *= (1.0 + 0.2 * sin(TIME * pulse_speed));
+    alpha = clamp(alpha * intensity, 0.0, 1.0);
+    COLOR = glow_color * alpha;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o66jt"]
+resource_local_to_scene = true
+shader = SubResource("Shader_qyd4w")
+shader_parameter/glow_color = Color(1, 0.9, 0.5, 1)
+shader_parameter/intensity = 1.5
+shader_parameter/spread = 1.0
+shader_parameter/pulse_speed = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1u15m"]
+bg_color = Color(0.00392157, 0.396078, 0.588235, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[node name="ball" instance=ExtResource("1_ofwe0")]
+color = Color(1, 1, 1, 1)
+border_color = Color(1, 1, 1, 1)
+radius = 45
+lin_accel = 16
+lin_speed = 32
+health = 400
+trail = true
+field_type = "time_field"
+time_factor = 50
+attack_sound = ExtResource("2_ohd8i")
+team = "flash"
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_r4s7v")
+
+[node name="AudioStreamPlayer2D" parent="RigidBody2D/WeaponShape2D" index="0"]
+stream = null
+
+[node name="Sensory Field" parent="RigidBody2D" index="5"]
+visible = true
+field_multiply = 99.0
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_o66jt")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+material = SubResource("ShaderMaterial_o66jt")
+theme_override_styles/panel = SubResource("StyleBoxFlat_1u15m")
