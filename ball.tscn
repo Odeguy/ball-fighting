@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="2_41u45"]
 [ext_resource type="FontFile" uid="uid://dj3iqqjqchyt3" path="res://fonts/Super Squad.otf" id="2_ktgx5"]
 [ext_resource type="FontFile" uid="uid://cp8ckbrt1edkh" path="res://fonts/BarberChop.otf" id="4_hgol0"]
-[ext_resource type="AudioStream" path="res://sounds/parry-ultrakill.mp3" id="4_n5601"]
+[ext_resource type="AudioStream" uid="uid://o4xnc6g7c1kr" path="res://sounds/parry-ultrakill.mp3" id="4_n5601"]
 [ext_resource type="Script" uid="uid://7dn0euhwvq3" path="res://sensory_field_script.gd" id="6_gchj4"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x8fbi"]
@@ -102,6 +102,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_x8fbi")
 metadata/_edit_use_anchors_ = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="RigidBody2D/Sensory Field"]
 
 [node name="AvgDmg" type="Label" parent="."]
 z_index = 4096

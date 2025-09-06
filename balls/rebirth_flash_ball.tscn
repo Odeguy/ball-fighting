@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_1u15m"]
 [ext_resource type="AudioStream" uid="uid://cxnutgjeel0i5" path="res://sounds/flash.mp3" id="2_i5rss"]
-[ext_resource type="Shader" uid="uid://b6feltswonh0h" path="res://balls/pulse.gdshader" id="3_i5rss"]
+[ext_resource type="Shader" uid="uid://b6feltswonh0h" path="res://shaders/pulse.gdshader" id="3_i5rss"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i5rss"]
 shader = ExtResource("3_i5rss")

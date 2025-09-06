@@ -10,5 +10,7 @@
 	"Rebirth Flash": "res://balls/rebirth_flash_ball.tscn",
 	"Superman": "res://balls/superman_ball.tscn",
 	"UI Goku": "res://balls/ui_goku_ball.tscn",
-	"The Enigma": "res://balls/the_enigma_ball.tscn"
+	"The Enigma": "res://balls/the_enigma_ball.tscn",
+	
+	"Saber": "res://burst_series/saber_ball.tscn"
 }

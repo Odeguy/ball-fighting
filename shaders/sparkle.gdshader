@@ -40,7 +40,7 @@ float getBetaH(float y, float f, float size) {
 }
 
 float getI(vec2 uv, float f, vec2 SIZE) {
-    
+
 	return onedx2(getBetaW(uv.x, f, SIZE.x))*onedx2(getBetaH(uv.y, f, SIZE.y));
 }
 
@@ -51,12 +51,12 @@ vec2 rotate(vec2 uv, float addtheta) {
     vec2 ruv;
 	ruv.x = r*cos(theta);
     ruv.y = r*sin(theta);
-        
+
     return ruv;
 }
 
 void fragment() {
-    
+
     vec2 st = rotate((UV - 0.5)*scale, TIME*rotate_speed);
 	float r = sqrt(st.x*st.x + st.y*st.y);
     st = st*pow(r, circle_ratio);
@@ -68,7 +68,7 @@ void fragment() {
 	float M = exp(-L*L*decay_magnitude*decay_magnitude/scale);
 
 	M = M < 0.05 ? 0. : M;
-    
+
 	f = stop_shine ? frequency_base : f;
 
 	COLOR = vec4(min(vec3(getI(st, f, SCREEN_PIXEL_SIZE))*M, 1.),1.0)*color;

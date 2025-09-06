@@ -21,6 +21,7 @@ var total_damage: int
 @export var center_force: bool
 @export_enum("time_field", "attack_field", "dodge_field") var field_type: String
 @export var time_factor: int
+@export_enum("blast", "laser", "area") var burst_type: String
 var center: Vector2
 var arena_origin: Vector2
 var arena_size: Vector2
@@ -89,7 +90,7 @@ func set_collision_layer(layer: int):
 func get_velocity_mag() -> int:
 	return $RigidBody2D.linear_velocity.length()
 	
-func damage_effect(num: int):
+func damage_effect(num: int) -> void:
 	var effect = RichTextLabel.new()
 	$AudioStreamPlayer2D.stop()
 	$AudioStreamPlayer2D.play()

@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_m65ug"]
 [ext_resource type="AudioStream" uid="uid://bagqclcokcgmp" path="res://sounds/dragon-ball-z-heavy-punch.mp3" id="2_m65ug"]
 [ext_resource type="AudioStream" uid="uid://djenups4e0ead" path="res://sounds/teleport-dbz-sound-effect-made-with-Voicemod.mp3" id="3_fhyl4"]
-[ext_resource type="Shader" uid="uid://b6feltswonh0h" path="res://balls/pulse.gdshader" id="3_h7wsn"]
+[ext_resource type="Shader" uid="uid://b6feltswonh0h" path="res://shaders/pulse.gdshader" id="3_h7wsn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwcmg"]
 resource_local_to_scene = true
@@ -65,5 +65,5 @@ shape = SubResource("CircleShape2D_fhyl4")
 material = SubResource("ShaderMaterial_h7wsn")
 theme_override_styles/panel = SubResource("StyleBoxFlat_fhyl4")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="RigidBody2D/Sensory Field" index="2"]
+[node name="AudioStreamPlayer2D" parent="RigidBody2D/Sensory Field" index="2"]
 stream = ExtResource("3_fhyl4")
