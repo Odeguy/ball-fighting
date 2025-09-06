@@ -21,7 +21,6 @@ var total_damage: int
 @export var center_force: bool
 @export_enum("time_field", "attack_field", "dodge_field") var field_type: String
 @export var time_factor: int
-@export_enum("blast", "laser", "area") var burst_type: String
 var center: Vector2
 var arena_origin: Vector2
 var arena_size: Vector2

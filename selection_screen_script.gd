@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name Selection_Screen
+
 var balls
 func _ready() -> void:
 	balls = JSON.parse_string(FileAccess.get_file_as_string("res://balls.json"))
@@ -18,7 +20,7 @@ func get_selections() -> Array:
 		if i < 4:
 			if selection == "Done": break
 			var ball_scene = load(balls[selection])
-			var ball = ball_scene.instantiate()
+			var ball: Ball = ball_scene.instantiate()
 			selections.push_back(ball)
 			previous = ball
 			ball.team += str(randi())

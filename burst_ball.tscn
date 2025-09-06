@@ -93,6 +93,10 @@ shader_parameter/rotation = Transform2D(1, -1, 1, 1, 0, 0)
 
 [node name="burst_ball" instance=ExtResource("1_656sk")]
 script = ExtResource("2_qcnfi")
+burst_name = ""
+cut_in_image = null
+cut_in_voice_line = null
+burst_scene = null
 burst_limit = 0
 
 [node name="Face" parent="RigidBody2D" index="1"]
@@ -107,8 +111,10 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_wf8a6")
 [node name="BurstGlow" type="GPUParticles2D" parent="RigidBody2D" index="6"]
 material = SubResource("CanvasItemMaterial_wo3ve")
 position = Vector2(-1, 0)
-amount = 16
+amount = 6
 texture = ExtResource("5_dlrde")
+lifetime = 0.05
+fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_0h20u")
 
 [node name="MeterBack" type="Panel" parent="AvgDmg" index="0"]

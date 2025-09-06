@@ -69,7 +69,7 @@ func _on_button_pressed() -> void:
 		var ball = fighting[i]
 		fighting.remove_at(i)
 		ball.queue_free()
-	var select_screen = selection_screen.instantiate()
+	var select_screen: Selection_Screen = selection_screen.instantiate()
 	add_sibling(select_screen)
 	var tween = create_tween()
 	tween.set_parallel()

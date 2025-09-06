@@ -1,13 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://b6gvoxlmaa3ly"]
+[gd_scene load_steps=5 format=3 uid="uid://b6gvoxlmaa3ly"]
 
 [ext_resource type="Script" uid="uid://c7pr875rr4a08" path="res://cut_in_script.gd" id="1_gdngp"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_s2h6w"]
+[ext_resource type="AudioStream" uid="uid://bpskrk0p6s63q" path="res://sounds/whoosh-cinematic-376875.mp3" id="2_at35x"]
+[ext_resource type="Texture2D" uid="uid://0qwb25ik66x2" path="res://burst_series/cut_in_components/images/maxresdefault_jpg.png" id="3_dp234"]
+[ext_resource type="FontFile" uid="uid://cp8ckbrt1edkh" path="res://fonts/BarberChop.otf" id="3_gb8mq"]
 
 [node name="Cut In" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_gdngp")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_at35x")
 
 [node name="Overlay" type="ColorRect" parent="."]
 offset_right = 832.0
@@ -23,13 +26,18 @@ offset_bottom = 584.0
 offset_left = -832.0
 offset_top = 368.0
 offset_bottom = 576.0
-texture = SubResource("PlaceholderTexture2D_s2h6w")
+texture = ExtResource("3_dp234")
+expand_mode = 1
 
 [node name="Label" type="Label" parent="."]
 offset_left = -768.0
 offset_top = 448.0
 offset_right = -576.0
 offset_bottom = 512.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("3_gb8mq")
+theme_override_font_sizes/font_size = 50
 text = "placeholder"
 horizontal_alignment = 1
 vertical_alignment = 1

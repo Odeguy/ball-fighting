@@ -1,4 +1,7 @@
 extends Node2D
+
+class_name Main_Menu
+
 @export var selection_screen: PackedScene
 @export var battle_scene: PackedScene
 

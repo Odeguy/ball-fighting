@@ -1,6 +1,17 @@
 extends Ball
 
+class_name Burst_Ball
+
 var burst: int
+@onready var cut_in_scene: PackedScene = preload("res://cut_in.tscn")
+
+@export_category("Cut In")
+@export var burst_name: String
+@export var cut_in_image: Texture2D
+@export var cut_in_voice_line: AudioStream
+
+@export_category("Burst")
+@export var burst_scene: PackedScene
 @export var burst_limit: int
 
 func _ready() -> void:
@@ -10,7 +21,7 @@ func _ready() -> void:
 	
 func damage_effect(num: int) -> void:
 	super(num)
-	increase_burst_meter(num * 100)
+	increase_burst_meter(num)
 
 func increase_burst_meter(num: int) -> void:
 	if burst == burst_limit: return
@@ -26,4 +37,21 @@ func reset_burst_meter() -> void:
 
 func burst_ready() -> void:
 	$RigidBody2D/BurstGlow.show()
+	burst_attack()
+
+func cut_in() -> void:
+	var scene: Cut_In = cut_in_scene.instantiate()
+	scene.set_params(burst_name, cut_in_image, cut_in_voice_line)
+	add_child(scene)
+	get_tree().paused = true
+	await scene.done
+	get_tree().paused = false
 	
+func burst_attack() -> void:
+	var scene: Burst = burst_scene.instantiate()
+	add_child(scene)
+	await scene.enemy_detected
+	cut_in()
+	$RigidBody2D.freeze = true
+	await scene.done
+	$RigidBody2D.freeze = false

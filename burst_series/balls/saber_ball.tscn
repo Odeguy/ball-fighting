@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3 uid="uid://chscjpjd5c4aa"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_ball.tscn" id="1_wcj1r"]
+[ext_resource type="Texture2D" uid="uid://0qwb25ik66x2" path="res://burst_series/cut_in_components/images/maxresdefault_jpg.png" id="2_pmd61"]
+[ext_resource type="AudioStream" uid="uid://di611xdcyxkpn" path="res://sounds/armor-impact-from-sword-393843.mp3" id="3_eduha"]
+[ext_resource type="AudioStream" uid="uid://drilcv58wjwdp" path="res://burst_series/cut_in_components/voice_lines/excalibur-saber-(voiceline-only)-melty-blood-type-lumina-sfx-made-with-Voicemod.mp3" id="3_pmd61"]
+[ext_resource type="Texture2D" uid="uid://buoqdcqrgkxlj" path="res://weapon_images/00mxmnd7SSYHw2lIo2IWiQWIJTPXCFdbU4JQoV6GUoZx4aiECsQ8ILg81JAwdfiIcsEEqqpqYEnlfEPuoKAuWQ_webp.png" id="4_8eaio"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dcah1"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4yi1t"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4yi1t"]
+resource_local_to_scene = true
+
+[node name="saber_ball" instance=ExtResource("1_wcj1r")]
+burst_name = "Excalibur"
+cut_in_image = ExtResource("2_pmd61")
+cut_in_voice_line = ExtResource("3_pmd61")
+burst_limit = 100
+color = Color(0.266667, 0.329412, 0.72549, 1)
+border_color = Color(0.678431, 0.737255, 0.827451, 1)
+health_color = Color(0.952941, 0.831373, 0.494118, 1)
+radius = 40
+lin_accel = 8
+lin_speed = 4
+health = 135
+attack = 5
+weapon = true
+attack_sound = ExtResource("3_eduha")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_dcah1")
+
+[node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+offset_left = -187.0
+offset_top = -124.0
+offset_right = 813.0
+offset_bottom = 104.0
+rotation = 0.414229
+scale = Vector2(0.178772, 0.178772)
+texture = ExtResource("4_8eaio")
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="4"]
+position = Vector2(-113, -68)
+rotation = -1.13908
+scale = Vector2(1.34596, 6.3761)
+shape = SubResource("CapsuleShape2D_4yi1t")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_4yi1t")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_dcah1")
+
+[node name="BurstGlow" parent="RigidBody2D" index="6"]
+amount = 8
