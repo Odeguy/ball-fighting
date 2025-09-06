@@ -23,22 +23,25 @@ func set_params(name: String, img: Texture2D, voice: AudioStream) -> void:
 	voice_line = voice
 
 func _ready() -> void:
+	$Overlay.global_position = Vector2(0, 0)
 	$Poster.texture = image
 	$Label.text = text
-	for i in range(100):
-		$Overlay.color.a += 1
-		get_tree().process_frame
+	var tween: Tween = get_tree().create_tween()
+	tween.set_speed_scale(16)
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	await tween.tween_property($Overlay, "modulate:a", 0.7, 2)
 	$AudioStreamPlayer2D.play()
 	
 	var label_diff = $Label.position.x - $Poster.position.x
-	var tween: Tween = get_tree().create_tween()
 	tween.set_parallel()
-	tween.tween_property($Border, "position:x", 0, 2)
-	tween.tween_property($Poster, "position:x", label_diff, 2)
-	await tween.tween_property($Label, "position:x", 0, 2)
+	tween.tween_property($Border, "global_position:x", 0, 2)
+	tween.tween_property($Poster, "global_position:x", 0, 2)
+	await tween.tween_property($Label, "global_position:x", 0, 2)
 	
 	$AudioStreamPlayer2D.stream = voice_line
 	$AudioStreamPlayer2D.play()
+	tween.set_parallel(false)
+	tween.tween_property($Label, "global_position:x", label_diff * 40, 100)
 	await $AudioStreamPlayer2D.finished
 	done.emit()
 	self.hide()

@@ -1,12 +1,39 @@
-[gd_scene load_steps=3 format=3 uid="uid://7c1buisd14bj"]
+[gd_scene load_steps=7 format=3 uid="uid://7c1buisd14bj"]
 
 [ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst.tscn" id="1_qhj47"]
+[ext_resource type="Texture2D" uid="uid://dba201geyghwy" path="res://particles/spotlight_5.png" id="2_0lo70"]
+[ext_resource type="AudioStream" uid="uid://cxnutgjeel0i5" path="res://sounds/flash.mp3" id="2_mjgkb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhj47"]
-size = Vector2(146, 317)
+size = Vector2(146, 501)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mjgkb"]
+blend_mode = 1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mjgkb"]
+particle_flag_disable_z = true
+direction = Vector3(0, -100, 0)
+spread = 32.307
+initial_velocity_min = 681.11
+initial_velocity_max = 681.11
+gravity = Vector3(0, -98, 0)
+scale_min = 0.0
+scale_max = 0.35
+scale_over_velocity_min = 71.21
+scale_over_velocity_max = 71.21
+color = Color(1, 1, 0.32549, 1)
 
 [node name="saber_burst" instance=ExtResource("1_qhj47")]
+sound_effect = ExtResource("2_mjgkb")
+duration = 10.0
 
 [node name="CollisionShape2D" parent="AreaDetector" index="0"]
-position = Vector2(0, -161.5)
+position = Vector2(0, -253.5)
 shape = SubResource("RectangleShape2D_qhj47")
+
+[node name="Particles" parent="." index="1"]
+material = SubResource("CanvasItemMaterial_mjgkb")
+amount = 960
+texture = ExtResource("2_0lo70")
+lifetime = 2.11
+process_material = SubResource("ParticleProcessMaterial_mjgkb")

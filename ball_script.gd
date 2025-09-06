@@ -93,7 +93,7 @@ func damage_effect(num: int) -> void:
 	var effect = RichTextLabel.new()
 	$AudioStreamPlayer2D.stop()
 	$AudioStreamPlayer2D.play()
-	effect.set_position($RigidBody2D.position + Vector2(int($RigidBody2D.linear_velocity.x) % 10 * -1, int($RigidBody2D.linear_velocity.y) % 10 * -1))
+	effect.set_position($RigidBody2D.position + Vector2(int($RigidBody2D.linear_velocity.x) % 10 * -1, int($RigidBody2D.linear_velocity.y) % 10 * -1) * (randi() % 50 - 25))
 	effect.push_font_size(25)
 	effect.push_color(color)
 	effect.set_size(Vector2(100, 100))
