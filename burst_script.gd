@@ -6,7 +6,7 @@ class_name Burst
 @export var duration: float
 signal enemy_detected
 signal done
-var opp
+var opp: Ball
 
 """"
 1. Wait for Ball detection
@@ -32,9 +32,10 @@ func blast() -> void:
 	var ball: Ball = self.get_parent().get_parent().get_parent()
 	while duration > 0:
 		await get_tree().process_frame
-		if opp == null: break
 		duration -= 1.0 / 60.0
-		if opp.health >= 0 && counter % 120 == 0: opp.health -= 1
+		if opp == null: break
+		if !$AreaDetector.overlaps_body(opp.get_body()): continue
+		if opp.health >= 0 && counter % 4 == 0: opp.health -= 1
 		opp.damage_effect(1)
 		ball.total_damage += 1
 		opp.recalc_avg_dmg()

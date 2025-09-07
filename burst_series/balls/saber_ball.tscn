@@ -32,10 +32,10 @@ color = Color(0.266667, 0.329412, 0.72549, 1)
 border_color = Color(0.678431, 0.737255, 0.827451, 1)
 health_color = Color(0.952941, 0.831373, 0.494118, 1)
 radius = 40
-lin_accel = 8
-lin_speed = 4
-health = 185
-attack = 8
+lin_accel = 7
+lin_speed = 3
+health = 165
+attack = 7
 weapon = true
 attack_sound = ExtResource("3_eduha")
 

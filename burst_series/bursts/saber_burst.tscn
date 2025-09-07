@@ -24,6 +24,7 @@ scale_over_velocity_max = 71.21
 color = Color(1, 1, 0.32549, 1)
 
 [node name="saber_burst" instance=ExtResource("1_qhj47")]
+rotation = -1.04353
 sound_effect = ExtResource("2_mjgkb")
 duration = 10.0
 
