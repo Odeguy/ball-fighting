@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://fseg6tovuwog"]
+[gd_scene load_steps=6 format=3 uid="uid://fseg6tovuwog"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_vmmo3"]
 [ext_resource type="AudioStream" uid="uid://cxnutgjeel0i5" path="res://sounds/flash.mp3" id="2_vlgg5"]
@@ -9,6 +9,19 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vlgg5"]
+resource_local_to_scene = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2qm2"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
 border_blend = true
 corner_radius_top_left = 999
@@ -30,3 +43,9 @@ team = "flash"
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_r4s7v")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_vlgg5")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_t2qm2")

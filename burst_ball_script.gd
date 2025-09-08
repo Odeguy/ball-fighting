@@ -36,8 +36,13 @@ func reset_burst_meter() -> void:
 	$RigidBody2D/BurstGlow.hide()
 
 func burst_ready() -> void:
+	var player = AudioStreamPlayer2D.new()
+	player.stream = load("res://sounds/Cmn_EnergyRelease.wav")
+	player.play()
 	$RigidBody2D/BurstGlow.show()
 	burst_attack()
+	await player.finished
+	player.queue_free()
 
 func cut_in() -> void:
 	var scene: Cut_In = cut_in_scene.instantiate()

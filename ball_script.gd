@@ -24,10 +24,11 @@ var total_damage: int
 var center: Vector2
 var arena_origin: Vector2
 var arena_size: Vector2
-@export var attack_sound: AudioStreamMP3
+@export var attack_sound: AudioStream
 @export var team: String
 var hit_limit: float
 var cooldown = 0
+signal clash
 
 
 func _ready() -> void:
@@ -136,8 +137,14 @@ func leave_weapon_trail():
 
 func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	var opp = body.get_parent()
-	var enemyCollider = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
-	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
+	var enemyCollider: CollisionShape2D = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
+	var selfCollider: CollisionShape2D = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
+	if local_shape_index == 1 && enemyCollider is Weapon:
+			clash.emit()
+			get_tree().paused = true
+			await get_tree().create_timer(0.1).timeout
+			get_tree().paused = false
+	#after this point the shape indexes and collider variables get messed up for some reason that i'm not looking into right now
 	if enemyCollider is Weapon && selfCollider is not Weapon && opp.team != self.team && hit_limit >= 0.2 || opp is Ball && !opp.weapon  && selfCollider is not Weapon and opp.get_parent() != self && opp.team != self.team && hit_limit >= 0.2: 
 		health -= opp.attack + opp.speed_bonus
 		hit_limit = 0
@@ -161,7 +168,7 @@ func get_body():
 	return $RigidBody2D
 
 func recalc_avg_dmg():
-		$AvgDmg.text = "Average\nDamage: " + str(total_damage / hits)
+		if hits > 0: $AvgDmg.text = "Average\nDamage: " + str(total_damage / hits)
 
 func get_audio() -> AudioStreamPlayer2D:
 	return $AudioStreamPlayer2D

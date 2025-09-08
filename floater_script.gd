@@ -1,5 +1,6 @@
 extends Ball
 
+class_name Floater
 #@export var color: Color
 #@export var border_color: Color
 #@export var radius: int
@@ -44,6 +45,7 @@ func set_collision_layer(layer: int):
 
 func leave_trail():
 	pass
+	
 
 func damage_effect(num: int):
 	var effect = RichTextLabel.new()

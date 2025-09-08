@@ -28,29 +28,37 @@ func get_selections() -> Array:
 		
 
 func _on_ball_grid_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
+	$AudioStreamPlayer2D.play()
 	if mouse_button_index == 1:
 		selection = $ball_grid.get_item_text(index)
 
 
 func _on_button_pressed() -> void:
+	$AudioStreamPlayer2D.stream = preload("res://sounds/SE151_System_OK_2.wav")
+	$AudioStreamPlayer2D.play()
+	await $AudioStreamPlayer2D.finished
 	selection = $Button.text
 
 
 func _on_team_1_pressed() -> void:
+	$AudioStreamPlayer2D.play()
 	if previous != null:
 		previous.team = $"Team 1".text
 
 
 func _on_team_2_pressed() -> void:
+	$AudioStreamPlayer2D.play()
 	if previous != null:
 		previous.team = $"Team 2".text
 
 
 func _on_team_3_pressed() -> void:
+	$AudioStreamPlayer2D.play()
 	if previous != null:
 		previous.team = $"Team 3".text
 
 
 func _on_team_4_pressed() -> void:
+	$AudioStreamPlayer2D.play()
 	if previous != null:
 		previous.team = $"Team 4".text

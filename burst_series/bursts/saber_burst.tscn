@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst.tscn" id="1_qhj47"]
 [ext_resource type="Texture2D" uid="uid://dba201geyghwy" path="res://particles/spotlight_5.png" id="2_0lo70"]
-[ext_resource type="AudioStream" uid="uid://cxnutgjeel0i5" path="res://sounds/flash.mp3" id="2_mjgkb"]
+[ext_resource type="AudioStream" uid="uid://bscp8jfcxqdcx" path="res://sounds/Cmn_TwinkleShort.wav" id="2_mjgkb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhj47"]
 size = Vector2(146, 501)
@@ -38,3 +38,6 @@ amount = 960
 texture = ExtResource("2_0lo70")
 lifetime = 2.11
 process_material = SubResource("ParticleProcessMaterial_mjgkb")
+
+[node name="AudioStreamPlayer2D" parent="." index="3"]
+max_polyphony = 7

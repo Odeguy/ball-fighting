@@ -12,6 +12,8 @@ var teams: Dictionary
 var winner: bool
 @export var selection_screen: PackedScene
 @export_range (0, 1.0) var button_opacity: float
+var clash_sounds: Array = [preload("res://sounds/Hit_ClashA.wav"), preload("res://sounds/Hit_ClashB.wav"), preload("res://sounds/Hit_ClashC.wav")]
+@onready var clash_itr = 0
 
 func _ready() -> void:
 	winner = false
@@ -26,10 +28,11 @@ func _ready() -> void:
 #the final ball number population limit should be <= 32
 func begin(fighters: Array):
 	var i := 0
-	for fighter in fighters:
+	for fighter: Ball in fighters:
 		spawn(fighter, spawn_points[i], i + 1)
 		i+=1
 		teams[fighter.team] = 0
+		fighter.connect("clash", play_clash_sound)
 	if teams.size() == 2:
 		if prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[0] && teams.keys()[1] == prev_teams.keys()[1] || prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[1] && teams.keys()[1] == prev_teams.keys()[0]:
 			teams = prev_teams
@@ -93,7 +96,11 @@ func _on_button_pressed() -> void:
 	$Button.disabled = false
 	$Button.z_index = 1
 	showing = true
+	clash_itr = 0
 	self.show()
 	
-func set_mouse_mode(mode: int) -> void:
-	$Aren
+func play_clash_sound() -> void:
+	$ClashAudio.stream = clash_sounds[clash_itr]
+	$ClashAudio.play()
+	clash_itr = (clash_itr + 1) % 3
+	

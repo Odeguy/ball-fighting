@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cp20th7vd525e"]
+[gd_scene load_steps=16 format=3 uid="uid://cp20th7vd525e"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_5h73n"]
 [ext_resource type="Script" uid="uid://dtvjcxqy0almb" path="res://floater_script.gd" id="2_5h73n"]
@@ -16,6 +16,19 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lqjt4"]
+resource_local_to_scene = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aqu1e"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
 border_blend = true
 corner_radius_top_left = 999
@@ -46,6 +59,7 @@ corner_radius_bottom_left = 999
 [node name="mrterrific_ball" instance=ExtResource("1_5h73n")]
 color = Color(1, 1, 1, 1)
 border_color = Color(0.0331262, 0, 0, 1)
+health_color = Color(0.976471, 0.0156863, 0.0156863, 1)
 radius = 45
 lin_accel = 2
 lin_speed = 2
@@ -60,6 +74,12 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_b6i2y")
 
 [node name="Label" parent="RigidBody2D" index="2"]
 theme_override_colors/font_color = Color(0.976471, 0.0156863, 0.0156863, 1)
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_lqjt4")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_aqu1e")
 
 [node name="Ball1" type="Node2D" parent="." index="2"]
 position = Vector2(152, -72)

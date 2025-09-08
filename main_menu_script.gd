@@ -6,6 +6,7 @@ class_name Main_Menu
 @export var battle_scene: PackedScene
 
 func _on_start_button_pressed() -> void:
+	$AudioStreamPlayer2D.play()
 	var selections = await go_to_select()
 	await battle(selections)
 

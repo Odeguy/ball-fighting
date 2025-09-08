@@ -30,4 +30,3 @@ common/physics_ticks_per_second=360
 [rendering]
 
 renderer/rendering_method="mobile"
-viewport/hdr_2d=true

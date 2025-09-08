@@ -34,8 +34,16 @@ func _ready() -> void:
 	
 	var label_diff = $Label.position.x - $Poster.position.x
 	tween.set_parallel()
-	tween.tween_property($Border, "global_position:x", 0, 1)
-	tween.tween_property($Poster, "global_position:x", 0, 1)
+	$Border.global_position.x = 0
+	$Poster.global_position.x = 0
+	$Border.modulate.a = 0
+	$Poster.modulate.a = 0
+	
+	tween.tween_property($Border, "modulate:a", 1, 14)
+	tween.tween_property($Poster, "modulate:a", 1, 14)
+	await $AudioStreamPlayer2D.finished
+	#tween.tween_property($Border, "global_position:x", 0, 1)
+	#tween.tween_property($Poster, "global_position:x", 0, 1)
 	await tween.tween_property($Label, "global_position:x", label_diff * -1, 2)
 	
 	$AudioStreamPlayer2D.stream = voice_line

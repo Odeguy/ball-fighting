@@ -15,7 +15,7 @@ uniform sampler2D mask_texture : filter_nearest;
 vec2 rotate_degrees(vec2 uv, vec2 pivot, float deg){
 	float rad = radians(deg + 90.0);
 	mat2 rotation = mat2(vec2(sin(rad), -cos(rad)),vec2(cos(rad), sin(rad)));
-	
+
 	uv -= pivot;
 	uv = uv * rotation;
 	uv += pivot;
@@ -32,21 +32,21 @@ vec2 scale(vec2 uv, vec2 pivot, vec2 scale){
 void fragment(){
 	vec2 uv_rotated = rotate_degrees(UV, mask_rotation_pivot, mask_rotation);
 	vec2 uv_position = scale(uv_rotated, mask_scale_pivot, mask_size * (1.0 - fill_amount)) + mask_offset;
-	
+
 	float alpha_total = texture(TEXTURE, uv_position).a;
-	
+
 	if (use_different_texture)
 		alpha_total = texture(mask_texture, uv_position).a;
-	
+
 	bool is_within_bounds = uv_position.x >= 0.0 && uv_position.y >= 0.0 && uv_position.x <= 1.0 && uv_position.y <= 1.0;
-	
+
 	if (!invert_mask){
 		if (is_within_bounds)
 			COLOR.a -= alpha_total;
 	}
 	else{
 		COLOR.a -= 1.0 - alpha_total;
-		
+
 		if (!is_within_bounds)
 			COLOR.a = 0.0;
 	}

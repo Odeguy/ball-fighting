@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dlbkv65emj76"]
+[gd_scene load_steps=7 format=3 uid="uid://dlbkv65emj76"]
 
 [ext_resource type="Script" uid="uid://dckntke6583cf" path="res://main_menu_script.gd" id="1_06t4h"]
 [ext_resource type="PackedScene" uid="uid://cod0lxjttge88" path="res://selection_screen.tscn" id="2_7vrkn"]
 [ext_resource type="PackedScene" uid="uid://bb5o5pfrluj52" path="res://battle_scene.tscn" id="3_fu7sn"]
 [ext_resource type="Script" uid="uid://k4xk3weme5au" path="res://camera_2d_script.gd" id="4_jix8l"]
+[ext_resource type="AudioStream" uid="uid://b3awbaohl13mv" path="res://sounds/SE156_System_Set.wav" id="5_glbon"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fu7sn"]
 bg_color = Color(0.78227, 0.541545, 0.307412, 1)
@@ -34,5 +35,8 @@ anchor_mode = 0
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 script = ExtResource("4_jix8l")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_glbon")
 
 [connection signal="pressed" from="start_button" to="." method="_on_start_button_pressed"]

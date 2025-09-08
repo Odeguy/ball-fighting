@@ -1,7 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://b6gvoxlmaa3ly"]
+[gd_scene load_steps=18 format=3 uid="uid://b6gvoxlmaa3ly"]
 
 [ext_resource type="Script" uid="uid://c7pr875rr4a08" path="res://cut_in_script.gd" id="1_gdngp"]
-[ext_resource type="AudioStream" uid="uid://bpskrk0p6s63q" path="res://sounds/whoosh-cinematic-376875.mp3" id="2_at35x"]
+[ext_resource type="AudioStream" uid="uid://dvcdhip4asuml" path="res://sounds/SE075_GRDMAX.wav" id="2_po541"]
 [ext_resource type="Texture2D" uid="uid://0qwb25ik66x2" path="res://burst_series/cut_in_components/images/maxresdefault_jpg.png" id="3_dp234"]
 [ext_resource type="FontFile" uid="uid://cp8ckbrt1edkh" path="res://fonts/BarberChop.otf" id="3_gb8mq"]
 [ext_resource type="Shader" uid="uid://co640qiv05vib" path="res://shaders/shapes.gdshader" id="3_po541"]
@@ -56,6 +56,25 @@ shader_parameter/mask_scale_pivot = Vector2(0.5, 0.5)
 shader_parameter/invert_mask = true
 shader_parameter/use_different_texture = false
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_po541"]
+shader = ExtResource("3_po541")
+shader_parameter/fill_amount = 0.113
+shader_parameter/mask_rotation = 100.5
+shader_parameter/mask_offset = Vector2(0, 0)
+shader_parameter/mask_size = Vector2(1, 1)
+shader_parameter/mask_rotation_pivot = Vector2(0.5, 0.5)
+shader_parameter/mask_scale_pivot = Vector2(0.5, 0.5)
+shader_parameter/invert_mask = true
+shader_parameter/use_different_texture = false
+
+[sub_resource type="Gradient" id="Gradient_xay6d"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cebqp"]
+gradient = SubResource("Gradient_xay6d")
+fill_from = Vector2(0.0991453, 0.145299)
+fill_to = Vector2(0.803419, 0.535043)
+
 [node name="Cut In" type="Node2D"]
 process_mode = 3
 z_index = 4096
@@ -63,15 +82,17 @@ z_as_relative = false
 script = ExtResource("1_gdngp")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("2_at35x")
+stream = ExtResource("2_po541")
 
 [node name="Overlay" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
+z_index = -5
 offset_right = 832.0
 offset_bottom = 1280.0
 color = Color(0, 0, 0, 1)
 
 [node name="Border" type="Panel" parent="."]
+z_index = -1
 material = SubResource("ShaderMaterial_w515m")
 offset_left = -832.0
 offset_top = 344.0
@@ -80,6 +101,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_rk8y5")
 
 [node name="Border2" type="Panel" parent="Border"]
 material = SubResource("ShaderMaterial_kbij6")
+layout_mode = 0
 offset_left = 832.0
 offset_top = 256.0
 offset_right = 1664.0
@@ -88,6 +110,7 @@ rotation = 3.14159
 theme_override_styles/panel = SubResource("StyleBoxFlat_rk8y5")
 
 [node name="Poster" type="TextureRect" parent="."]
+z_index = 2
 material = SubResource("ShaderMaterial_xay6d")
 offset_left = -832.0
 offset_top = 344.0
@@ -95,7 +118,17 @@ offset_bottom = 600.0
 texture = ExtResource("3_dp234")
 expand_mode = 1
 
+[node name="Poster2" type="TextureRect" parent="Poster"]
+z_index = -1
+material = SubResource("ShaderMaterial_po541")
+layout_mode = 0
+offset_right = 832.0
+offset_bottom = 256.0
+texture = SubResource("GradientTexture2D_cebqp")
+expand_mode = 1
+
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_left = -768.0
 offset_top = 680.0
 offset_right = -502.0

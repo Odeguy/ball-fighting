@@ -2,10 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_ball.tscn" id="1_wcj1r"]
 [ext_resource type="Texture2D" uid="uid://0qwb25ik66x2" path="res://burst_series/cut_in_components/images/maxresdefault_jpg.png" id="2_pmd61"]
-[ext_resource type="AudioStream" uid="uid://di611xdcyxkpn" path="res://sounds/armor-impact-from-sword-393843.mp3" id="3_eduha"]
 [ext_resource type="AudioStream" uid="uid://drilcv58wjwdp" path="res://burst_series/cut_in_components/voice_lines/excalibur-saber-(voiceline-only)-melty-blood-type-lumina-sfx-made-with-Voicemod.mp3" id="3_pmd61"]
 [ext_resource type="Texture2D" uid="uid://buoqdcqrgkxlj" path="res://weapon_images/00mxmnd7SSYHw2lIo2IWiQWIJTPXCFdbU4JQoV6GUoZx4aiECsQ8ILg81JAwdfiIcsEEqqpqYEnlfEPuoKAuWQ_webp.png" id="4_8eaio"]
 [ext_resource type="PackedScene" uid="uid://7c1buisd14bj" path="res://burst_series/bursts/saber_burst.tscn" id="4_eduha"]
+[ext_resource type="AudioStream" uid="uid://dvorybc68tikp" path="res://sounds/Hit_SlashA.wav" id="5_eduha"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dcah1"]
 resource_local_to_scene = true
@@ -27,7 +27,7 @@ burst_name = "Excalibur"
 cut_in_image = ExtResource("2_pmd61")
 cut_in_voice_line = ExtResource("3_pmd61")
 burst_scene = ExtResource("4_eduha")
-burst_limit = 100
+burst_limit = 70
 color = Color(0.266667, 0.329412, 0.72549, 1)
 border_color = Color(0.678431, 0.737255, 0.827451, 1)
 health_color = Color(0.952941, 0.831373, 0.494118, 1)
@@ -37,7 +37,7 @@ lin_speed = 3
 health = 165
 attack = 7
 weapon = true
-attack_sound = ExtResource("3_eduha")
+attack_sound = ExtResource("5_eduha")
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_dcah1")

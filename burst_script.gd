@@ -20,6 +20,7 @@ func _ready() -> void:
 	self.hide()
 	$AreaDetector.show()
 	$AreaDetector/CollisionShape2D.show()
+	$AudioStreamPlayer2D.stream = sound_effect
 	
 func _on_area_detector_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
 	if body.get_parent() is Ball && body.get_parent() != self.get_parent().get_parent().get_parent(): 
@@ -32,14 +33,15 @@ func blast() -> void:
 	var ball: Ball = self.get_parent().get_parent().get_parent()
 	while duration > 0:
 		await get_tree().process_frame
+		if counter % 10 == 0: $AudioStreamPlayer2D.play()
 		duration -= 1.0 / 60.0
+		counter += 1
 		if opp == null: break
 		if !$AreaDetector.overlaps_body(opp.get_body()): continue
 		if opp.health >= 0 && counter % 4 == 0: opp.health -= 1
 		opp.damage_effect(1)
 		ball.total_damage += 1
 		opp.recalc_avg_dmg()
-		counter += 1
 	done.emit()
 	self.hide()
 	self.queue_free()
