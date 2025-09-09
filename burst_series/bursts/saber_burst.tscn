@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://7c1buisd14bj"]
 
-[ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst.tscn" id="1_qhj47"]
+[ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst_series/burst.tscn" id="1_qhj47"]
 [ext_resource type="Texture2D" uid="uid://dba201geyghwy" path="res://particles/spotlight_5.png" id="2_0lo70"]
 [ext_resource type="AudioStream" uid="uid://bscp8jfcxqdcx" path="res://sounds/Cmn_TwinkleShort.wav" id="2_mjgkb"]
 
@@ -27,6 +27,7 @@ color = Color(1, 1, 0.32549, 1)
 rotation = -1.04353
 sound_effect = ExtResource("2_mjgkb")
 duration = 10.0
+burst_damage = 2
 
 [node name="CollisionShape2D" parent="AreaDetector" index="0"]
 position = Vector2(0, -253.5)

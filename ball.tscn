@@ -106,7 +106,7 @@ metadata/_edit_use_anchors_ = true
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="RigidBody2D/Sensory Field"]
 
 [node name="AvgDmg" type="Label" parent="."]
-z_index = 4095
+z_index = 3000
 z_as_relative = false
 anchors_preset = 8
 anchor_left = 0.5

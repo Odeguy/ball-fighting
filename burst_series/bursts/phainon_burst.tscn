@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://bykujpvv5e75d"]
+
+[ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst_series/burst.tscn" id="1_8dskr"]
+[ext_resource type="Texture2D" uid="uid://dgetnltvdprv5" path="res://particles/spotlight_3.png" id="2_dhmc5"]
+[ext_resource type="AudioStream" uid="uid://bscp8jfcxqdcx" path="res://sounds/Cmn_TwinkleShort.wav" id="2_epo7h"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_epo7h"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ela13"]
+blend_mode = 1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_a54vc"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 19.83
+radial_velocity_min = 500.0
+radial_velocity_max = 500.0
+scale_min = 0.2
+scale_max = 0.2
+scale_over_velocity_min = 3.1
+scale_over_velocity_max = 3.1
+color = Color(0.984314, 0.788235, 0.458824, 1)
+
+[node name="phainon_burst" instance=ExtResource("1_8dskr")]
+sound_effect = ExtResource("2_epo7h")
+duration = 10.0
+burst_damage = 2
+
+[node name="CollisionShape2D" parent="AreaDetector" index="0"]
+scale = Vector2(20.6561, 20.2996)
+shape = SubResource("CircleShape2D_epo7h")
+
+[node name="Particles" parent="." index="1"]
+material = SubResource("CanvasItemMaterial_ela13")
+amount = 300
+texture = ExtResource("2_dhmc5")
+process_material = SubResource("ParticleProcessMaterial_a54vc")
