@@ -153,16 +153,19 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 		opp.total_damage += opp.attack + opp.speed_bonus
 		opp.recalc_avg_dmg()
 		if health <= 0:
-			$RigidBody2D.linear_velocity = Vector2(0, 0)
-			$RigidBody2D.angular_velocity = 0
-			$RigidBody2D/CollisionShape2D.disabled = true
-			if weapon: $RigidBody2D/WeaponShape2D.disabled = true
-			health = 0
-			while modulate.a <= 0:
-				modulate.a -= 0.05
-				await get_tree().process_frame
-			get_parent().fighting.erase(self)
-			self.queue_free()
+			die()
+			
+func die() -> void:
+	$RigidBody2D.linear_velocity = Vector2(0, 0)
+	$RigidBody2D.angular_velocity = 0
+	$RigidBody2D/CollisionShape2D.disabled = true
+	if weapon: $RigidBody2D/WeaponShape2D.disabled = true
+	health = 0
+	while modulate.a <= 0:
+		modulate.a -= 0.05
+		await get_tree().process_frame
+	get_parent().fighting.erase(self)
+	self.queue_free()
 
 func get_body():
 	return $RigidBody2D

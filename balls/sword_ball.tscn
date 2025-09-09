@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://nr0vhbo5hion"]
+[gd_scene load_steps=8 format=3 uid="uid://nr0vhbo5hion"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_yro6t"]
 [ext_resource type="AudioStream" uid="uid://dttchcrkh22y" path="res://sounds/sword.mp3" id="2_1i5ti"]
@@ -15,6 +15,19 @@ expand_margin_left = 10.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0r3bk"]
 radius = 1.3446
 height = 29.2111
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1i5ti"]
+resource_local_to_scene = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iwy06"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
 
 [node name="ball" instance=ExtResource("1_yro6t")]
 color = Color(0.345098, 0.545098, 0.8, 1)
@@ -44,3 +57,9 @@ position = Vector2(-106, -90)
 rotation = -0.834373
 scale = Vector2(11.3497, 7.50411)
 shape = SubResource("CapsuleShape2D_0r3bk")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_1i5ti")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_iwy06")

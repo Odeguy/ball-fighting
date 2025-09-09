@@ -45,6 +45,9 @@ func blast() -> void:
 		opp.damage_effect(burst_damage)
 		ball.total_damage += 1
 		opp.recalc_avg_dmg()
+		if opp.health == 0:
+			opp.die()
+			break
 	done.emit()
 	self.hide()
 	self.queue_free()

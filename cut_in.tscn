@@ -78,7 +78,6 @@ fill_to = Vector2(0.803419, 0.535043)
 [node name="Cut In" type="Node2D"]
 process_mode = 3
 z_index = 4096
-z_as_relative = false
 script = ExtResource("1_gdngp")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

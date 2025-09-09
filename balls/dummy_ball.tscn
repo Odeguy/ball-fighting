@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://vy18c17ecb57"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_3lugg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ww5tn"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_848il"]
+resource_local_to_scene = true
+
+[node name="dummy_ball" instance=ExtResource("1_3lugg")]
+color = Color(1, 1, 1, 1)
+border_color = Color(0.342581, 0.342581, 0.342581, 1)
+health_color = Color(0.637026, 0.637026, 0.637026, 1)
+radius = 45
+border_width = 10
+lin_accel = 1
+ang_accel = 1
+lin_speed = 1
+ang_speed = 1
+health = 9999
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_ww5tn")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_848il")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_ww5tn")

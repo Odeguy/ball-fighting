@@ -70,3 +70,4 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_1mski")
 
 [node name="AvgDmg" parent="." index="1"]
 z_index = 4095
+z_as_relative = false

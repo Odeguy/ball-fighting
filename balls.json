@@ -13,5 +13,6 @@
 	"The Enigma": "res://balls/the_enigma_ball.tscn",
 	
 	"Saber": "res://burst_series/balls/saber_ball.tscn",
-	"Phainon": "res://burst_series/balls/phainon_ball.tscn"
+	"Phainon": "res://burst_series/balls/phainon_ball.tscn",
+	"Dummy": "res://balls/dummy_ball.tscn"
 }

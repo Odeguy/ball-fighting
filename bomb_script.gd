@@ -1,5 +1,7 @@
 extends "res://floater_script.gd"
 
+class_name Bomb
+
 @export var explosion_texture: Texture2D
 @export var spawn_rate: int
 @export var duped: bool
