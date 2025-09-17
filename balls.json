@@ -1,21 +1,24 @@
 {
-	"Sword": "res://balls/sword_ball.tscn",
-	"Great Hammer": "res://balls/greathammer_ball.tscn",
-	"Flash": "res://balls/flash_ball.tscn",
-	"Thor": "res://balls/thor_ball.tscn",
-	"Isagi": "res://balls/isagi_ball.tscn",
-	"Mr. Terrific": "res://balls/mrterrific_ball.tscn",
-	"Jinx": "res://balls/jinx_ball.tscn",
-	"Professor Zoom": "res://balls/professor_zoom_ball.tscn",
-	"Rebirth Flash": "res://balls/rebirth_flash_ball.tscn",
-	"Superman": "res://balls/superman_ball.tscn",
-	"UI Goku": "res://balls/ui_goku_ball.tscn",
-	"The Enigma": "res://balls/the_enigma_ball.tscn",
-	
-	"Saber": "res://burst_series/balls/saber_ball.tscn",
-	"Phainon": "res://burst_series/balls/phainon_ball.tscn",
-	"Dummy": "res://balls/dummy_ball.tscn",
-	"Gojo": "res://burst_series/balls/gojo_ball.tscn",
-	"Sukuna": "res://burst_series/balls/sukuna_ball.tscn",
-	"Simon": "res://burst_series/balls/simon_ball.tscn"
+	"first_series": {
+		"Sword": "res://balls/sword_ball.tscn",
+		"Great Hammer": "res://balls/greathammer_ball.tscn",
+		"Flash": "res://balls/flash_ball.tscn",
+		"Thor": "res://balls/thor_ball.tscn",
+		"Isagi": "res://balls/isagi_ball.tscn",
+		"Mr. Terrific": "res://balls/mrterrific_ball.tscn",
+		"Jinx": "res://balls/jinx_ball.tscn",
+		"Professor Zoom": "res://balls/professor_zoom_ball.tscn",
+		"Rebirth Flash": "res://balls/rebirth_flash_ball.tscn",
+		"Superman": "res://balls/superman_ball.tscn",
+		"UI Goku": "res://balls/ui_goku_ball.tscn",
+		"The Enigma": "res://balls/the_enigma_ball.tscn"
+	},
+	"burst_series": {
+		"Saber": "res://burst_series/balls/saber_ball.tscn",
+		"Phainon": "res://burst_series/balls/phainon_ball.tscn",
+		"Dummy": "res://balls/dummy_ball.tscn",
+		"Gojo": "res://burst_series/balls/gojo_ball.tscn",
+		"Sukuna": "res://burst_series/balls/sukuna_ball.tscn",
+		"Simon": "res://burst_series/balls/simon_ball.tscn"
+	}
 }
