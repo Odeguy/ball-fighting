@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://cgq37akfuyiyh"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_dku4s"]
+[ext_resource type="Texture2D" uid="uid://cbtkcgxvvysp" path="res://burst_series/cut_in_components/images/40ba9c1daea8ee2a56a633b1843719b68e38b71dr1-540-244_hq_gif.png" id="2_d8ihi"]
+[ext_resource type="AudioStream" uid="uid://ckh7jp3r1m0b2" path="res://burst_series/cut_in_components/voice_lines/voice_JJSUK_skill1.ogg" id="3_sercl"]
+[ext_resource type="PackedScene" uid="uid://cax6d0qhjvp4a" path="res://burst_series/bursts/sukuna_burst.tscn" id="4_qts6m"]
+[ext_resource type="AudioStream" uid="uid://cox04gqtoo8yd" path="res://sounds/SE198_StabC.wav" id="5_ad2y7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ony0"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5ptv8"]
+resource_local_to_scene = true
+
+[node name="sukuna_ball" instance=ExtResource("1_dku4s")]
+burst_name = "Domain Expansion: Malevolent Shrine"
+cut_in_image = ExtResource("2_d8ihi")
+cut_in_voice_line = ExtResource("3_sercl")
+burst_scene = ExtResource("4_qts6m")
+burst_limit = 90
+color = Color(0.941176, 0.639216, 0.584314, 1)
+border_color = Color(0.0196078, 0.00784314, 0.00392157, 1)
+health_color = Color(0.188235, 0.0470588, 0.141176, 1)
+radius = 45
+lin_accel = 4
+lin_speed = 4
+health = 320
+attack = 6
+black_flash = true
+flash_chance = 0.05
+attack_sound = ExtResource("5_ad2y7")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_3ony0")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_5ptv8")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_3ony0")

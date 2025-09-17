@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://cax6d0qhjvp4a"]
+
+[ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst_series/burst.tscn" id="1_g2ugs"]
+[ext_resource type="AudioStream" uid="uid://dvorybc68tikp" path="res://sounds/Hit_SlashA.wav" id="2_opjmm"]
+[ext_resource type="Texture2D" uid="uid://di5khq4bav6lj" path="res://particles/trace_01.png" id="2_rfm1b"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_opjmm"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_elbld"]
+blend_mode = 1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qihqe"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 674.25
+angle_min = -360.0
+angle_max = 360.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.2
+scale_max = 0.2
+color = Color(0.766962, 0, 0.202973, 1)
+
+[node name="sukuna_burst" instance=ExtResource("1_g2ugs")]
+sound_effect = ExtResource("2_opjmm")
+duration = 5.0
+burst_damage = 3
+
+[node name="CollisionShape2D" parent="AreaDetector" index="0"]
+scale = Vector2(60.6643, 60.6643)
+shape = SubResource("CircleShape2D_opjmm")
+
+[node name="Particles" parent="." index="1"]
+material = SubResource("CanvasItemMaterial_elbld")
+amount = 5000
+texture = ExtResource("2_rfm1b")
+process_material = SubResource("ParticleProcessMaterial_qihqe")

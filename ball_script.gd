@@ -21,6 +21,8 @@ var total_damage: int
 @export var center_force: bool
 @export_enum("time_field", "attack_field", "dodge_field") var field_type: String
 @export var time_factor: int
+@export var black_flash: bool
+@export var flash_chance: float
 var center: Vector2
 var arena_origin: Vector2
 var arena_size: Vector2
@@ -29,6 +31,7 @@ var arena_size: Vector2
 var hit_limit: float
 var cooldown = 0
 signal clash
+@onready var black_flash_scene: PackedScene = preload("res://black_flash.tscn")
 
 
 func _ready() -> void:
@@ -146,11 +149,15 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 			get_tree().paused = false
 	#after this point the shape indexes and collider variables get messed up for some reason that i'm not looking into right now
 	if enemyCollider is Weapon && selfCollider is not Weapon && opp.team != self.team && hit_limit >= 0.2 || opp is Ball && !opp.weapon  && selfCollider is not Weapon and opp.get_parent() != self && opp.team != self.team && hit_limit >= 0.2: 
-		health -= opp.attack + opp.speed_bonus
+		var damage: int = opp.attack + opp.speed_bonus
+		if opp.black_flash && randf() <= opp.flash_chance:
+			damage *= 2
+			await opp.black_flash_attack()
+		health -= damage
 		hit_limit = 0
-		opp.damage_effect(opp.attack + opp.speed_bonus)
+		opp.damage_effect(damage)
 		opp.hits += 1
-		opp.total_damage += opp.attack + opp.speed_bonus
+		opp.total_damage += damage
 		opp.recalc_avg_dmg()
 		if health <= 0:
 			die()
@@ -210,3 +217,10 @@ func _on_sensory_field_body_shape_exited(body_rid: RID, body: Node2D, body_shape
 		body.linear_damp = 0
 		body.angular_damp = 0
 		if opp.lin_accel > 0: body.linear_velocity = Vector2(randi() % (opp.lin_accel * 2) - opp.lin_accel, randi() % (opp.lin_accel * 2) - opp.lin_accel) * 50
+		
+func black_flash_attack() -> int:
+	var scene: Black_Flash = black_flash_scene.instantiate()
+	$RigidBody2D/Weapon.add_child(scene)
+	return 2
+	
+	

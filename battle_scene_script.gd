@@ -104,3 +104,5 @@ func play_clash_sound() -> void:
 	$ClashAudio.play()
 	clash_itr = (clash_itr + 1) % 3
 	
+
+	

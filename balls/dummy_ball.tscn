@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://vy18c17ecb57"]
+[gd_scene load_steps=5 format=3 uid="uid://vy18c17ecb57"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_3lugg"]
+[ext_resource type="AudioStream" uid="uid://dmsivoqol4086" path="res://sounds/SE152_CharacterSelect_MoveCursor.wav" id="2_ww5tn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ww5tn"]
 resource_local_to_scene = true
@@ -26,6 +27,7 @@ ang_accel = 1
 lin_speed = 1
 ang_speed = 1
 health = 9999
+attack_sound = ExtResource("2_ww5tn")
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_ww5tn")

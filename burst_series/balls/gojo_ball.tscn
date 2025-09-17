@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://cfqkftli2p4by"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_82h18"]
+[ext_resource type="Texture2D" uid="uid://1lba6tovaamp" path="res://burst_series/cut_in_components/images/latest.png" id="2_kd76l"]
+[ext_resource type="AudioStream" uid="uid://c7nib06suwmc" path="res://burst_series/cut_in_components/voice_lines/voice_JJGJO_skill1.ogg" id="3_kd76l"]
+[ext_resource type="PackedScene" uid="uid://c2iaymivct4kk" path="res://burst_series/bursts/gojo_burst2.tscn" id="4_kd76l"]
+[ext_resource type="AudioStream" uid="uid://bayl1epsx3o76" path="res://sounds/SE006.wav" id="5_s0qdr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xccwo"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v20b8"]
+resource_local_to_scene = true
+
+[node name="gojo_ball" instance=ExtResource("1_82h18")]
+burst_name = "Hollow Technique: Purple"
+cut_in_image = ExtResource("2_kd76l")
+cut_in_voice_line = ExtResource("3_kd76l")
+burst_scene = ExtResource("4_kd76l")
+burst_limit = 90
+color = Color(1, 1, 1, 1)
+health_color = Color(0.27451, 1, 1, 1)
+radius = 45
+border_width = 10
+lin_accel = 4
+ang_accel = 1
+lin_speed = 5
+ang_speed = 1
+health = 310
+attack = 8
+field_type = "time_field"
+time_factor = 1
+black_flash = true
+flash_chance = 0.2
+attack_sound = ExtResource("5_s0qdr")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_xccwo")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_v20b8")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_xccwo")

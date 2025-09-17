@@ -14,5 +14,8 @@
 	
 	"Saber": "res://burst_series/balls/saber_ball.tscn",
 	"Phainon": "res://burst_series/balls/phainon_ball.tscn",
-	"Dummy": "res://balls/dummy_ball.tscn"
+	"Dummy": "res://balls/dummy_ball.tscn",
+	"Gojo": "res://burst_series/balls/gojo_ball.tscn",
+	"Sukuna": "res://burst_series/balls/sukuna_ball.tscn",
+	"Simon": "res://burst_series/balls/simon_ball.tscn"
 }

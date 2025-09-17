@@ -29,7 +29,7 @@ burst_name = "He Who Bears the World Must Burn"
 cut_in_image = ExtResource("2_4kw40")
 cut_in_voice_line = ExtResource("3_7inu4")
 burst_scene = ExtResource("4_7inu4")
-burst_limit = 85
+burst_limit = 115
 color = Color(0.729412, 0.619608, 0.635294, 1)
 border_color = Color(0.25098, 0.160784, 0.396078, 1)
 health_color = Color(0.929412, 0.8, 0.207843, 1)
@@ -42,6 +42,7 @@ health = 200
 attack = 3
 weapon = true
 field_type = "attack_field"
+flash_chance = 0.7
 attack_sound = ExtResource("4_8jkph")
 
 [node name="Face" parent="RigidBody2D" index="1"]

@@ -1,0 +1,64 @@
+[gd_scene load_steps=10 format=3 uid="uid://hnr6jkvewrki"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_4nft0"]
+[ext_resource type="Texture2D" uid="uid://ddn3exatyadci" path="res://burst_series/cut_in_components/images/985.png" id="2_4746b"]
+[ext_resource type="AudioStream" uid="uid://si73n1bj8a0y" path="res://burst_series/cut_in_components/voice_lines/my-drill-is-the-drill-that-creates-the-heaven.mp3" id="3_ijihg"]
+[ext_resource type="PackedScene" uid="uid://cc8ywqtda3ov1" path="res://burst_series/bursts/simon_burst.tscn" id="4_5ywfs"]
+[ext_resource type="AudioStream" uid="uid://dtt2p0m4l7qsx" path="res://sounds/SE202_BladeC.wav" id="5_8awhr"]
+[ext_resource type="Texture2D" uid="uid://x3y1q8vlon86" path="res://weapon_images/latest(2).png" id="6_npiut"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_diu0i"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_fj0wa"]
+points = PackedVector2Array(-15.4578, 11.4042, 49.1581, -3.07978, 56.2662, -56.8429, -6.02074, -76.2938, -123.575, -38.8627)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8wfgu"]
+resource_local_to_scene = true
+
+[node name="simon_ball" instance=ExtResource("1_4nft0")]
+burst_name = "Super Galaxy Tengen Toppa Gurren Lagann"
+cut_in_image = ExtResource("2_4746b")
+cut_in_voice_line = ExtResource("3_ijihg")
+burst_scene = ExtResource("4_5ywfs")
+burst_limit = 110
+color = Color(0.152722, 0.315048, 0.470144, 1)
+border_color = Color(0.531702, 0.182767, 0.255094, 1)
+health_color = Color(0.862745, 0.839216, 0.866667, 1)
+radius = 45
+border_width = 15
+lin_accel = 2
+lin_speed = 3
+health = 400
+attack = 3
+weapon = true
+attack_sound = ExtResource("5_8awhr")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_diu0i")
+
+[node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+offset_left = -62.0
+offset_top = -215.0
+offset_right = 150.0
+offset_bottom = 61.0
+scale = Vector2(0.598128, 0.598128)
+texture = ExtResource("6_npiut")
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="4"]
+position = Vector2(-30, -101)
+rotation = 1.53168
+shape = SubResource("ConvexPolygonShape2D_fj0wa")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_8wfgu")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_diu0i")
