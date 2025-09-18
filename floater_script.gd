@@ -21,6 +21,7 @@ class_name Floater
 
 
 func _ready() -> void:
+	self.attack = get_parent().attack
 	team = get_parent().team
 	center = get_parent().center
 	$RigidBody2D.angular_velocity = ang_speed
@@ -45,6 +46,17 @@ func set_collision_layer(layer: int):
 
 func leave_trail():
 	pass
+	
+func die() -> void:
+	$RigidBody2D.linear_velocity = Vector2(0, 0)
+	$RigidBody2D.angular_velocity = 0
+	$RigidBody2D/CollisionShape2D.disabled = true
+	if weapon: $RigidBody2D/WeaponShape2D.disabled = true
+	health = 0
+	while modulate.a <= 0:
+		modulate.a -= 0.05
+		await get_tree().process_frame
+	self.queue_free()
 	
 
 func damage_effect(num: int):
@@ -71,7 +83,7 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 	if vulnerable:
 		if enemyCollider is Weapon && opp.team != self.team|| opp is Ball && !opp.weapon  && selfCollider is not Weapon && opp.get_parent() != self && opp.get_parent() != self.get_parent() && opp.team != self.team: 
 			health -= opp.attack + opp.speed_bonus
-			damage_effect(opp.attack + opp.speed_bonus)
+			opp.damage_effect(opp.attack + opp.speed_bonus)
 			opp.hits += 1
 			opp.total_damage += opp.attack + opp.speed_bonus
 			opp.recalc_avg_dmg()

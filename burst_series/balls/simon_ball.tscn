@@ -28,7 +28,7 @@ burst_name = "Super Galaxy Tengen Toppa Gurren Lagann"
 cut_in_image = ExtResource("2_4746b")
 cut_in_voice_line = ExtResource("3_ijihg")
 burst_scene = ExtResource("4_5ywfs")
-burst_limit = 110
+burst_limit = 265
 color = Color(0.152722, 0.315048, 0.470144, 1)
 border_color = Color(0.531702, 0.182767, 0.255094, 1)
 health_color = Color(0.862745, 0.839216, 0.866667, 1)
@@ -37,7 +37,7 @@ border_width = 15
 lin_accel = 2
 lin_speed = 3
 health = 400
-attack = 3
+attack = 11
 weapon = true
 attack_sound = ExtResource("5_8awhr")
 

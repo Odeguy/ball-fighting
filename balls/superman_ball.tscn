@@ -22,8 +22,8 @@ border_color = Color(0.529412, 0.223529, 0.223529, 1)
 radius = 45
 lin_accel = 3
 lin_speed = 2
-health = 200
-attack = 8
+health = 500
+attack = 20
 field_type = "attack_field"
 attack_sound = ExtResource("2_uy7fn")
 

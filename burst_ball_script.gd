@@ -14,14 +14,22 @@ var burst: int
 @export var burst_scene: PackedScene
 @export var burst_limit: int
 
+@onready var scroll_incr: int = 1
+@onready var counter: int = 0
+
 func _ready() -> void:
 	super()
 	reset_burst_meter()
 	$RigidBody2D/BurstGlow.process_material.set_emission_sphere_radius(float(radius))
+	$AvgDmg/ScrollContainer/Label.text = burst_name
 	
 func damage_effect(num: int) -> void:
 	super(num)
 	increase_burst_meter(num)
+	
+func _process(delta: float) -> void:
+	counter += 1
+	if counter % 2 == 0: moving_burst_label()
 
 func increase_burst_meter(num: int) -> void:
 	if burst == burst_limit: return
@@ -69,3 +77,12 @@ func burst_attack() -> void:
 	lin_speed = ls
 	lin_accel = la
 	reset_burst_meter()
+
+func moving_burst_label() -> void:
+	var scroller: ScrollContainer = $AvgDmg/ScrollContainer
+	var label: Label = $AvgDmg/ScrollContainer/Label
+	scroller.scroll_horizontal += scroll_incr
+	if scroller.scroll_horizontal >= label.size.x - scroller.size.x || scroller.scroll_horizontal <= 0: 
+		print(scroller.size.x - label.size.x)
+		print()
+		scroll_incr *= -1

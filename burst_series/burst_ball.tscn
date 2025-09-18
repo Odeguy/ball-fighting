@@ -152,13 +152,18 @@ offset_right = 176.0
 offset_bottom = 32.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_dlrde")
 
-[node name="Label" type="Label" parent="AvgDmg" index="3"]
+[node name="ScrollContainer" type="ScrollContainer" parent="AvgDmg" index="3"]
 layout_mode = 0
-offset_left = 27.0
-offset_top = 83.5
-offset_right = 122.0
-offset_bottom = 106.5
+offset_left = -14.0
+offset_top = 80.0
+offset_right = 161.0
+offset_bottom = 113.0
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+
+[node name="Label" type="Label" parent="AvgDmg/ScrollContainer" index="0"]
+layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_wf8a6")
-text = "BURST"
+text = "BURSTBURSTBURSTBURSTBURSTBURSTBURSTBURST"
 horizontal_alignment = 1

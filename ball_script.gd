@@ -65,7 +65,7 @@ func _ready() -> void:
 	
 func _physics_process(delta: float) -> void:
 	if $RigidBody2D.linear_velocity.length() < lin_speed * 500: 
-		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * lin_accel)
+		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * lin_accel / 2 + Vector2(1, 1))
 	else: 
 		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * -16 / lin_accel)
 		

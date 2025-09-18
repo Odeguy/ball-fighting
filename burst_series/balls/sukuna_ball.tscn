@@ -24,7 +24,7 @@ burst_name = "Domain Expansion: Malevolent Shrine"
 cut_in_image = ExtResource("2_d8ihi")
 cut_in_voice_line = ExtResource("3_sercl")
 burst_scene = ExtResource("4_qts6m")
-burst_limit = 90
+burst_limit = 225
 color = Color(0.941176, 0.639216, 0.584314, 1)
 border_color = Color(0.0196078, 0.00784314, 0.00392157, 1)
 health_color = Color(0.188235, 0.0470588, 0.141176, 1)
@@ -32,9 +32,9 @@ radius = 45
 lin_accel = 4
 lin_speed = 4
 health = 320
-attack = 6
+attack = 15
 black_flash = true
-flash_chance = 0.05
+flash_chance = 0.09
 attack_sound = ExtResource("5_ad2y7")
 
 [node name="Face" parent="RigidBody2D" index="1"]

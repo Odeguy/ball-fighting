@@ -24,7 +24,7 @@ color = Color(0.383679, 0.385939, 0.583419, 1)
 [node name="sukuna_burst" instance=ExtResource("1_dcu41")]
 sound_effect = ExtResource("2_dcu41")
 duration = 5.0
-burst_damage = 3
+burst_damage = 5
 
 [node name="CollisionShape2D" parent="AreaDetector" index="0"]
 scale = Vector2(60.6643, 60.6643)

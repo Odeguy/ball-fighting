@@ -31,16 +31,17 @@ func _on_area_detector_body_shape_entered(body_rid: RID, body: Node2D, body_shap
 func blast() -> void:
 	self.show()
 	var counter = 0
-	var ball: Ball = self.get_parent().get_parent().get_parent()
+	var ball: Burst_Ball = self.get_parent().get_parent().get_parent()
 	while duration > 0:
 		await get_tree().process_frame
+		ball.burst = 0
 		if get_tree().paused: continue
 		if counter % 10 == 0: $AudioStreamPlayer2D.play()
 		duration -= 1.0 / 60.0
 		counter += burst_damage
 		if opp == null: break
 		if !$AreaDetector.overlaps_body(opp.get_body()): continue
-		if opp.health >= 0 && counter % 4 == 0: opp.health -= 1
+		if opp.health >= 0 && counter % 16 == 0: opp.health -= burst_damage
 		if opp.health < 0: opp.health = 0
 		opp.damage_effect(burst_damage)
 		ball.total_damage += 1

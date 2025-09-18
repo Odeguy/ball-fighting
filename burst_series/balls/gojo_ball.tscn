@@ -20,11 +20,11 @@ corner_radius_bottom_left = 999
 resource_local_to_scene = true
 
 [node name="gojo_ball" instance=ExtResource("1_82h18")]
-burst_name = "Hollow Technique: Purple"
+burst_name = "Domain Expansion: Unlimited Void"
 cut_in_image = ExtResource("2_kd76l")
 cut_in_voice_line = ExtResource("3_kd76l")
 burst_scene = ExtResource("4_kd76l")
-burst_limit = 90
+burst_limit = 270
 color = Color(1, 1, 1, 1)
 health_color = Color(0.27451, 1, 1, 1)
 radius = 45
@@ -34,11 +34,11 @@ ang_accel = 1
 lin_speed = 5
 ang_speed = 1
 health = 310
-attack = 8
+attack = 20
 field_type = "time_field"
 time_factor = 1
 black_flash = true
-flash_chance = 0.2
+flash_chance = 0.1
 attack_sound = ExtResource("5_s0qdr")
 
 [node name="Face" parent="RigidBody2D" index="1"]

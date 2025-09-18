@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dfmid1on1rohv"]
+[gd_scene load_steps=8 format=3 uid="uid://dfmid1on1rohv"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_qdpdn"]
 [ext_resource type="AudioStream" uid="uid://b4f1q0x7e3ob3" path="res://sounds/greathammer.mp3" id="2_2xmt6"]
@@ -15,13 +15,26 @@ corner_radius_bottom_left = 999
 radius = 57.0
 height = 258.929
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_2xmt6"]
+resource_local_to_scene = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i1xop"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
 [node name="ball" instance=ExtResource("1_qdpdn")]
 color = Color(0.345098, 0.545098, 0.223529, 1)
 radius = 40
 lin_accel = 2
 lin_speed = 2
-health = 130
-attack = 4
+health = 330
+attack = 10
 weapon = true
 attack_sound = ExtResource("2_2xmt6")
 team = "greathammer"
@@ -41,3 +54,9 @@ texture = ExtResource("2_bh02i")
 position = Vector2(-1, -129)
 scale = Vector2(1, 1.12)
 shape = SubResource("CapsuleShape2D_2xmt6")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_2xmt6")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_i1xop")

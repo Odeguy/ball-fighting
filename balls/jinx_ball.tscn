@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dby0mhnoi73su"]
+[gd_scene load_steps=13 format=3 uid="uid://dby0mhnoi73su"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_y6mpy"]
 [ext_resource type="AudioStream" uid="uid://bmebqc25xlu2l" path="res://sounds/jinx.mp3" id="2_d4n4s"]
@@ -13,6 +13,19 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_d4n4s"]
+resource_local_to_scene = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wxxo5"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
 border_blend = true
 corner_radius_top_left = 999
@@ -46,13 +59,19 @@ border_color = Color(0.176471, 0.423529, 0.6, 1)
 radius = 50
 lin_accel = 5
 lin_speed = 6
-health = 170
+health = 425
 weapon = true
 attack_sound = ExtResource("2_d4n4s")
 team = "jinx"
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_ea8hu")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_d4n4s")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_wxxo5")
 
 [node name="Ball" type="Node2D" parent="." index="2"]
 visible = false
