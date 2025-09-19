@@ -24,7 +24,7 @@ func _ready() -> void:
 	$AudioStreamPlayer2D.stream = sound_effect
 	
 func _on_area_detector_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
-	if body.get_parent() is Ball && body.get_parent() != self.get_parent().get_parent().get_parent(): 
+	if body.get_parent() is Ball && body.get_parent() != self.get_parent().get_parent().get_parent() && body.get_parent() is not Floater && body.get_parent() is not Bomb: 
 		opp = body.get_parent()
 		enemy_detected.emit()
 	

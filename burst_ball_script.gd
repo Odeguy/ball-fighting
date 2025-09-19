@@ -15,7 +15,6 @@ var burst: int
 @export var burst_limit: int
 
 @onready var scroll_incr: int = 1
-@onready var counter: int = 0
 
 func _ready() -> void:
 	super()
@@ -25,10 +24,13 @@ func _ready() -> void:
 	
 func damage_effect(num: int) -> void:
 	super(num)
-	increase_burst_meter(num)
+
+func record_hit(damage: int) -> void:
+	super(damage)
+	increase_burst_meter(damage)
 	
 func _process(delta: float) -> void:
-	counter += 1
+	super(delta)
 	if counter % 2 == 0: moving_burst_label()
 
 func increase_burst_meter(num: int) -> void:
@@ -83,6 +85,4 @@ func moving_burst_label() -> void:
 	var label: Label = $AvgDmg/ScrollContainer/Label
 	scroller.scroll_horizontal += scroll_incr
 	if scroller.scroll_horizontal >= label.size.x - scroller.size.x || scroller.scroll_horizontal <= 0: 
-		print(scroller.size.x - label.size.x)
-		print()
 		scroll_incr *= -1

@@ -24,7 +24,7 @@ points = PackedVector2Array(-15.4578, 11.4042, 49.1581, -3.07978, 56.2662, -56.8
 resource_local_to_scene = true
 
 [node name="simon_ball" instance=ExtResource("1_4nft0")]
-burst_name = "Super Galaxy Tengen Toppa Gurren Lagann"
+burst_name = "Super Galaxy Tengen Toppa Gurren Lagann: Giga Drill Breaker"
 cut_in_image = ExtResource("2_4746b")
 cut_in_voice_line = ExtResource("3_ijihg")
 burst_scene = ExtResource("4_5ywfs")

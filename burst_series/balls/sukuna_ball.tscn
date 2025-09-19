@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://cgq37akfuyiyh"]
+[gd_scene load_steps=11 format=3 uid="uid://cgq37akfuyiyh"]
 
 [ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_dku4s"]
 [ext_resource type="Texture2D" uid="uid://cbtkcgxvvysp" path="res://burst_series/cut_in_components/images/40ba9c1daea8ee2a56a633b1843719b68e38b71dr1-540-244_hq_gif.png" id="2_d8ihi"]
 [ext_resource type="AudioStream" uid="uid://ckh7jp3r1m0b2" path="res://burst_series/cut_in_components/voice_lines/voice_JJSUK_skill1.ogg" id="3_sercl"]
 [ext_resource type="PackedScene" uid="uid://cax6d0qhjvp4a" path="res://burst_series/bursts/sukuna_burst.tscn" id="4_qts6m"]
 [ext_resource type="AudioStream" uid="uid://cox04gqtoo8yd" path="res://sounds/SE198_StabC.wav" id="5_ad2y7"]
+[ext_resource type="Texture2D" uid="uid://chacylyqtnv4d" path="res://summons/images/mahoraga-sukuna-jujutsu-kaisen-230-1_jpg.png" id="6_ad2y7"]
+[ext_resource type="AudioStream" uid="uid://bbiqqwxpj7d8u" path="res://summons/voice_lines/mahoraga-help-made-with-Voicemod.mp3" id="7_x2jbf"]
+[ext_resource type="PackedScene" uid="uid://byh3scbytc318" path="res://balls/mahoraga_ball.tscn" id="8_ad2y7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ony0"]
 resource_local_to_scene = true
@@ -24,7 +27,7 @@ burst_name = "Domain Expansion: Malevolent Shrine"
 cut_in_image = ExtResource("2_d8ihi")
 cut_in_voice_line = ExtResource("3_sercl")
 burst_scene = ExtResource("4_qts6m")
-burst_limit = 225
+burst_limit = 325
 color = Color(0.941176, 0.639216, 0.584314, 1)
 border_color = Color(0.0196078, 0.00784314, 0.00392157, 1)
 health_color = Color(0.188235, 0.0470588, 0.141176, 1)
@@ -32,10 +35,15 @@ radius = 45
 lin_accel = 4
 lin_speed = 4
 health = 320
-attack = 15
+attack = 11
 black_flash = true
-flash_chance = 0.09
+flash_chance = 0.06
 attack_sound = ExtResource("5_ad2y7")
+summon_enabled = true
+summon_limit = 0.7
+summon_cut_in_image = ExtResource("6_ad2y7")
+summon_cut_in_voice_line = ExtResource("7_x2jbf")
+summoned = ExtResource("8_ad2y7")
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_3ony0")

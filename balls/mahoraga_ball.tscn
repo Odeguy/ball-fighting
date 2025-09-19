@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://byh3scbytc318"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_rvhh8"]
+[ext_resource type="AudioStream" uid="uid://bfhln5yt50qto" path="res://sounds/SE004.wav" id="2_wso1r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wso1r"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mwqyg"]
+resource_local_to_scene = true
+
+[node name="mahoraga_ball" instance=ExtResource("1_rvhh8")]
+color = Color(0.956863, 0.956863, 0.964706, 1)
+border_color = Color(0.72549, 0.72549, 0.72549, 1)
+health_color = Color(0.113725, 0.133333, 0.14902, 1)
+radius = 60
+border_width = 10
+lin_accel = 1
+lin_speed = 4
+health = 300
+regeneration = 5
+attack = 7
+field_type = "attack_field"
+attack_sound = ExtResource("2_wso1r")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_wso1r")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_mwqyg")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_wso1r")

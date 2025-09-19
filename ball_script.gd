@@ -11,6 +11,7 @@ class_name Ball
 @export var lin_speed: int
 @export var ang_speed: int
 @export var health: int
+@export var regeneration: int
 @export var attack: int
 @export var weapon: bool
 var speed_bonus: float
@@ -32,6 +33,16 @@ var hit_limit: float
 var cooldown = 0
 signal clash
 @onready var black_flash_scene: PackedScene = preload("res://black_flash.tscn")
+@export_category("Summon")
+@export var summon_enabled: bool
+@export var summon_limit: float = -1
+@export var summon_cut_in_image: Texture2D
+@export var summon_cut_in_voice_line: AudioStream
+@export var summoned: PackedScene
+signal summon(summon_cut_in_image, summon_cut_in_voice_line, summoner, summoned, team)
+@onready var max_health: float = float(health)
+@onready var counter: int = 0
+signal death
 
 
 func _ready() -> void:
@@ -62,6 +73,12 @@ func _ready() -> void:
 	$AvgDmg.add_theme_color_override("font_color", color)
 	$AvgDmg.add_theme_color_override("font_outline_color", border_color)
 	
+func _process(delta: float) -> void:
+	counter += 1
+	if health / max_health  <= summon_limit && summon_enabled:
+		summon_enabled = false
+		summon.emit(summon_cut_in_image, summon_cut_in_voice_line, self, summoned, team)
+	if counter % 20 == 0 && health < max_health: health += regeneration
 	
 func _physics_process(delta: float) -> void:
 	if $RigidBody2D.linear_velocity.length() < lin_speed * 500: 
@@ -110,6 +127,10 @@ func damage_effect(num: int) -> void:
 		await get_tree().process_frame
 	effect.queue_free()
 
+func record_hit(damage: int) -> void:
+		hits += 1
+		total_damage += damage
+
 func leave_trail():
 	var effect = $RigidBody2D/Face.duplicate()
 	effect.z_index = -1
@@ -156,8 +177,7 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 		health -= damage
 		hit_limit = 0
 		opp.damage_effect(damage)
-		opp.hits += 1
-		opp.total_damage += damage
+		opp.record_hit(damage)
 		opp.recalc_avg_dmg()
 		if health <= 0:
 			die()
@@ -172,10 +192,14 @@ func die() -> void:
 		modulate.a -= 0.05
 		await get_tree().process_frame
 	get_parent().fighting.erase(self)
+	death.emit()
 	self.queue_free()
 
 func get_body():
 	return $RigidBody2D
+
+func get_avg_dmg():
+	return $AvgDmg
 
 func recalc_avg_dmg():
 		if hits > 0: $AvgDmg.text = "Average\nDamage: " + str(total_damage / hits)
@@ -223,4 +247,6 @@ func black_flash_attack() -> int:
 	$RigidBody2D/Weapon.add_child(scene)
 	return 2
 	
+func death_bound(sig: String) -> void:
+	connect(sig, die)
 	

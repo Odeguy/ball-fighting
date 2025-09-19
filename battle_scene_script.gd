@@ -33,6 +33,7 @@ func begin(fighters: Array):
 		i+=1
 		teams[fighter.team] = 0
 		fighter.connect("clash", play_clash_sound)
+		fighter.connect("summon", summon)
 	if teams.size() == 2:
 		if prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[0] && teams.keys()[1] == prev_teams.keys()[1] || prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[1] && teams.keys()[1] == prev_teams.keys()[0]:
 			teams = prev_teams
@@ -104,5 +105,17 @@ func play_clash_sound() -> void:
 	$ClashAudio.play()
 	clash_itr = (clash_itr + 1) % 3
 	
-
+func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: Ball, summoned: PackedScene, team: String) -> void:
+	var cut_in: Cut_In = preload("res://cut_in.tscn").instantiate()
+	cut_in.set_params("", cut_in_image, cut_in_voice_line)
+	add_child(cut_in)
+	get_tree().paused = true
+	await cut_in.done
+	get_tree().paused = false
+	
+	var ball: Ball = summoned.instantiate()
+	spawn(ball, spawn_points[randi() % 4], 0)
+	ball.team = team
+	ball.get_avg_dmg().hide()
+	summoner.connect("death", ball.die)
 	
