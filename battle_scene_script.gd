@@ -6,6 +6,7 @@ var arena_origin: Vector2
 var arena_size: Vector2
 var spawn_points: Array
 var fighting: Array
+var summons: Array
 var showing: bool
 var prev_teams: Dictionary
 var teams: Dictionary
@@ -29,7 +30,7 @@ func _ready() -> void:
 func begin(fighters: Array):
 	var i := 0
 	for fighter: Ball in fighters:
-		spawn(fighter, spawn_points[i], i + 1)
+		spawn(fighter, spawn_points[i], i + 1, false)
 		i+=1
 		teams[fighter.team] = 0
 		fighter.connect("clash", play_clash_sound)
@@ -52,11 +53,12 @@ func _process(delta: float) -> void:
 		$AudioStreamPlayer2D.play()
 	if teams.size() == 2: $Scoreboard.text = str(teams[teams.keys()[0]]) + " - " + str(teams[teams.keys()[1]])
 		
-func spawn(ball: Object, pos: Vector2, layer: int):
+func spawn(ball: Object, pos: Vector2, layer: int, summon: bool):
 	ball.position = pos
 	ball.set_collision_layer(layer)
 	add_child(ball)
-	fighting.append(ball)
+	if !summon: fighting.append(ball)
+	else: summons.append(ball)
 	
 func countdown() -> void:
 	$Label.show()
@@ -73,6 +75,10 @@ func _on_button_pressed() -> void:
 		var ball = fighting[i]
 		fighting.remove_at(i)
 		ball.queue_free()
+	for i in range(summons.size() - 1, -1, -1):
+		var ball = summons[i]
+		summons.remove_at(i)
+		if ball != null: ball.queue_free()
 	var select_screen: Selection_Screen = selection_screen.instantiate()
 	add_sibling(select_screen)
 	var tween = create_tween()
@@ -114,7 +120,7 @@ func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: B
 	get_tree().paused = false
 	
 	var ball: Ball = summoned.instantiate()
-	spawn(ball, spawn_points[randi() % 4], 0)
+	spawn(ball, spawn_points[randi() % 4], 0, true)
 	ball.team = team
 	ball.get_avg_dmg().hide()
 	summoner.connect("death", ball.die)

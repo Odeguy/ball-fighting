@@ -64,6 +64,7 @@ func cut_in() -> void:
 	
 func burst_attack() -> void:
 	var scene: Burst = burst_scene.instantiate()
+	scene.user = self
 	scene.z_index *= 1000
 	$RigidBody2D/Weapon.add_child(scene)
 	await scene.enemy_detected

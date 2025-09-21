@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://bh7ckndp8dq0k"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_l3imn"]
+[ext_resource type="AudioStream" uid="uid://b4qa80yg41q11" path="res://sounds/Atk_SwingA.wav" id="2_qaw6e"]
+[ext_resource type="Texture2D" uid="uid://bavr1ljkgsudt" path="res://weapon_images/STL287748_jpg.png" id="2_v4oaf"]
+[ext_resource type="Texture2D" uid="uid://gwtbboks80g6" path="res://summons/images/art-zatch-bell-2-volume-1-cover-v0-u4hq2n4myfg91_jpg.png" id="2_ynxt5"]
+[ext_resource type="AudioStream" uid="uid://b0243b1un77gy" path="res://summons/voice_lines/ScreenRecording_09-21-2025 16-42-43_1.wav" id="3_qaw6e"]
+[ext_resource type="PackedScene" uid="uid://bluxfori4h1p0" path="res://burst_series/balls/gashbell_ball.tscn" id="4_oqmf2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v4oaf"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s2mx5"]
+size = Vector2(74, 106)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s2mx5"]
+resource_local_to_scene = true
+
+[node name="kiyomaro_ball" instance=ExtResource("1_l3imn")]
+color = Color(0.968627, 0.964706, 0.972549, 1)
+border_color = Color(0.0117647, 0.290196, 0.415686, 1)
+health_color = Color(0.211765, 0.196078, 0.160784, 1)
+radius = 45
+border_width = 10
+lin_accel = 1
+ang_accel = 1
+lin_speed = 1
+ang_speed = 1
+health = 300
+regeneration = 3
+attack = 3
+weapon = true
+attack_sound = ExtResource("2_qaw6e")
+summon_enabled = true
+summon_limit = 0.8
+summon_cut_in_image = ExtResource("2_ynxt5")
+summon_cut_in_voice_line = ExtResource("3_qaw6e")
+summoned = ExtResource("4_oqmf2")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_v4oaf")
+
+[node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+offset_left = -48.0
+offset_top = -192.0
+offset_right = 978.0
+offset_bottom = 1308.0
+scale = Vector2(0.131335, 0.131335)
+texture = ExtResource("2_v4oaf")
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="4"]
+position = Vector2(19, -85)
+shape = SubResource("RectangleShape2D_s2mx5")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_s2mx5")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_v4oaf")

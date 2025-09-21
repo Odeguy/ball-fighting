@@ -75,10 +75,8 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	counter += 1
-	if health / max_health  <= summon_limit && summon_enabled:
-		summon_enabled = false
-		summon.emit(summon_cut_in_image, summon_cut_in_voice_line, self, summoned, team)
-	if counter % 20 == 0 && health < max_health: health += regeneration
+	try_summon()
+	regenerate(counter)
 	
 func _physics_process(delta: float) -> void:
 	if $RigidBody2D.linear_velocity.length() < lin_speed * 500: 
@@ -250,3 +248,10 @@ func black_flash_attack() -> int:
 func death_bound(sig: String) -> void:
 	connect(sig, die)
 	
+func try_summon() -> void:
+	if health / max_health  <= summon_limit && summon_enabled:
+		summon_enabled = false
+		summon.emit(summon_cut_in_image, summon_cut_in_voice_line, self, summoned, team)
+
+func regenerate(counter: int) -> void:
+	if counter % 50 == 0 && health < max_health: health += regeneration

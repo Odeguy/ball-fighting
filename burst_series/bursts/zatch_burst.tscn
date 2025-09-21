@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://dapwehmp1fs7q"]
+
+[ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst_series/burst.tscn" id="1_hmwc1"]
+[ext_resource type="AudioStream" uid="uid://4080en42uu35" path="res://sounds/Hit_Shock-[AudioTrimmer.com].wav" id="2_hgf5n"]
+[ext_resource type="Texture2D" uid="uid://bfu0cbrmg0abr" path="res://particles/spark_05.png" id="3_mga17"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wvbfs"]
+radius = 261.701
+height = 721.967
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wjjqw"]
+blend_mode = 1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mwje4"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 32.1
+angle_min = -139.5
+angle_max = 99.0
+direction = Vector3(0, -1, 0)
+spread = 14.445
+initial_velocity_min = 506.26
+initial_velocity_max = 506.26
+gravity = Vector3(0, 0, 0)
+scale_min = 0.2
+scale_max = 0.2
+color = Color(1, 1, 0.0509804, 1)
+
+[node name="zatch_burst" instance=ExtResource("1_hmwc1")]
+sound_effect = ExtResource("2_hgf5n")
+duration = 4.0
+burst_damage = 6
+
+[node name="AreaDetector" parent="." index="0"]
+scale = Vector2(2.56284, 1.94542)
+
+[node name="CollisionShape2D" parent="AreaDetector" index="0"]
+position = Vector2(0, -368)
+scale = Vector2(0.317015, -1.01944)
+shape = SubResource("CapsuleShape2D_wvbfs")
+
+[node name="Particles" parent="." index="1"]
+material = SubResource("CanvasItemMaterial_wjjqw")
+scale = Vector2(2.56284, 1.94542)
+amount = 2000
+texture = ExtResource("3_mga17")
+lifetime = 1.54
+process_material = SubResource("ParticleProcessMaterial_mwje4")

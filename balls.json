@@ -12,7 +12,8 @@
 		"Superman": "res://balls/superman_ball.tscn",
 		"UI Goku": "res://balls/ui_goku_ball.tscn",
 		"The Enigma": "res://balls/the_enigma_ball.tscn",
-		"Mahoraga": "res://balls/mahoraga_ball.tscn"
+		"Mahoraga": "res://balls/mahoraga_ball.tscn",
+		"Kiyomaro": "res://balls/kiyomaro_ball.tscn"
 	},
 	"burst_series": {
 		"Saber": "res://burst_series/balls/saber_ball.tscn",
@@ -20,6 +21,7 @@
 		"Dummy": "res://balls/dummy_ball.tscn",
 		"Gojo": "res://burst_series/balls/gojo_ball.tscn",
 		"Sukuna": "res://burst_series/balls/sukuna_ball.tscn",
-		"Simon": "res://burst_series/balls/simon_ball.tscn"
+		"Simon": "res://burst_series/balls/simon_ball.tscn",
+		"Gash Bell": "res://burst_series/balls/gashbell_ball.tscn"
 	}
 }

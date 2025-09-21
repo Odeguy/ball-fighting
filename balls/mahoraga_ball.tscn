@@ -22,11 +22,11 @@ border_color = Color(0.72549, 0.72549, 0.72549, 1)
 health_color = Color(0.113725, 0.133333, 0.14902, 1)
 radius = 60
 border_width = 10
-lin_accel = 1
+lin_accel = 2
 lin_speed = 4
 health = 300
 regeneration = 5
-attack = 7
+attack = 13
 field_type = "attack_field"
 attack_sound = ExtResource("2_wso1r")
 

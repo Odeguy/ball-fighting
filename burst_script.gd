@@ -8,6 +8,7 @@ class_name Burst
 signal enemy_detected
 signal done
 var opp: Ball
+var user: Ball
 
 """"
 1. Wait for Ball detection
@@ -24,7 +25,7 @@ func _ready() -> void:
 	$AudioStreamPlayer2D.stream = sound_effect
 	
 func _on_area_detector_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
-	if body.get_parent() is Ball && body.get_parent() != self.get_parent().get_parent().get_parent() && body.get_parent() is not Floater && body.get_parent() is not Bomb: 
+	if body.get_parent() is Ball && body.get_parent() != user && body.get_parent() is not Floater && body.get_parent() is not Bomb && body.get_parent().team != user.team: 
 		opp = body.get_parent()
 		enemy_detected.emit()
 	

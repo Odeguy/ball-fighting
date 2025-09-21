@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://bluxfori4h1p0"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_jjcru"]
+[ext_resource type="Texture2D" uid="uid://cru00yytjjxv8" path="res://burst_series/cut_in_components/images/hq720_jpg.png" id="2_igqjw"]
+[ext_resource type="AudioStream" uid="uid://c4u5cbx2q0yho" path="res://burst_series/cut_in_components/voice_lines/bao_zakeruga.wav" id="3_yy1p7"]
+[ext_resource type="PackedScene" uid="uid://dapwehmp1fs7q" path="res://burst_series/bursts/zatch_burst.tscn" id="4_yy1p7"]
+[ext_resource type="AudioStream" uid="uid://bfhln5yt50qto" path="res://sounds/SE004.wav" id="5_fr8f2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d6783"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_igqjw"]
+resource_local_to_scene = true
+
+[node name="gashbell_ball" instance=ExtResource("1_jjcru")]
+burst_name = "Bao Zakeruga"
+cut_in_image = ExtResource("2_igqjw")
+cut_in_voice_line = ExtResource("3_yy1p7")
+burst_scene = ExtResource("4_yy1p7")
+burst_limit = 90
+color = Color(0.145098, 0.0901961, 0.333333, 1)
+border_color = Color(0.988235, 0.870588, 0.415686, 1)
+health_color = Color(0.937255, 0.737255, 0.196078, 1)
+radius = 40
+border_width = 5
+lin_accel = 4
+lin_speed = 6
+health = 370
+attack = 6
+trail = true
+field_type = "attack_field"
+attack_sound = ExtResource("5_fr8f2")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_d6783")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_igqjw")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_d6783")

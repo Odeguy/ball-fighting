@@ -84,7 +84,7 @@ vulnerable = true
 lin_accel = 3
 lin_speed = 4
 health = 20
-attack = 6
+attack = 16
 center_force = true
 metadata/_custom_type_script = "uid://843d781qmk57"
 
