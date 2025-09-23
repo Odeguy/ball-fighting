@@ -37,9 +37,18 @@ border_width = 15
 lin_accel = 2
 lin_speed = 3
 health = 400
+regeneration = 2
 attack = 11
 weapon = true
 attack_sound = ExtResource("5_8awhr")
+scaling_vars = {
+"ang_accel": 1.0,
+"ang_speed": 1.0,
+"attack": 1.2,
+"lin_accel": 1.0,
+"lin_speed": 1.0,
+"regeneration": 1.0
+}
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_diu0i")

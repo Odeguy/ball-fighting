@@ -39,6 +39,15 @@ signal clash
 @export var summon_cut_in_image: Texture2D
 @export var summon_cut_in_voice_line: AudioStream
 @export var summoned: PackedScene
+@export_category("Stat Scaling")
+@export var scaling_vars: Dictionary = {
+	"attack": 1.0,
+	"regeneration": 1.0,
+	"lin_speed": 1.0,
+	"lin_accel": 1.0,
+	"ang_speed": 1.0,
+	"ang_accel": 1.0
+}
 signal summon(summon_cut_in_image, summon_cut_in_voice_line, summoner, summoned, team)
 @onready var max_health: float = float(health)
 @onready var counter: int = 0
@@ -72,11 +81,13 @@ func _ready() -> void:
 	$AvgDmg.global_position.y *= 1.2
 	$AvgDmg.add_theme_color_override("font_color", color)
 	$AvgDmg.add_theme_color_override("font_outline_color", border_color)
+	scaling(0)
 	
 func _process(delta: float) -> void:
 	counter += 1
 	try_summon()
 	regenerate(counter)
+	scaling(counter)
 	
 func _physics_process(delta: float) -> void:
 	if $RigidBody2D.linear_velocity.length() < lin_speed * 500: 
@@ -255,3 +266,27 @@ func try_summon() -> void:
 
 func regenerate(counter: int) -> void:
 	if counter % 50 == 0 && health < max_health: health += regeneration
+
+func scaling(counter: int) -> void:
+	if counter % 600 != 0: return
+	attack *= scaling_vars["attack"]
+	lin_speed *= scaling_vars["lin_speed"]
+	lin_accel *= scaling_vars["lin_accel"]
+	ang_speed *= scaling_vars["ang_speed"]
+	ang_accel *= scaling_vars["ang_accel"]
+	regeneration *= scaling_vars["regeneration"]
+	$AvgDmg/Scaling.text = ""
+	for i in range(0, scaling_vars.size()):
+		var key = scaling_vars.keys()[i]
+		if scaling_vars[key] > 1 || key == "regeneration" && regeneration != 0:
+			$AvgDmg/Scaling.text += key + ": " + str(get_stat(key)) + "\n"
+			
+func get_stat(stat: String) -> Variant:
+	match stat:
+		"attack": return attack
+		"lin_speed": return lin_speed
+		"lin_accel": return lin_accel
+		"ang_speed": return ang_speed
+		"ang_accel": return ang_accel
+		"regeneration": return regeneration
+	return "No Matches"

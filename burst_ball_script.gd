@@ -87,3 +87,7 @@ func moving_burst_label() -> void:
 	scroller.scroll_horizontal += scroll_incr
 	if scroller.scroll_horizontal >= label.size.x - scroller.size.x || scroller.scroll_horizontal <= 0: 
 		scroll_incr *= -1
+
+func scaling(counter: int) -> void:
+	super(counter)
+	if counter % 600 == 0: burst_limit += attack
