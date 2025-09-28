@@ -5,7 +5,8 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ybybf"]
 
 [node name="trueuigoku_burst" instance=ExtResource("1_ybybf")]
-duration = 14.0
+duration = 7.0
+burst_damage = 7
 laser = false
 burst_modifiers = {
 "ang_accel": 1.0,
@@ -15,9 +16,9 @@ burst_modifiers = {
 "cooldown_length": 0.0,
 "lin_accel": 2.0,
 "lin_speed": 2.0,
-"regeneration": 5.0
+"regeneration": 1.0
 }
 
 [node name="CollisionShape2D" parent="AreaDetector" index="0"]
-scale = Vector2(11.1244, -13.4911)
+scale = Vector2(37.1872, -38.1123)
 shape = SubResource("CircleShape2D_ybybf")

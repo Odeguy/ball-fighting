@@ -50,6 +50,7 @@ signal clash
 	"ang_speed": 1.0,
 	"ang_accel": 1.0
 }
+@export var scale_on_hit: bool
 signal summon(summon_cut_in_image, summon_cut_in_voice_line, summoner, summoned, team)
 @onready var max_health: float = float(health)
 @onready var counter: int = 0
@@ -191,6 +192,7 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 		health -= damage
 		hit_limit = 0
 		opp.damage_effect(damage)
+		if scale_on_hit: scaling(0)
 		opp.record_hit(damage)
 		opp.recalc_avg_dmg()
 		if health <= 0:
