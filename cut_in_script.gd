@@ -50,7 +50,7 @@ func _ready() -> void:
 	$AudioStreamPlayer2D.play()
 	tween.set_parallel(false)
 	tween.tween_property($Label, "global_position:x", label_diff * 40, 100)
-	await $AudioStreamPlayer2D.finished
+	if voice_line != null: await $AudioStreamPlayer2D.finished
 	done.emit()
 	self.hide()
 	self.queue_free()

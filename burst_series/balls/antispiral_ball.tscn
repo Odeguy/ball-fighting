@@ -1,0 +1,102 @@
+[gd_scene load_steps=13 format=3 uid="uid://deaqdcbsdk0dh"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_yvqvp"]
+[ext_resource type="Texture2D" uid="uid://bln0bprpfap8b" path="res://burst_series/cut_in_components/images/m4lja1ve7eb61_gif.png" id="2_k6jcf"]
+[ext_resource type="AudioStream" uid="uid://b2hrp4ppullr3" path="res://burst_series/cut_in_components/voice_lines/antispiral_gigadrillbreak.wav" id="3_5e8a4"]
+[ext_resource type="PackedScene" uid="uid://c8tw117u1m4ll" path="res://burst_series/bursts/antispiral_burst.tscn" id="4_r8l6l"]
+[ext_resource type="AudioStream" uid="uid://ddd8a20nmn364" path="res://sounds/SE_BombEnergy.wav" id="5_k6jcf"]
+[ext_resource type="Texture2D" uid="uid://dba201geyghwy" path="res://particles/spotlight_5.png" id="6_k6jcf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_diu0i"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8wfgu"]
+resource_local_to_scene = true
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wo3ve"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_5e8a4"]
+offsets = PackedFloat32Array(0, 0.575, 1)
+colors = PackedColorArray(0.803922, 0.698039, 0.976471, 1, 0.447059, 0.356863, 0.960784, 1, 0.258824, 0.156863, 0.960784, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_k6jcf"]
+gradient = SubResource("Gradient_5e8a4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bnvfs"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 99.65
+radial_velocity_min = 137.5
+radial_velocity_max = 287.5
+gravity = Vector3(0, 0, 0)
+scale_min = 0.02
+scale_max = 0.02
+color = Color(0.803922, 0.698039, 0.976471, 1)
+color_ramp = SubResource("GradientTexture1D_k6jcf")
+
+[node name="antispiral_ball" instance=ExtResource("1_yvqvp")]
+burst_name = "Anti Spiral: Giga Drill Breaker"
+cut_in_image = ExtResource("2_k6jcf")
+cut_in_voice_line = ExtResource("3_5e8a4")
+burst_scene = ExtResource("4_r8l6l")
+burst_limit = 265
+border_color = Color(1, 1, 1, 1)
+radius = 45
+border_width = 5
+lin_accel = 5.0
+ang_accel = 1.0
+lin_speed = 5.0
+ang_speed = 3.0
+health = 400
+regeneration = 5.0
+attack = 23.0
+attack_sound = ExtResource("5_k6jcf")
+scaling_vars = {
+"ang_accel": 1.0,
+"ang_speed": 1.0,
+"attack": 1.1,
+"lin_accel": 1.0,
+"lin_speed": 1.0,
+"regeneration": 1.2
+}
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_diu0i")
+
+[node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+offset_left = -62.0
+offset_top = -215.0
+offset_right = 150.0
+offset_bottom = 61.0
+scale = Vector2(0.598128, 0.598128)
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="4"]
+position = Vector2(-30, -101)
+rotation = 1.53168
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_8wfgu")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_diu0i")
+
+[node name="BurstGlow" parent="RigidBody2D" index="6"]
+visible = false
+
+[node name="AntiSpiralGlow" type="GPUParticles2D" parent="RigidBody2D" index="7"]
+z_index = -1
+material = SubResource("CanvasItemMaterial_wo3ve")
+position = Vector2(2, 0)
+amount = 4000
+texture = ExtResource("6_k6jcf")
+lifetime = 1.25
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_bnvfs")

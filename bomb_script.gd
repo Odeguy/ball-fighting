@@ -29,10 +29,14 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
 	if vulnerable:
 		if enemyCollider is Weapon && opp.team != self.team|| opp is Ball && !opp.weapon  && selfCollider is not Weapon && opp.get_parent() != self && opp.get_parent() != self.get_parent() && opp.team != self.team: 
-			health -= opp.attack + opp.speed_bonus
-			damage_effect(opp.attack + opp.speed_bonus)
-			opp.hits += 1
-			opp.total_damage += opp.attack + opp.speed_bonus
+			var damage: int = int(opp.attack + opp.speed_bonus)
+			if opp.black_flash && randf() <= opp.flash_chance:
+				damage *= 2
+				await opp.black_flash_attack()
+			health -= damage
+			hit_limit = 0
+			opp.damage_effect(damage)
+			opp.record_hit(damage)
 			opp.recalc_avg_dmg()
 			if health <= 0:
 				$RigidBody2D.linear_velocity = Vector2(0, 0)

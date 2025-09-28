@@ -1,0 +1,89 @@
+[gd_scene load_steps=13 format=3 uid="uid://xgwpnjtfeire"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_hs8qs"]
+[ext_resource type="Texture2D" uid="uid://dytxtge482vsp" path="res://burst_series/cut_in_components/images/hq720_jpg(1).png" id="2_wybpg"]
+[ext_resource type="AudioStream" uid="uid://qvo4ognx7ufs" path="res://burst_series/cut_in_components/voice_lines/ScreenRecording_09-27-2025 19-05-18_1.wav" id="3_1ortq"]
+[ext_resource type="PackedScene" uid="uid://bkjx34dwnnq27" path="res://burst_series/bursts/jiren_burst.tscn" id="4_cwhu7"]
+[ext_resource type="AudioStream" uid="uid://bayl1epsx3o76" path="res://sounds/SE006.wav" id="5_56n2w"]
+[ext_resource type="Texture2D" uid="uid://dba201geyghwy" path="res://particles/spotlight_5.png" id="6_t8hc7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wybpg"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1ortq"]
+resource_local_to_scene = true
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_750ou"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_fdo02"]
+offsets = PackedFloat32Array(0.318182, 0.347107, 0.454545, 0.933884, 0.991736)
+colors = PackedColorArray(0.435308, 0, 0.110842, 1, 1, 1, 1, 1, 0.425211, 0.0328875, 0.168805, 1, 0.724619, 0, 0.178959, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_k6jcf"]
+gradient = SubResource("Gradient_fdo02")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oqgqy"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 99.65
+radial_velocity_min = 137.5
+radial_velocity_max = 287.5
+gravity = Vector3(0, 0, 0)
+scale_min = 0.02
+scale_max = 0.02
+color = Color(0.803922, 0.698039, 0.976471, 1)
+color_ramp = SubResource("GradientTexture1D_k6jcf")
+
+[node name="jiren_ball" instance=ExtResource("1_hs8qs")]
+burst_name = "Might makes right and might alone! Without strength, we have nothing!! "
+cut_in_image = ExtResource("2_wybpg")
+cut_in_voice_line = ExtResource("3_1ortq")
+burst_scene = ExtResource("4_cwhu7")
+burst_limit = 315
+color = Color(1, 0.898039, 0.941176, 1)
+border_color = Color(0.996078, 0.0627451, 0.12549, 1)
+health_color = Color(0.882353, 0.478431, 0.686275, 1)
+radius = 55
+border_width = 10
+lin_accel = 3.0
+lin_speed = 5.0
+health = 500
+regeneration = 1.0
+attack = 29.0
+field_type = "attack_field"
+attack_sound = ExtResource("5_56n2w")
+scaling_vars = {
+"ang_accel": 1.0,
+"ang_speed": 1.0,
+"attack": 1.05,
+"lin_accel": 1.0,
+"lin_speed": 1.0,
+"regeneration": 1.0
+}
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_wybpg")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_1ortq")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_wybpg")
+
+[node name="AntiSpiralGlow" type="GPUParticles2D" parent="RigidBody2D" index="7"]
+z_index = -1
+material = SubResource("CanvasItemMaterial_750ou")
+position = Vector2(2, 0)
+amount = 4000
+texture = ExtResource("6_t8hc7")
+lifetime = 1.25
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_oqgqy")

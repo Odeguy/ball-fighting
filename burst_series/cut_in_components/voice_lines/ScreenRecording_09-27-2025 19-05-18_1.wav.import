@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://qvo4ognx7ufs"
+path="res://.godot/imported/ScreenRecording_09-27-2025 19-05-18_1.wav-6274626ae510fb59662ef27e4f92096e.sample"
+
+[deps]
+
+source_file="res://burst_series/cut_in_components/voice_lines/ScreenRecording_09-27-2025 19-05-18_1.wav"
+dest_files=["res://.godot/imported/ScreenRecording_09-27-2025 19-05-18_1.wav-6274626ae510fb59662ef27e4f92096e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

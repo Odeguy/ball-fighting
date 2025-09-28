@@ -1,0 +1,98 @@
+[gd_scene load_steps=16 format=3 uid="uid://b8xok1b40gc4t"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_tmxou"]
+[ext_resource type="Texture2D" uid="uid://df0klx2e8hkh2" path="res://burst_series/cut_in_components/images/this-is-the-best-goku-has-ever-looked-in-my-opinion-moro-v0-tpep6sd7xbwa1_jpg.png" id="2_l5wsb"]
+[ext_resource type="AudioStream" uid="uid://dls4pwgo2hkv0" path="res://burst_series/cut_in_components/voice_lines/Goku (Super) Ultra Instinct -Sign-_69.wav" id="3_714to"]
+[ext_resource type="AudioStream" uid="uid://bagqclcokcgmp" path="res://sounds/dragon-ball-z-heavy-punch.mp3" id="4_714to"]
+[ext_resource type="PackedScene" uid="uid://i5thpsk4nnpc" path="res://burst_series/bursts/trueuigoku_burst.tscn" id="4_inflo"]
+[ext_resource type="Shader" uid="uid://b6feltswonh0h" path="res://shaders/pulse.gdshader" id="5_2r20h"]
+[ext_resource type="Texture2D" uid="uid://dba201geyghwy" path="res://particles/spotlight_5.png" id="6_p52ps"]
+[ext_resource type="AudioStream" uid="uid://djenups4e0ead" path="res://sounds/teleport-dbz-sound-effect-made-with-Voicemod.mp3" id="7_183si"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5qtt"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l5wsb"]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p52ps"]
+shader = ExtResource("5_2r20h")
+shader_parameter/glow_color = Color(0.433289, 0.585598, 0.783799, 0.45098)
+shader_parameter/intensity = 1.2
+shader_parameter/spread = 2.0
+shader_parameter/pulse_speed = 10.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_inflo"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_183si"]
+offsets = PackedFloat32Array(0, 0.575, 1)
+colors = PackedColorArray(0.803922, 0.698039, 0.976471, 1, 0.447059, 0.929412, 0.960784, 1, 9.91493e-06, 0.683041, 0.800223, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_183si"]
+gradient = SubResource("Gradient_183si")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hhul4"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 99.65
+radial_velocity_min = 137.5
+radial_velocity_max = 287.5
+gravity = Vector3(0, 0, 0)
+scale_min = 0.02
+scale_max = 0.02
+color = Color(0.803922, 0.698039, 0.976471, 1)
+color_ramp = SubResource("GradientTexture1D_183si")
+
+[node name="trueuigoku_ball" instance=ExtResource("1_tmxou")]
+burst_name = "Perfected Ultra Instinct"
+cut_in_image = ExtResource("2_l5wsb")
+cut_in_voice_line = ExtResource("3_714to")
+burst_scene = ExtResource("4_inflo")
+burst_limit = 275
+color = Color(0.101961, 0.239216, 0.423529, 1)
+border_color = Color(1, 0.529412, 0.117647, 1)
+health_color = Color(1, 0.529412, 0.117647, 1)
+radius = 40
+lin_accel = 10.0
+lin_speed = 7.0
+health = 425
+attack = 28.0
+trail = true
+trail_freq = 2
+field_type = "dodge_field"
+attack_sound = ExtResource("4_714to")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_m5qtt")
+
+[node name="Sensory Field" parent="RigidBody2D" index="5"]
+visible = true
+field_multiply = 2.0
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_l5wsb")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+material = SubResource("ShaderMaterial_p52ps")
+theme_override_styles/panel = SubResource("StyleBoxFlat_m5qtt")
+
+[node name="AudioStreamPlayer2D" parent="RigidBody2D/Sensory Field" index="2"]
+stream = ExtResource("7_183si")
+
+[node name="AntiSpiralGlow" type="GPUParticles2D" parent="RigidBody2D" index="7"]
+z_index = -1
+material = SubResource("CanvasItemMaterial_inflo")
+position = Vector2(2, 0)
+amount = 4000
+texture = ExtResource("6_p52ps")
+lifetime = 1.25
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_hhul4")

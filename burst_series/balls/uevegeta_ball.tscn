@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://bmenasdrk78eo"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_7qry6"]
+[ext_resource type="Texture2D" uid="uid://c7dcwqsp0tshk" path="res://burst_series/cut_in_components/images/dragon-ball-super-vegeta-ultra-ego-10712_jpg.png" id="2_1t18j"]
+[ext_resource type="PackedScene" uid="uid://dd6p6ua1kwsrx" path="res://burst_series/bursts/uevegeta_burst.tscn" id="2_wmwny"]
+[ext_resource type="AudioStream" uid="uid://de87ood0wfa76" path="res://burst_series/cut_in_components/voice_lines/Vegeta (Super) Super Saiyan God Super Saiyan_217.wav" id="3_sfrse"]
+[ext_resource type="AudioStream" uid="uid://delqkmiyh7o53" path="res://sounds/Hit_KickC.wav" id="5_k05sx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wmwny"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1t18j"]
+resource_local_to_scene = true
+
+[node name="uevegeta_ball" instance=ExtResource("1_7qry6")]
+burst_name = "Gamma Burst Flash"
+cut_in_image = ExtResource("2_1t18j")
+cut_in_voice_line = ExtResource("3_sfrse")
+burst_scene = ExtResource("2_wmwny")
+burst_limit = 275
+color = Color(0.129412, 0.133333, 0.294118, 1)
+border_color = Color(0.372549, 0.105882, 0.321569, 1)
+health_color = Color(0.945098, 0.917647, 0.929412, 1)
+radius = 40
+border_width = 10
+lin_accel = 9.0
+lin_speed = 5.0
+health = 400
+regeneration = 8.0
+attack = 8.0
+field_type = "attack_field"
+attack_sound = ExtResource("5_k05sx")
+scaling_vars = {
+"ang_accel": 1.0,
+"ang_speed": 1.0,
+"attack": 1.4,
+"lin_accel": 1.0,
+"lin_speed": 1.0,
+"regeneration": 1.4
+}
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_wmwny")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_1t18j")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_wmwny")

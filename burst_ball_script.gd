@@ -69,17 +69,20 @@ func burst_attack() -> void:
 	$RigidBody2D/Weapon.add_child(scene)
 	await scene.enemy_detected
 	await cut_in()
-	$RigidBody2D.lock_rotation = true
+	reset_burst_meter()
 	var ls = lin_speed
 	var la = lin_accel
-	lin_speed = 1
-	lin_accel = 1
+	if scene.laser: 
+		$RigidBody2D.lock_rotation = true
+		lin_speed = 1
+		lin_accel = 1
 	scene.blast()
 	await scene.done
 	$RigidBody2D.lock_rotation = false
 	lin_speed = ls
 	lin_accel = la
 	reset_burst_meter()
+	cut_in_voice_line = null
 
 func moving_burst_label() -> void:
 	var scroller: ScrollContainer = $AvgDmg/ScrollContainer

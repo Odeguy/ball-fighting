@@ -1,0 +1,175 @@
+[gd_scene load_steps=17 format=3 uid="uid://qasva6r0tgg4"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_hp1p3"]
+[ext_resource type="AudioStream" uid="uid://bfhln5yt50qto" path="res://sounds/SE004.wav" id="2_hp1p3"]
+[ext_resource type="Script" uid="uid://dtvjcxqy0almb" path="res://floater_script.gd" id="3_s6m2x"]
+[ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="4_gjw1k"]
+[ext_resource type="Texture2D" uid="uid://cvbdgwm6anmcw" path="res://weapon_images/Screenshot 2025-09-26 215500.png" id="5_hp1p3"]
+[ext_resource type="Texture2D" uid="uid://dba201geyghwy" path="res://particles/spotlight_5.png" id="6_wg7df"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ea8hu"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ivewg"]
+resource_local_to_scene = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vnkg3"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vnkg3"]
+friction = 0.0
+bounce = 0.2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g6ybe"]
+radius = 56.0089
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xqtmv"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_s6m2x"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_gjw1k"]
+offsets = PackedFloat32Array(0, 0.575, 1)
+colors = PackedColorArray(0.803922, 0.698039, 0.976471, 1, 0.447059, 0.356863, 0.960784, 1, 0.258824, 0.156863, 0.960784, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_r8l6l"]
+gradient = SubResource("Gradient_gjw1k")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t4n57"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 99.65
+radial_velocity_min = -30.2
+radial_velocity_max = 119.8
+gravity = Vector3(0, 0, 0)
+scale_min = 0.02
+scale_max = 0.02
+color = Color(0.803922, 0.698039, 0.976471, 1)
+color_ramp = SubResource("GradientTexture1D_r8l6l")
+
+[node name="evileye_ball" instance=ExtResource("1_hp1p3")]
+color = Color(1, 1, 1, 1)
+health_color = Color(0.568877, 0.00165377, 0.758925, 1)
+radius = 50
+border_width = 20
+lin_accel = 5.0
+lin_speed = 0.7
+health = 380
+attack = 26.0
+field_type = "attack_field"
+attack_sound = ExtResource("2_hp1p3")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_ea8hu")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_ivewg")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_vnkg3")
+
+[node name="Ball" type="Node2D" parent="." index="2"]
+position = Vector2(24, 104)
+scale = Vector2(0.593196, 0.517725)
+script = ExtResource("3_s6m2x")
+metadata/_custom_type_script = "uid://843d781qmk57"
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Ball" index="0"]
+collision_layer = 0
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_vnkg3")
+center_of_mass_mode = 1
+contact_monitor = true
+max_contacts_reported = 2
+linear_damp_mode = 1
+angular_damp_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball/RigidBody2D" index="0"]
+position = Vector2(-23.601, -23.1783)
+scale = Vector2(0.517498, 0.517498)
+shape = SubResource("CircleShape2D_g6ybe")
+
+[node name="Face" type="Panel" parent="Ball/RigidBody2D" index="1"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xqtmv")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Ball/RigidBody2D" index="2"]
+visible = false
+offset_left = -40.0
+offset_top = -32.0
+offset_right = 40.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Weapon" type="Node2D" parent="Ball/RigidBody2D" index="3"]
+visible = false
+z_index = 7
+
+[node name="TextureRect" type="TextureRect" parent="Ball/RigidBody2D/Weapon" index="0"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WeaponShape2D" type="CollisionShape2D" parent="Ball/RigidBody2D" index="4"]
+visible = false
+script = ExtResource("4_gjw1k")
+
+[node name="TextureRect" type="TextureRect" parent="Ball/RigidBody2D" index="5"]
+offset_left = -53.9451
+offset_top = -54.0828
+offset_right = 1146.05
+offset_bottom = 1145.92
+scale = Vector2(0.0505447, 0.0505447)
+texture = ExtResource("5_hp1p3")
+
+[node name="AntiSpiralGlow" type="GPUParticles2D" parent="Ball/RigidBody2D" index="6"]
+z_index = -1
+material = SubResource("CanvasItemMaterial_s6m2x")
+position = Vector2(-20.2294, -25.1099)
+scale = Vector2(1, 1)
+amount = 1000
+texture = ExtResource("6_wg7df")
+lifetime = 0.01
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_t4n57")
+
+[connection signal="body_shape_entered" from="Ball/RigidBody2D" to="Ball" method="_on_rigid_body_2d_body_shape_entered"]

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dls4pwgo2hkv0"
+path="res://.godot/imported/Goku (Super) Ultra Instinct -Sign-_69.wav-8c0c38ff534a52dca92a605aa472b706.sample"
+
+[deps]
+
+source_file="res://burst_series/cut_in_components/voice_lines/Goku (Super) Ultra Instinct -Sign-_69.wav"
+dest_files=["res://.godot/imported/Goku (Super) Ultra Instinct -Sign-_69.wav-8c0c38ff534a52dca92a605aa472b706.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=3 uid="uid://dd6p6ua1kwsrx"]
+
+[ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst_series/burst.tscn" id="1_vnq5t"]
+[ext_resource type="AudioStream" uid="uid://bscp8jfcxqdcx" path="res://sounds/Cmn_TwinkleShort.wav" id="2_pxn4v"]
+[ext_resource type="Texture2D" uid="uid://dba201geyghwy" path="res://particles/spotlight_5.png" id="3_ih32g"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ih32g"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ih32g"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_337gc"]
+offsets = PackedFloat32Array(0, 0.487603, 1)
+colors = PackedColorArray(0.921569, 0.984314, 0, 1, 0.821134, 0.85242, 0.899416, 1, 2.5028e-06, 0.978607, 0.985727, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_m36sr"]
+gradient = SubResource("Gradient_337gc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vv1ts"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 140.1
+direction = Vector3(0, -11, 0)
+spread = 0.0
+initial_velocity_min = 844.72
+initial_velocity_max = 1000.0
+gravity = Vector3(0, 98, 0)
+scale_min = 0.1
+scale_max = 0.1
+color_ramp = SubResource("GradientTexture1D_m36sr")
+
+[node name="uevegeta_burst" instance=ExtResource("1_vnq5t")]
+sound_effect = ExtResource("2_pxn4v")
+duration = 4.0
+burst_damage = 9
+
+[node name="AreaDetector" parent="." index="0"]
+position = Vector2(8, 104)
+scale = Vector2(0.839209, 0.317197)
+
+[node name="CollisionShape2D" parent="AreaDetector" index="0"]
+position = Vector2(-8, -1056)
+scale = Vector2(23.5903, 71.0447)
+shape = SubResource("CapsuleShape2D_ih32g")
+
+[node name="Particles" parent="." index="1"]
+material = SubResource("CanvasItemMaterial_ih32g")
+amount = 1600
+texture = ExtResource("3_ih32g")
+lifetime = 0.43
+process_material = SubResource("ParticleProcessMaterial_vv1ts")

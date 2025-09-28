@@ -40,11 +40,12 @@ color = Color(0.101961, 0.239216, 0.423529, 1)
 border_color = Color(1, 0.529412, 0.117647, 1)
 health_color = Color(1, 0.529412, 0.117647, 1)
 radius = 40
-lin_accel = 10
-lin_speed = 6
+lin_accel = 10.0
+lin_speed = 16.0
 health = 425
-attack = 20
+attack = 27.0
 trail = true
+trail_freq = 2
 field_type = "dodge_field"
 attack_sound = ExtResource("2_m65ug")
 

@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://4onvdcomif7n"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_d2cl4"]
+[ext_resource type="PackedScene" uid="uid://bymrparl8xxku" path="res://burst_series/bursts/okarun_burst.tscn" id="2_uddb2"]
+[ext_resource type="Texture2D" uid="uid://dkhxsw58dmdq2" path="res://burst_series/cut_in_components/images/Screenshot 2025-09-26 at 16-50-15 Watch Dan Da Dan Season 2 Anime Online AnimeKAI.png" id="2_w3nxk"]
+[ext_resource type="AudioStream" uid="uid://delqkmiyh7o53" path="res://sounds/Hit_KickC.wav" id="3_w3nxk"]
+[ext_resource type="AudioStream" uid="uid://8lshltlhpuvp" path="res://burst_series/cut_in_components/voice_lines/honkidashizeV2.wav" id="3_wqs5s"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bm3nf"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uddb2"]
+resource_local_to_scene = true
+
+[node name="okarun_ball" instance=ExtResource("1_d2cl4")]
+burst_name = "All-Out!"
+cut_in_image = ExtResource("2_w3nxk")
+cut_in_voice_line = ExtResource("3_wqs5s")
+burst_scene = ExtResource("2_uddb2")
+burst_limit = 132
+border_color = Color(0.85098, 0.00392157, 0, 1)
+health_color = Color(0.921569, 0.878431, 0.752941, 1)
+radius = 40
+border_width = 10
+lin_accel = 6.0
+lin_speed = 6.0
+health = 460
+regeneration = 6.0
+attack = 6.6
+trail = true
+center_force = true
+field_type = "attack_field"
+attack_sound = ExtResource("3_w3nxk")
+scaling_vars = {
+"ang_accel": 1.0,
+"ang_speed": 1.0,
+"attack": 1.0,
+"lin_accel": 1.05,
+"lin_speed": 1.2,
+"regeneration": 0.8
+}
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_bm3nf")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_uddb2")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_bm3nf")

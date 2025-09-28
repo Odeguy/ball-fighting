@@ -25,7 +25,7 @@ movie_writer/movie_file="C:/Users/lereo/OneDrive/Documents/ball-fighting/video/v
 
 [physics]
 
-common/physics_ticks_per_second=360
+common/physics_ticks_per_second=1000
 
 [rendering]
 

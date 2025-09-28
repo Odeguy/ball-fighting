@@ -76,16 +76,33 @@ func damage_effect(num: int):
 		await get_tree().process_frame
 	effect.queue_free()
 
+func scaling(counter: int) -> void:
+	if counter % 600 != 0: return
+	attack *= scaling_vars["attack"]
+	lin_speed *= scaling_vars["lin_speed"]
+	lin_accel *= scaling_vars["lin_accel"]
+	ang_speed *= scaling_vars["ang_speed"]
+	ang_accel *= scaling_vars["ang_accel"]
+	regeneration *= scaling_vars["regeneration"]
+	round_stats()
+	for i in range(0, scaling_vars.size()):
+		var key = scaling_vars.keys()[i]
+			
+
 func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	var opp = body.get_parent()
 	var enemyCollider = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
 	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
 	if vulnerable:
 		if enemyCollider is Weapon && opp.team != self.team|| opp is Ball && !opp.weapon  && selfCollider is not Weapon && opp.get_parent() != self && opp.get_parent() != self.get_parent() && opp.team != self.team: 
-			health -= opp.attack + opp.speed_bonus
-			opp.damage_effect(opp.attack + opp.speed_bonus)
-			opp.hits += 1
-			opp.total_damage += opp.attack + opp.speed_bonus
+			var damage: int = int(opp.attack + opp.speed_bonus)
+			if opp.black_flash && randf() <= opp.flash_chance:
+				damage *= 2
+				await opp.black_flash_attack()
+			health -= damage
+			hit_limit = 0
+			opp.damage_effect(damage)
+			opp.record_hit(damage)
 			opp.recalc_avg_dmg()
 			if health <= 0:
 				$RigidBody2D.linear_velocity = Vector2(0, 0)

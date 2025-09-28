@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_4nft0"]
 [ext_resource type="Texture2D" uid="uid://ddn3exatyadci" path="res://burst_series/cut_in_components/images/985.png" id="2_4746b"]
-[ext_resource type="AudioStream" uid="uid://si73n1bj8a0y" path="res://burst_series/cut_in_components/voice_lines/my-drill-is-the-drill-that-creates-the-heaven.mp3" id="3_ijihg"]
+[ext_resource type="AudioStream" uid="uid://4ru8vjdsh6mc" path="res://burst_series/cut_in_components/voice_lines/simongigadrillbreak.wav" id="3_4746b"]
 [ext_resource type="PackedScene" uid="uid://cc8ywqtda3ov1" path="res://burst_series/bursts/simon_burst.tscn" id="4_5ywfs"]
 [ext_resource type="AudioStream" uid="uid://dtt2p0m4l7qsx" path="res://sounds/SE202_BladeC.wav" id="5_8awhr"]
 [ext_resource type="Texture2D" uid="uid://x3y1q8vlon86" path="res://weapon_images/latest(2).png" id="6_npiut"]
@@ -26,28 +26,30 @@ resource_local_to_scene = true
 [node name="simon_ball" instance=ExtResource("1_4nft0")]
 burst_name = "Super Galaxy Tengen Toppa Gurren Lagann: Giga Drill Breaker"
 cut_in_image = ExtResource("2_4746b")
-cut_in_voice_line = ExtResource("3_ijihg")
+cut_in_voice_line = ExtResource("3_4746b")
 burst_scene = ExtResource("4_5ywfs")
-burst_limit = 265
+burst_limit = 235
 color = Color(0.152722, 0.315048, 0.470144, 1)
 border_color = Color(0.531702, 0.182767, 0.255094, 1)
 health_color = Color(0.862745, 0.839216, 0.866667, 1)
 radius = 45
 border_width = 15
-lin_accel = 2
-lin_speed = 3
+lin_accel = 3.0
+ang_accel = 2.0
+lin_speed = 3.0
+ang_speed = 3.0
 health = 400
-regeneration = 2
-attack = 11
+regeneration = 5.0
+attack = 11.0
 weapon = true
 attack_sound = ExtResource("5_8awhr")
 scaling_vars = {
 "ang_accel": 1.0,
 "ang_speed": 1.0,
-"attack": 1.2,
+"attack": 1.4,
 "lin_accel": 1.0,
-"lin_speed": 1.0,
-"regeneration": 1.0
+"lin_speed": 1.1,
+"regeneration": 1.3
 }
 
 [node name="Face" parent="RigidBody2D" index="1"]

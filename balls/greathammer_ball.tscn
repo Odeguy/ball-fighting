@@ -31,8 +31,8 @@ corner_radius_bottom_left = 999
 [node name="ball" instance=ExtResource("1_qdpdn")]
 color = Color(0.345098, 0.545098, 0.223529, 1)
 radius = 40
-lin_accel = 2
-lin_speed = 2
+lin_accel = 2.0
+lin_speed = 2.0
 health = 330
 attack = 23
 weapon = true

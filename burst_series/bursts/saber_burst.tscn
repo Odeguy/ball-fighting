@@ -27,7 +27,7 @@ color = Color(1, 1, 0.32549, 1)
 rotation = -1.04353
 sound_effect = ExtResource("2_mjgkb")
 duration = 6.0
-burst_damage = 2
+burst_damage = 6
 
 [node name="CollisionShape2D" parent="AreaDetector" index="0"]
 position = Vector2(0, -253.5)

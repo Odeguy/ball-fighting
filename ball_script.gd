@@ -6,21 +6,23 @@ class_name Ball
 @export var health_color: Color
 @export var radius: int
 @export var border_width: int
-@export var lin_accel: int
-@export var ang_accel: int
-@export var lin_speed: int
-@export var ang_speed: int
+@export var lin_accel: float
+@export var ang_accel: float
+@export var lin_speed: float
+@export var ang_speed: float
 @export var health: int
-@export var regeneration: int
-@export var attack: int
+@export var regeneration: float
+@export var attack: float
 @export var weapon: bool
 var speed_bonus: float
 @export var trail: bool
+@export var trail_freq: int = 1
 @export var weapon_trail: bool
 var hits: int
 var total_damage: int
 @export var center_force: bool
 @export_enum("time_field", "attack_field", "dodge_field") var field_type: String
+@export var cooldown_length: int = 2
 @export var time_factor: int
 @export var black_flash: bool
 @export var flash_chance: float
@@ -51,6 +53,7 @@ signal clash
 signal summon(summon_cut_in_image, summon_cut_in_voice_line, summoner, summoned, team)
 @onready var max_health: float = float(health)
 @onready var counter: int = 0
+@onready var physics_counter: int = 0
 signal death
 
 
@@ -90,6 +93,7 @@ func _process(delta: float) -> void:
 	scaling(counter)
 	
 func _physics_process(delta: float) -> void:
+	physics_counter += 1
 	if $RigidBody2D.linear_velocity.length() < lin_speed * 500: 
 		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * lin_accel / 2 + Vector2(1, 1))
 	else: 
@@ -141,6 +145,7 @@ func record_hit(damage: int) -> void:
 		total_damage += damage
 
 func leave_trail():
+	if physics_counter % trail_freq != 0: return
 	var effect = $RigidBody2D/Face.duplicate()
 	effect.z_index = -1
 	effect.position = $RigidBody2D.position
@@ -179,7 +184,7 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 			get_tree().paused = false
 	#after this point the shape indexes and collider variables get messed up for some reason that i'm not looking into right now
 	if enemyCollider is Weapon && selfCollider is not Weapon && opp.team != self.team && hit_limit >= 0.2 || opp is Ball && !opp.weapon  && selfCollider is not Weapon and opp.get_parent() != self && opp.team != self.team && hit_limit >= 0.2: 
-		var damage: int = opp.attack + opp.speed_bonus
+		var damage: int = int(opp.attack + opp.speed_bonus)
 		if opp.black_flash && randf() <= opp.flash_chance:
 			damage *= 2
 			await opp.black_flash_attack()
@@ -238,7 +243,7 @@ func _on_sensory_field_body_shape_entered(body_rid: RID, body: Node2D, body_shap
 				$RigidBody2D.apply_force((body.global_position - $RigidBody2D.global_position) * 4000)
 				$RigidBody2D.linear_damp = ProjectSettings.get_setting("physics/2d/default_linear_damp")
 				$RigidBody2D.angular_damp = ProjectSettings.get_setting("physics/2d/default_angular_damp")
-				cooldown = 2
+				cooldown = cooldown_length
 	if cooldown > 0: cooldown -= 1
 					
 		
@@ -249,7 +254,7 @@ func _on_sensory_field_body_shape_exited(body_rid: RID, body: Node2D, body_shape
 		var opp = body.get_parent()
 		body.linear_damp = 0
 		body.angular_damp = 0
-		if opp.lin_accel > 0: body.linear_velocity = Vector2(randi() % (opp.lin_accel * 2) - opp.lin_accel, randi() % (opp.lin_accel * 2) - opp.lin_accel) * 50
+		if opp.lin_accel > 0: body.linear_velocity = Vector2(randi() % int(opp.lin_accel * 2) - opp.lin_accel, randi() % int(opp.lin_accel * 2) - opp.lin_accel) * 50
 		
 func black_flash_attack() -> int:
 	var scene: Black_Flash = black_flash_scene.instantiate()
@@ -265,7 +270,8 @@ func try_summon() -> void:
 		summon.emit(summon_cut_in_image, summon_cut_in_voice_line, self, summoned, team)
 
 func regenerate(counter: int) -> void:
-	if counter % 50 == 0 && health < max_health: health += regeneration
+	if counter % 20 == 0 && health < max_health: health += regeneration
+	if health > max_health: health = max_health
 
 func scaling(counter: int) -> void:
 	if counter % 600 != 0: return
@@ -275,6 +281,7 @@ func scaling(counter: int) -> void:
 	ang_speed *= scaling_vars["ang_speed"]
 	ang_accel *= scaling_vars["ang_accel"]
 	regeneration *= scaling_vars["regeneration"]
+	round_stats()
 	$AvgDmg/Scaling.text = ""
 	for i in range(0, scaling_vars.size()):
 		var key = scaling_vars.keys()[i]
@@ -290,3 +297,11 @@ func get_stat(stat: String) -> Variant:
 		"ang_accel": return ang_accel
 		"regeneration": return regeneration
 	return "No Matches"
+
+func round_stats() -> void:
+	attack = snappedf(attack, 0.01)
+	lin_speed = snappedf(lin_speed, 0.01)
+	lin_accel = snappedf(lin_accel, 0.01)
+	ang_speed = snappedf(ang_speed, 0.01)
+	ang_accel = snappedf(ang_accel, 0.01)
+	regeneration = snappedf(regeneration, 0.01)

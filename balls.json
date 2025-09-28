@@ -13,7 +13,8 @@
 		"UI Goku": "res://balls/ui_goku_ball.tscn",
 		"The Enigma": "res://balls/the_enigma_ball.tscn",
 		"Mahoraga": "res://balls/mahoraga_ball.tscn",
-		"Kiyomaro": "res://balls/kiyomaro_ball.tscn"
+		"Kiyomaro": "res://balls/kiyomaro_ball.tscn",
+		"Evil Eye": "res://balls/evileye_ball.tscn"
 	},
 	"burst_series": {
 		"Saber": "res://burst_series/balls/saber_ball.tscn",
@@ -22,6 +23,11 @@
 		"Gojo": "res://burst_series/balls/gojo_ball.tscn",
 		"Sukuna": "res://burst_series/balls/sukuna_ball.tscn",
 		"Simon": "res://burst_series/balls/simon_ball.tscn",
-		"Gash Bell": "res://burst_series/balls/gashbell_ball.tscn"
+		"Gash Bell": "res://burst_series/balls/gashbell_ball.tscn",
+		"Anti Spiral": "res://burst_series/balls/antispiral_ball.tscn",
+		"Okarun": "res://burst_series/balls/okarun_ball.tscn",
+		"Jiren": "res://burst_series/balls/jiren_ball.tscn",
+		"True UI Goku": "res://burst_series/balls/trueuigoku_ball.tscn",
+		"UE Vegeta": "res://burst_series/balls/uevegeta_ball.tscn"
 	}
 }
