@@ -18,7 +18,7 @@ config/features=PackedStringArray("4.4", "Mobile")
 
 window/size/viewport_width=832
 window/size/viewport_height=1276
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 window/stretch/aspect="ignore"
 
 [editor]
