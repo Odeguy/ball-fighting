@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6excpd7fdvqf"
-path="res://.godot/imported/ball-fighting.apple-touch-icon.png-040dad45861b8a43a6388afc6df4cf49.ctex"
+uid="uid://4o50ormwaf58"
+path="res://.godot/imported/ball-fighting.apple-touch-icon.png-877cf997e095816e5fa620108aac2a6a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://export/ball-fighting.apple-touch-icon.png"
-dest_files=["res://.godot/imported/ball-fighting.apple-touch-icon.png-040dad45861b8a43a6388afc6df4cf49.ctex"]
+source_file="res://ball-fighting.apple-touch-icon.png"
+dest_files=["res://.godot/imported/ball-fighting.apple-touch-icon.png-877cf997e095816e5fa620108aac2a6a.ctex"]
 
 [params]
 

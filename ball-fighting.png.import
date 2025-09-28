@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://beob7d2yto6tl"
-path="res://.godot/imported/ball-fighting.png-538c9e1e7ee70502f281bf23aab15e67.ctex"
+uid="uid://usps15dh3gkt"
+path="res://.godot/imported/ball-fighting.png-e7e35c8ecfdac973a1d73bf333f8471e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://export/ball-fighting.png"
-dest_files=["res://.godot/imported/ball-fighting.png-538c9e1e7ee70502f281bf23aab15e67.ctex"]
+source_file="res://ball-fighting.png"
+dest_files=["res://.godot/imported/ball-fighting.png-e7e35c8ecfdac973a1d73bf333f8471e.ctex"]
 
 [params]
 
