@@ -7,7 +7,7 @@ class_name Burst
 @export var burst_damage: int
 signal enemy_detected
 signal done
-var opp: Ball
+var opps: Array[Ball]
 var user: Ball
 var initial_stats: Dictionary
 @export var laser: bool = true
@@ -37,8 +37,10 @@ func _ready() -> void:
 	$AudioStreamPlayer2D.stream = sound_effect
 	
 func _on_area_detector_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
-	if body.get_parent() is Ball && body.get_parent() != user && body.get_parent() is not Floater && body.get_parent() is not Bomb && body.get_parent().team != user.team: 
-		opp = body.get_parent()
+	if body.get_parent() is Ball && body.get_parent() != user && body.get_parent().team != user.team: 	
+		for b in $AreaDetector.get_overlapping_bodies():
+			if b.get_parent() is Ball && b.get_parent() != user && b.get_parent().team != user.team: 
+				opps.append(b.get_parent())
 		enemy_detected.emit()
 	
 func blast() -> void:
@@ -52,17 +54,19 @@ func blast() -> void:
 		if get_tree().paused: continue
 		if counter % 10 == 0: $AudioStreamPlayer2D.play()
 		duration -= 1.0 / 60.0
-		counter += burst_damage
-		if opp == null: break
-		if !$AreaDetector.overlaps_body(opp.get_body()): continue
-		if opp.health >= 0 && counter % 16 == 0: opp.health -= burst_damage
-		if opp.health < 0: opp.health = 0
-		if burst_damage != 0: opp.damage_effect(burst_damage)
-		ball.total_damage += 1
-		opp.recalc_avg_dmg()
-		if opp.health == 0:
-			opp.die()
-			break
+		counter += burst_damage 
+		if opps.is_empty(): break
+		for body in $AreaDetector.get_overlapping_bodies():
+			if body.get_parent() is Ball && body.get_parent() != user && body.get_parent().team != user.team:
+				if !$AreaDetector.overlaps_body(body): continue
+				var opp: Ball = body.get_parent()
+				if opp.health >= 0 && counter % 16 == 0: opp.health -= burst_damage
+				if opp.health < 0: opp.health = 0
+				if burst_damage != 0: opp.damage_effect(burst_damage)
+				ball.total_damage += 1
+				opp.recalc_avg_dmg()
+				if opp.health == 0:
+					opp.die()
 	reset_stats(ball)
 	done.emit()
 	self.hide()
@@ -94,5 +98,6 @@ func reset_stats(ball: Burst_Ball) -> void:
 	ball.lin_accel = initial_stats["lin_accel"]
 	ball.ang_speed = initial_stats["ang_speed"]
 	ball.ang_accel = initial_stats["ang_accel"]
+	ball.regeneration = initial_stats["regeneration"]
 	ball.cooldown_length = initial_stats["cooldown_length"]
 	

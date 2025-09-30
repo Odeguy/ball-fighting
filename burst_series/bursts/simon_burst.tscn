@@ -84,7 +84,7 @@ turbulence_initial_displacement_max = -28.0
 [node name="simon_burst" instance=ExtResource("1_t6y44")]
 sound_effect = ExtResource("2_jhgte")
 duration = 4.0
-burst_damage = 7
+burst_damage = 8
 
 [node name="CollisionShape2D" parent="AreaDetector" index="0"]
 position = Vector2(-16, 136)

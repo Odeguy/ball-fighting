@@ -51,6 +51,9 @@ scaling_vars = {
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_xccwo")
 
+[node name="Sensory Field" parent="RigidBody2D" index="5"]
+field_multiply = 2.0
+
 [node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
 shape = SubResource("CircleShape2D_v20b8")
 
