@@ -48,12 +48,6 @@ sub_emitter_mode = 1
 sub_emitter_frequency = 4.0
 sub_emitter_keep_velocity = true
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_656sk"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qcnfi"]
-bg_color = Color(1, 1, 1, 1)
-
 [sub_resource type="Gradient" id="Gradient_qcnfi"]
 offsets = PackedFloat32Array(0, 0.564706, 1)
 colors = PackedColorArray(1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1)
@@ -91,6 +85,12 @@ shader_parameter/speed = 1.0
 shader_parameter/direction = Vector2(1, 1)
 shader_parameter/rotation = Transform2D(1, -1, 1, 1, 0, 0)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_656sk"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qcnfi"]
+bg_color = Color(1, 1, 1, 1)
+
 [node name="burst_ball" instance=ExtResource("1_656sk")]
 script = ExtResource("2_qcnfi")
 burst_name = ""
@@ -117,53 +117,49 @@ lifetime = 0.05
 fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_0h20u")
 
-[node name="MeterBack" type="Panel" parent="AvgDmg" index="0"]
-z_index = -3
-layout_mode = 0
-offset_left = -22.0
-offset_top = 71.5
-offset_right = 171.0
-offset_bottom = 116.5
-theme_override_styles/panel = SubResource("StyleBoxFlat_656sk")
-
-[node name="MeterBack2" type="Panel" parent="AvgDmg" index="1"]
-z_index = -2
-layout_mode = 0
-offset_left = -14.0
-offset_top = 80.0
-offset_right = 162.0
-offset_bottom = 112.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_qcnfi")
-
-[node name="BurstMeter" type="Panel" parent="AvgDmg" index="2"]
-material = SubResource("ShaderMaterial_wf8a6")
-layout_mode = 0
-offset_left = -14.0
-offset_top = 80.0
-offset_right = 162.0
-offset_bottom = 112.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_dlrde")
-
-[node name="BurstMeter2" type="Panel" parent="AvgDmg/BurstMeter" index="0"]
-z_index = -1
-material = SubResource("ShaderMaterial_wo3ve")
-layout_mode = 0
-offset_right = 176.0
-offset_bottom = 32.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_dlrde")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="AvgDmg" index="3"]
-layout_mode = 0
-offset_left = -14.0
-offset_top = 80.0
-offset_right = 161.0
-offset_bottom = 113.0
+[node name="ScrollContainer" type="ScrollContainer" parent="AvgDmg" index="1"]
+offset_left = 60.0
+offset_top = 111.5
+offset_right = 235.0
+offset_bottom = 144.5
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 0
 
 [node name="Label" type="Label" parent="AvgDmg/ScrollContainer" index="0"]
+z_index = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_wf8a6")
 text = "BURSTBURSTBURSTBURSTBURSTBURSTBURSTBURST"
 horizontal_alignment = 1
+
+[node name="BurstMeter" type="Panel" parent="AvgDmg" index="2"]
+material = SubResource("ShaderMaterial_wf8a6")
+offset_left = 60.0
+offset_top = 111.5
+offset_right = 236.0
+offset_bottom = 143.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_dlrde")
+
+[node name="BurstMeter2" type="Panel" parent="AvgDmg/BurstMeter" index="0"]
+z_index = -1
+material = SubResource("ShaderMaterial_wo3ve")
+offset_right = 176.0
+offset_bottom = 32.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dlrde")
+
+[node name="MeterBack" type="Panel" parent="AvgDmg" index="3"]
+z_index = -3
+offset_left = 52.0
+offset_top = 103.0
+offset_right = 245.0
+offset_bottom = 148.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_656sk")
+
+[node name="MeterBack2" type="Panel" parent="AvgDmg" index="4"]
+z_index = -2
+offset_left = 60.0
+offset_top = 111.5
+offset_right = 236.0
+offset_bottom = 143.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_qcnfi")

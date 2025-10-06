@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://dgyntv3k8qhfe"]
+
+[ext_resource type="PackedScene" uid="uid://bb5o5pfrluj52" path="res://battle_stages/battle_scene.tscn" id="1_exdk5"]
+[ext_resource type="Texture2D" uid="uid://lqkauxt083gi" path="res://battle_stages/images/640.png" id="2_nh3qq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7d0mo"]
+bg_color = Color(0.37469, 0.643566, 0.739055, 1)
+draw_center = false
+border_width_left = 55
+border_width_top = 50
+border_width_right = 55
+border_width_bottom = 435
+border_color = Color(0.826681, 0.525975, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nh3qq"]
+resource_local_to_scene = true
+bg_color = Color(8.73185e-06, 8.73184e-06, 8.73182e-06, 1)
+draw_center = false
+border_width_left = 20
+border_width_top = 20
+border_width_right = 20
+border_width_bottom = 20
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rt55d"]
+texture = ExtResource("2_nh3qq")
+modulate_color = Color(1, 1, 1, 0.4)
+
+[node name="arena_battle_scene" instance=ExtResource("1_exdk5")]
+
+[node name="Background" parent="." index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_7d0mo")
+
+[node name="ArenaBorder" parent="." index="2"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_nh3qq")
+
+[node name="Arena" parent="." index="3"]
+theme_override_styles/panel = SubResource("StyleBoxTexture_rt55d")
+
+[node name="2" type="Marker2D" parent="SpawnPoints" index="1"]
+position = Vector2(512, 384)
+
+[node name="3" type="Marker2D" parent="SpawnPoints" index="2"]
+position = Vector2(320, 576)
+
+[node name="4" type="Marker2D" parent="SpawnPoints" index="3"]
+position = Vector2(512, 576)
+
+[node name="2" type="Marker2D" parent="StatPoints" index="1"]
+position = Vector2(562, 906)
+
+[node name="3" type="Marker2D" parent="StatPoints" index="2"]
+position = Vector2(154, 1098)
+
+[node name="4" type="Marker2D" parent="StatPoints" index="3"]
+position = Vector2(562, 1098)

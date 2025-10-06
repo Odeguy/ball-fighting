@@ -11,14 +11,14 @@ func _ready() -> void:
 		$burst_ball_grid.add_item(name)
 var selection
 var previous
-func get_selections() -> Array:
+func get_selections(spawns: int) -> Array:
 	var selections: Array
-	for i in range(0, 5):
+	for i in range(0, spawns + 1):
 		$Label.text = str(i)
 		selection = null
 		while selection == null:
 			await get_tree().process_frame
-		if i < 4:
+		if i < spawns:
 			if selection == "Done": break
 			var ball_scene = load(selection)
 			var ball: Ball = ball_scene.instantiate()

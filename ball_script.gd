@@ -56,6 +56,7 @@ signal summon(summon_cut_in_image, summon_cut_in_voice_line, summoner, summoned,
 @onready var counter: int = 0
 @onready var physics_counter: int = 0
 signal death
+var camera_scale: Vector2
 
 
 func _ready() -> void:
@@ -81,8 +82,8 @@ func _ready() -> void:
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_bottom = border_width
 	$RigidBody2D.linear_velocity = Vector2(get_viewport_rect().size.x / 2 - self.position.x  * -1 * lin_speed / 2 * (randf() / 5 + 1), get_viewport_rect().size.y / 2 - self.position.y  * -1 * lin_speed / 2 * (randf() / 5 + 1))
 	$RigidBody2D.angular_velocity = ang_speed
-	$AvgDmg.global_position.y += 325
-	$AvgDmg.global_position.y *= 1.2
+	#$AvgDmg.global_position.y += 325
+	#$AvgDmg.global_position.y *= 1.2
 	$AvgDmg.add_theme_color_override("font_color", color)
 	$AvgDmg.add_theme_color_override("font_outline_color", border_color)
 	scaling(0)
@@ -121,6 +122,11 @@ func set_collision_layer(layer: int):
 	$RigidBody2D.set_collision_mask_value(layer, false)
 	$RigidBody2D.set_collision_layer_value(layer, true)
 
+func set_avgdmg_position(pos: Vector2, sc: Vector2):
+	$AvgDmg.global_position = pos
+	camera_scale = Vector2(1, 1) / sc
+	$AvgDmg.scale = camera_scale
+
 func get_velocity_mag() -> int:
 	return $RigidBody2D.linear_velocity.length()
 	
@@ -148,6 +154,7 @@ func record_hit(damage: int) -> void:
 func leave_trail():
 	if physics_counter % trail_freq != 0: return
 	var effect = $RigidBody2D/Face.duplicate()
+	effect.scale = camera_scale
 	effect.z_index = -1
 	effect.position = $RigidBody2D.position
 	add_child(effect)
@@ -176,8 +183,8 @@ func leave_weapon_trail():
 
 func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	var opp = body.get_parent()
-	var enemyCollider: CollisionShape2D = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
-	var selfCollider: CollisionShape2D = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
+	var enemyCollider  = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
+	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
 	if local_shape_index == 1 && enemyCollider is Weapon:
 			clash.emit()
 			get_tree().paused = true

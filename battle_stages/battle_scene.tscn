@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bb5o5pfrluj52"]
+[gd_scene load_steps=10 format=3 uid="uid://bb5o5pfrluj52"]
 
 [ext_resource type="Script" uid="uid://7o58tmeuqukg" path="res://battle_scene_script.gd" id="1_fw8re"]
 [ext_resource type="PackedScene" uid="uid://cod0lxjttge88" path="res://selection_screen.tscn" id="2_r5l0u"]
@@ -7,11 +7,13 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fw8re"]
 
-[sub_resource type="ConcavePolygonShape2D" id="ConcavePolygonShape2D_fw8re"]
-segments = PackedVector2Array(-463.469, -576.184, 224.531, -576.184, -463.469, 191.816, -463.469, -576.184, 224.531, -576.184, 224.531, 191.816, 224.531, 191.816, -463.469, 191.816)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fw8re"]
-bg_color = Color(0.574679, 0.598603, 0.671371, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5joda"]
+draw_center = false
+border_width_left = 55
+border_width_top = 50
+border_width_right = 55
+border_width_bottom = 435
+border_color = Color(0.576471, 0.6, 0.670588, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5g7vw"]
 resource_local_to_scene = true
@@ -51,14 +53,6 @@ cache/0/20/0/underline_position = 0.0
 cache/0/20/0/underline_thickness = 0.0
 cache/0/20/0/scale = 1.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5joda"]
-draw_center = false
-border_width_left = 55
-border_width_top = 50
-border_width_right = 55
-border_width_bottom = 435
-border_color = Color(0.576471, 0.6, 0.670588, 1)
-
 [node name="battle_scene" type="Node2D"]
 script = ExtResource("1_fw8re")
 selection_screen = ExtResource("2_r5l0u")
@@ -69,15 +63,17 @@ collision_layer = 4294967295
 collision_mask = 4294967295
 physics_material_override = SubResource("PhysicsMaterial_fw8re")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(495.469, 624.184)
-shape = SubResource("ConcavePolygonShape2D_fw8re")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(-52.8062, 144.563)
+build_mode = 1
+polygon = PackedVector2Array(84.8062, -96.5635, 772.806, -96.5635, 772.806, 671.437, 84.8062, 671.437)
 
-[node name="Bakcground" type="Panel" parent="."]
-z_index = -10
+[node name="Background" type="Panel" parent="."]
+z_index = 100
 offset_right = 832.0
 offset_bottom = 1280.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_fw8re")
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5joda")
 
 [node name="ArenaBorder" type="Panel" parent="."]
 z_index = 999
@@ -139,15 +135,18 @@ vertical_alignment = 1
 process_mode = 3
 stream = ExtResource("4_5joda")
 
-[node name="ColorBorder" type="Panel" parent="."]
-z_index = 100
-offset_right = 832.0
-offset_bottom = 1280.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_5joda")
-
 [node name="ClashAudio" type="AudioStreamPlayer2D" parent="."]
 
 [node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="."]
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(320, 384)
+
+[node name="StatPoints" type="Node2D" parent="."]
+
+[node name="1" type="Marker2D" parent="StatPoints"]
+position = Vector2(154, 906)
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

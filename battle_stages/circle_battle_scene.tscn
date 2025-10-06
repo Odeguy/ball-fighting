@@ -1,0 +1,116 @@
+[gd_scene load_steps=8 format=3 uid="uid://bh8xskcwun5go"]
+
+[ext_resource type="PackedScene" uid="uid://bb5o5pfrluj52" path="res://battle_stages/battle_scene.tscn" id="1_cqbhv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2aii"]
+draw_center = false
+border_width_left = 55
+border_width_top = 50
+border_width_right = 55
+border_width_bottom = 435
+border_color = Color(0.576471, 0.6, 0.670588, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2wosk"]
+resource_local_to_scene = true
+bg_color = Color(8.73185e-06, 8.73184e-06, 8.73182e-06, 1)
+draw_center = false
+border_width_left = 20
+border_width_top = 20
+border_width_right = 20
+border_width_bottom = 20
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r2nnq"]
+bg_color = Color(0.205275, 0.295587, 0.489653, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cqbhv"]
+draw_center = false
+border_width_left = 55
+border_width_top = 50
+border_width_right = 55
+border_width_bottom = 435
+border_color = Color(0.576471, 0.6, 0.670588, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4mmu3"]
+draw_center = false
+border_width_left = 55
+border_width_top = 90
+border_width_right = 55
+border_width_bottom = 435
+border_color = Color(0.576471, 0.6, 0.670588, 1)
+corner_radius_top_left = 270
+corner_radius_top_right = 270
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hjh8q"]
+draw_center = false
+border_width_left = 55
+border_width_top = 90
+border_width_right = 55
+border_width_bottom = 435
+border_color = Color(0.576471, 0.6, 0.670588, 1)
+corner_radius_top_left = 90
+corner_radius_top_right = 90
+
+[node name="battle_scene" instance=ExtResource("1_cqbhv")]
+
+[node name="CollisionPolygon2D" parent="StaticBody2D" index="0"]
+polygon = PackedVector2Array(428.806, -72.5635, 524.806, -56.5635, 588.806, -32.5635, 652.806, 15.4365, 692.806, 55.4365, 732.806, 119.437, 764.806, 199.437, 772.806, 271.437, 756.806, 375.437, 716.806, 479.437, 644.806, 559.437, 580.806, 599.437, 484.806, 631.437, 404.806, 639.437, 340.806, 623.437, 292.806, 607.437, 244.806, 575.437, 188.806, 535.437, 124.806, 455.437, 100.806, 375.437, 84.8062, 279.437, 92.8062, 199.437, 116.806, 127.437, 164.806, 55.4365, 212.806, 7.43654, 252.806, -16.5635, 292.806, -40.5635, 348.806, -56.5635, 396.806, -64.5635)
+
+[node name="Background" parent="." index="1"]
+offset_top = 24.0
+offset_bottom = 1240.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_n2aii")
+
+[node name="ArenaBorder" parent="." index="2"]
+offset_top = 72.0
+offset_bottom = 816.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_2wosk")
+
+[node name="Arena" parent="." index="3"]
+offset_top = 88.0
+offset_bottom = 800.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_r2nnq")
+
+[node name="1" parent="SpawnPoints" index="0"]
+position = Vector2(320, 576)
+
+[node name="2" type="Marker2D" parent="SpawnPoints" index="1"]
+position = Vector2(512, 576)
+
+[node name="2" type="Marker2D" parent="StatPoints" index="1"]
+position = Vector2(562, 906)
+
+[node name="Background2" type="Panel" parent="." index="12"]
+z_index = 100
+offset_right = 832.0
+offset_bottom = 1280.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cqbhv")
+
+[node name="Background" type="Panel" parent="Background2" index="0"]
+z_index = 100
+layout_mode = 0
+offset_right = 832.0
+offset_bottom = 1280.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4mmu3")
+
+[node name="Background2" type="Panel" parent="Background2" index="1"]
+z_index = 100
+layout_mode = 0
+offset_right = 832.0
+offset_bottom = 1280.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hjh8q")

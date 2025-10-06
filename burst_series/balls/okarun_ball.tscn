@@ -32,7 +32,6 @@ border_width = 10
 lin_accel = 6.0
 lin_speed = 6.0
 health = 460
-regeneration = 6.0
 attack = 6.6
 trail = true
 center_force = true
@@ -44,7 +43,7 @@ scaling_vars = {
 "attack": 1.0,
 "lin_accel": 1.05,
 "lin_speed": 1.2,
-"regeneration": 0.8
+"regeneration": 1.0
 }
 
 [node name="Face" parent="RigidBody2D" index="1"]

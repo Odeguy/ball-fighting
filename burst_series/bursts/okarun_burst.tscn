@@ -15,7 +15,7 @@ burst_modifiers = {
 "cooldown_length": 2.0,
 "lin_accel": 33.0,
 "lin_speed": 22.0,
-"regeneration": 100.0
+"regeneration": 26.0
 }
 
 [node name="CollisionShape2D" parent="AreaDetector" index="0"]

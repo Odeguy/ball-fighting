@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvtrp16rbrce"]
+
+[ext_resource type="PackedScene" uid="uid://bb5o5pfrluj52" path="res://battle_stages/battle_scene.tscn" id="1_fu6ux"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xbpcg"]
+resource_local_to_scene = true
+bg_color = Color(8.73185e-06, 8.73184e-06, 8.73182e-06, 1)
+draw_center = false
+border_width_left = 20
+border_width_top = 20
+border_width_right = 20
+border_width_bottom = 20
+border_color = Color(0, 0, 0, 1)
+
+[node name="standard_battle_scene" instance=ExtResource("1_fu6ux")]
+
+[node name="ArenaBorder" parent="." index="2"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_xbpcg")
+
+[node name="2" type="Marker2D" parent="SpawnPoints" index="1"]
+position = Vector2(512, 384)
+
+[node name="3" type="Marker2D" parent="SpawnPoints" index="2"]
+position = Vector2(320, 576)
+
+[node name="4" type="Marker2D" parent="SpawnPoints" index="3"]
+position = Vector2(512, 576)
+
+[node name="2" type="Marker2D" parent="StatPoints" index="1"]
+position = Vector2(562, 906)
+
+[node name="3" type="Marker2D" parent="StatPoints" index="2"]
+position = Vector2(154, 1098)
+
+[node name="4" type="Marker2D" parent="StatPoints" index="3"]
+position = Vector2(562, 1098)
