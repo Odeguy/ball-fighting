@@ -187,9 +187,6 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
 	if local_shape_index == 1 && enemyCollider is Weapon:
 			clash.emit()
-			get_tree().paused = true
-			await get_tree().create_timer(0.1).timeout
-			get_tree().paused = false
 	#after this point the shape indexes and collider variables get messed up for some reason that i'm not looking into right now
 	if enemyCollider is Weapon && selfCollider is not Weapon && opp.team != self.team && hit_limit >= 0.2 || opp is Ball && !opp.weapon  && selfCollider is not Weapon and opp.get_parent() != self && opp.team != self.team && hit_limit >= 0.2: 
 		var damage: int = int(opp.attack + opp.speed_bonus)

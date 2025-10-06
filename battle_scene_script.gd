@@ -18,6 +18,7 @@ var winner: bool
 @export_range (0, 1.0) var button_opacity: float
 var clash_sounds: Array = [preload("res://sounds/Hit_ClashA.wav"), preload("res://sounds/Hit_ClashB.wav"), preload("res://sounds/Hit_ClashC.wav")]
 @onready var clash_itr = 0
+@export var clash_pause: bool = true
 
 func _ready() -> void:
 	winner = false
@@ -39,7 +40,7 @@ func begin(fighters: Array):
 		spawn(fighter, spawn_points[i], stat_points[i], i + 1, false)
 		i+=1
 		teams[fighter.team] = 0
-		fighter.connect("clash", play_clash_sound)
+		if clash_pause: fighter.connect("clash", play_clash_sound)
 		fighter.connect("summon", summon)
 	if teams.size() == 2:
 		if prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[0] && teams.keys()[1] == prev_teams.keys()[1] || prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[1] && teams.keys()[1] == prev_teams.keys()[0]:
@@ -118,6 +119,9 @@ func play_clash_sound() -> void:
 	$ClashAudio.stream = clash_sounds[clash_itr]
 	$ClashAudio.play()
 	clash_itr = (clash_itr + 1) % 3
+	get_tree().paused = true
+	await get_tree().create_timer(0.1).timeout
+	get_tree().paused = false
 	
 func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: Ball, summoned: PackedScene, team: String) -> void:
 	var cut_in: Cut_In = preload("res://cut_in.tscn").instantiate()
