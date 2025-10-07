@@ -68,14 +68,14 @@ func burst_attack() -> void:
 	scene.z_index *= 1000
 	$RigidBody2D/Weapon.add_child(scene)
 	await scene.enemy_detected
-	await cut_in()
-	reset_burst_meter()
-	var ls = lin_speed
-	var la = lin_accel
-	if scene.laser: 
+	if scene.laser:
 		$RigidBody2D.lock_rotation = true
 		lin_speed = 1
 		lin_accel = 1
+	if get_parent().cut_ins: await cut_in()
+	reset_burst_meter()
+	var ls = lin_speed
+	var la = lin_accel
 	scene.blast()
 	await scene.done
 	$RigidBody2D.lock_rotation = false

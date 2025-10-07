@@ -101,7 +101,7 @@ func _physics_process(delta: float) -> void:
 	else: 
 		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * -16 / lin_accel)
 		
-	if $RigidBody2D.angular_velocity < ang_speed * 4 && ang_speed != 0: 
+	if $RigidBody2D.angular_velocity < ang_speed * 4 && ang_speed != 0 && !$RigidBody2D.lock_rotation: 
 		$RigidBody2D.apply_torque(ang_accel * 160000)
 		
 	if center_force:

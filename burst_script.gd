@@ -50,6 +50,7 @@ func blast() -> void:
 	set_burst_modifiers(ball)
 	while duration > 0:
 		await get_tree().process_frame
+		get_parent().get_parent().angular_velocity = 0
 		ball.burst = 0
 		if get_tree().paused: continue
 		if counter % 10 == 0: $AudioStreamPlayer2D.play()

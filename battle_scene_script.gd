@@ -19,6 +19,7 @@ var winner: bool
 var clash_sounds: Array = [preload("res://sounds/Hit_ClashA.wav"), preload("res://sounds/Hit_ClashB.wav"), preload("res://sounds/Hit_ClashC.wav")]
 @onready var clash_itr = 0
 @export var clash_pause: bool = true
+@export var cut_ins: bool = true
 
 func _ready() -> void:
 	winner = false

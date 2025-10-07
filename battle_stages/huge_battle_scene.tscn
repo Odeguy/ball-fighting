@@ -15,6 +15,7 @@ border_color = Color(0, 0, 0, 1)
 [node name="huge_battle_scene" instance=ExtResource("1_fejbu")]
 scale = Vector2(4, 4)
 clash_pause = false
+cut_ins = false
 
 [node name="ArenaBorder" parent="." index="2"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_7nfnk")
