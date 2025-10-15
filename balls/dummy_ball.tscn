@@ -22,10 +22,8 @@ border_color = Color(0.342581, 0.342581, 0.342581, 1)
 health_color = Color(0.637026, 0.637026, 0.637026, 1)
 radius = 45
 border_width = 10
-lin_accel = 1
-ang_accel = 1
+lin_accel = 1.0
 lin_speed = 1.0
-ang_speed = 1
 health = 9999
 attack_sound = ExtResource("2_ww5tn")
 

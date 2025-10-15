@@ -40,7 +40,6 @@ health = 375
 attack = 16.0
 weapon = true
 attack_sound = ExtResource("2_1i5ti")
-team = "sword"
 scaling_vars = {
 "ang_accel": 1.0,
 "ang_speed": 1.0,

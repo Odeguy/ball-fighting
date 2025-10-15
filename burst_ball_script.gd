@@ -3,7 +3,6 @@ extends Ball
 class_name Burst_Ball
 
 var burst: int
-@onready var cut_in_scene: PackedScene = preload("res://cut_in.tscn")
 
 @export_category("Cut In")
 @export var burst_name: String
@@ -54,13 +53,8 @@ func burst_ready() -> void:
 	await player.finished
 	player.queue_free()
 
-func cut_in() -> void:
-	var scene: Cut_In = cut_in_scene.instantiate()
-	scene.set_params(burst_name, cut_in_image, cut_in_voice_line)
-	add_child(scene)
-	get_tree().paused = true
-	await scene.done
-	get_tree().paused = false
+func burst_cut_in() -> void:
+	cut_in(burst_name, cut_in_image, cut_in_voice_line)
 	
 func burst_attack() -> void:
 	var scene: Burst = burst_scene.instantiate()
@@ -68,14 +62,14 @@ func burst_attack() -> void:
 	scene.z_index *= 1000
 	$RigidBody2D/Weapon.add_child(scene)
 	await scene.enemy_detected
+	var ls = lin_speed
+	var la = lin_accel
 	if scene.laser:
 		$RigidBody2D.lock_rotation = true
 		lin_speed = 1
 		lin_accel = 1
-	if get_parent().cut_ins: await cut_in()
+	if get_parent().cut_ins: await burst_cut_in()
 	reset_burst_meter()
-	var ls = lin_speed
-	var la = lin_accel
 	scene.blast()
 	await scene.done
 	$RigidBody2D.lock_rotation = false

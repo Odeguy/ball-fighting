@@ -32,24 +32,31 @@ color = Color(0.266667, 0.329412, 0.72549, 1)
 border_color = Color(0.678431, 0.737255, 0.827451, 1)
 health_color = Color(0.952941, 0.831373, 0.494118, 1)
 radius = 40
-lin_accel = 7
+lin_accel = 7.0
 ang_accel = 1.0
-lin_speed = 3
+lin_speed = 3.0
 ang_speed = 1.0
 health = 500
-attack = 27.0
+attack = 38.0
 weapon = true
 attack_sound = ExtResource("5_eduha")
 scaling_vars = {
 "ang_accel": 1.2,
 "ang_speed": 1.2,
-"attack": 1.2,
+"attack": 1.05,
 "lin_accel": 2.0,
 "lin_speed": 1.0,
 "regeneration": 1.0
 }
 
 [node name="Face" parent="RigidBody2D" index="1"]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_dcah1")
 
 [node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
@@ -75,7 +82,3 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_dcah1")
 
 [node name="BurstGlow" parent="RigidBody2D" index="6"]
 amount = 8
-
-[node name="AvgDmg" parent="." index="1"]
-z_index = 4096
-z_as_relative = false

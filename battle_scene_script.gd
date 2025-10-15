@@ -48,6 +48,10 @@ func begin(fighters: Array):
 			teams = prev_teams
 		$Scoreboard.show()
 	else: $Scoreboard.hide()
+	for x in range(50):
+		await get_tree().process_frame
+	for fighter: Ball in fighters:
+		fighter.activate_spawn_ability()
 		
 func _process(delta: float) -> void:
 	if showing && get_global_mouse_position().x > arena_origin.x && get_global_mouse_position().y > arena_origin.y && get_global_mouse_position().x < arena_origin.x + arena_size.x && get_global_mouse_position().y < arena_origin.y + arena_size.y:
@@ -124,19 +128,22 @@ func play_clash_sound() -> void:
 	await get_tree().create_timer(0.1).timeout
 	get_tree().paused = false
 	
-func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: Ball, summoned: PackedScene, team: String) -> void:
-	var cut_in: Cut_In = preload("res://cut_in.tscn").instantiate()
-	cut_in.set_params("", cut_in_image, cut_in_voice_line)
-	add_child(cut_in)
-	get_tree().paused = true
-	await cut_in.done
-	get_tree().paused = false
+func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: Ball, summoned: PackedScene, team: String, amount: int) -> void:
+	print(5)
+	if cut_ins:
+		var cut_in: Cut_In = preload("res://cut_in.tscn").instantiate()
+		cut_in.set_params("", cut_in_image, cut_in_voice_line)
+		add_child(cut_in)
+		get_tree().paused = true
+		await cut_in.done
+		get_tree().paused = false
 	
-	var ball: Ball = summoned.instantiate()
-	spawn(ball, spawn_points[randi() % 4], Vector2(0, 0), 0, true)
-	ball.team = team
-	ball.get_avg_dmg().hide()
-	summoner.connect("death", ball.die)
+	for i in range(amount):
+		var ball: Ball = summoned.instantiate()
+		spawn(ball, spawn_points[randi() % 4], Vector2(0, 0), 0, true)
+		ball.team = team
+		ball.get_avg_dmg().hide()
+		summoner.connect("death", ball.die)
 	
 func get_spawns() -> int:
 	return $SpawnPoints.get_children().size()

@@ -11,8 +11,9 @@ func _ready() -> void:
 		$burst_ball_grid.add_item(name)
 var selection
 var previous
+var selections: Array
 func get_selections(spawns: int) -> Array:
-	var selections: Array
+	selections = []
 	for i in range(0, spawns + 1):
 		$Label.text = str(i)
 		selection = null
@@ -24,7 +25,7 @@ func get_selections(spawns: int) -> Array:
 			var ball: Ball = ball_scene.instantiate()
 			selections.push_back(ball)
 			previous = ball
-			ball.team += str(randi())
+			ball.team = "unassigned" + str(randi())
 	return selections
 
 @onready var shadow_max = $Label2.get_theme_constant("shadow_offset_x")
@@ -38,6 +39,7 @@ func _process(delta: float) -> void:
 	$Label2.add_theme_constant_override("shadow_offset_y", new_offset)
 	$Label3.add_theme_constant_override("shadow_offset_x", new_offset)
 	$Label3.add_theme_constant_override("shadow_offset_y", new_offset)
+	$Label4.add_theme_constant_override("shadow_offset_y", new_offset)
 	if $Label2.get_theme_constant("shadow_offset_x") == 2 || $Label2.get_theme_constant("shadow_offset_x") == shadow_max: dshadow *= -1
 		
 
@@ -81,3 +83,45 @@ func _on_team_4_pressed() -> void:
 	$AudioStreamPlayer2D.play()
 	if previous != null:
 		previous.team = $"Team 4".text
+
+func _input(event: InputEvent) -> void:
+	if event.is_action("1"):
+		$AudioStreamPlayer2D.play()
+		if previous != null:
+			previous.team = $"Team 1".text
+	elif event.is_action("2"):
+		$AudioStreamPlayer2D.play()
+		if previous != null:
+			previous.team = $"Team 2".text
+	elif event.is_action("3"):
+		$AudioStreamPlayer2D.play()
+		if previous != null:
+			previous.team = $"Team 3".text
+	elif event.is_action("4"):
+		$AudioStreamPlayer2D.play()
+		if previous != null:
+			previous.team = $"Team 4".text
+
+
+func _on_team_1_all_pressed() -> void:
+	$AudioStreamPlayer2D.play()
+	for fighter: Ball in selections:
+		if fighter.team.contains("unassigned"): fighter.team = $"Team 1".text
+
+
+func _on_team_2_all_pressed() -> void:
+	$AudioStreamPlayer2D.play()
+	for fighter: Ball in selections:
+		if fighter.team.contains("unassigned"): fighter.team = $"Team 2".text
+
+
+func _on_team_3_all_pressed() -> void:
+	$AudioStreamPlayer2D.play()
+	for fighter: Ball in selections:
+		if fighter.team.contains("unassigned"): fighter.team = $"Team 3".text
+
+
+func _on_team_4_all_pressed() -> void:
+	$AudioStreamPlayer2D.play()
+	for fighter: Ball in selections:
+		if fighter.team.contains("unassigned"): fighter.team = $"Team 4".text

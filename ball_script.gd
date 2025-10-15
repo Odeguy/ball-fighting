@@ -26,14 +26,16 @@ var total_damage: int
 @export var time_factor: int
 @export var black_flash: bool
 @export var flash_chance: float
+@export_enum("7 Incarnations", "Trace: On") var spawn_ability: String
 var center: Vector2
 var arena_origin: Vector2
 var arena_size: Vector2
 @export var attack_sound: AudioStream
-@export var team: String
+var team: String
 var hit_limit: float
 var cooldown = 0
 signal clash
+@onready var cut_in_scene: PackedScene = preload("res://cut_in.tscn")
 @onready var black_flash_scene: PackedScene = preload("res://black_flash.tscn")
 @export_category("Summon")
 @export var summon_enabled: bool
@@ -51,7 +53,7 @@ signal clash
 	"ang_accel": 1.0
 }
 @export var scale_on_hit: bool
-signal summon(summon_cut_in_image, summon_cut_in_voice_line, summoner, summoned, team)
+signal summon(summon_cut_in_image, summon_cut_in_voice_line, summoner, summoned, team, amount)
 @onready var max_health: float = float(health)
 @onready var counter: int = 0
 @onready var physics_counter: int = 0
@@ -90,7 +92,7 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	counter += 1
-	try_summon()
+	try_summon(1, false)
 	regenerate(counter)
 	scaling(counter)
 	
@@ -270,10 +272,10 @@ func black_flash_attack() -> int:
 func death_bound(sig: String) -> void:
 	connect(sig, die)
 	
-func try_summon() -> void:
-	if health / max_health  <= summon_limit && summon_enabled:
+func try_summon(amount: int, bypass: bool) -> void:
+	if health / max_health  <= summon_limit && summon_enabled || bypass:
 		summon_enabled = false
-		summon.emit(summon_cut_in_image, summon_cut_in_voice_line, self, summoned, team)
+		summon.emit(summon_cut_in_image, summon_cut_in_voice_line, self, summoned, team, amount)
 
 func regenerate(counter: int) -> void:
 	if counter % 20 == 0 && health < max_health: health += regeneration
@@ -311,3 +313,47 @@ func round_stats() -> void:
 	ang_speed = snappedf(ang_speed, 0.01)
 	ang_accel = snappedf(ang_accel, 0.01)
 	regeneration = snappedf(regeneration, 0.01)
+
+func activate_spawn_ability() -> void:
+	match spawn_ability:
+		"7 Incarnations":
+			summon_enabled = true
+			summoned = load(self.scene_file_path)
+			try_summon(6, true)
+		"Trace: On":
+			await cut_in("Trace: On", load("res://burst_series/cut_in_components/images/7dbkruiygm131_jpg.png"), load("res://burst_series/cut_in_components/voice_lines/traceon.wav"))
+			trace_weapon()
+			
+func trace_weapon() -> void:
+	var battle: Battle = self.get_parent()
+	for fighter: Ball in battle.fighting:
+		if fighter.weapon && fighter.get_weapon_properties()[4] != null:
+			var properties = fighter.get_weapon_properties()
+			$RigidBody2D/Weapon/TextureRect.position = properties[0]
+			$RigidBody2D/Weapon/TextureRect.rotation = properties[1]
+			$RigidBody2D/Weapon/TextureRect.size = properties[2]
+			$RigidBody2D/Weapon/TextureRect.scale = properties[3]
+			$RigidBody2D/Weapon/TextureRect.texture = properties[4]
+			$RigidBody2D/WeaponShape2D.position = properties[5]
+			$RigidBody2D/WeaponShape2D.rotation = properties[6]
+			$RigidBody2D/WeaponShape2D.scale = properties[7]
+			$RigidBody2D/WeaponShape2D.shape = properties[8]
+			$RigidBody2D/WeaponShape2D/AudioStreamPlayer2D.stream = properties[9]
+			self.weapon = true
+			break
+			
+func get_weapon_properties() -> Array:
+	var texture_rect: TextureRect = $RigidBody2D/Weapon/TextureRect
+	var weapon_shape_2d: CollisionShape2D = $RigidBody2D/WeaponShape2D
+	var weapon_audio: AudioStream = $AudioStreamPlayer2D.stream
+	return [texture_rect.position, texture_rect.rotation, texture_rect.size, texture_rect.scale, texture_rect.texture,
+		weapon_shape_2d.position, weapon_shape_2d.rotation, weapon_shape_2d.scale, weapon_shape_2d.shape, 
+		weapon_audio]
+
+func cut_in(text: String, image: Texture2D, voice_line: AudioStream) -> void:
+	var scene: Cut_In = cut_in_scene.instantiate()
+	scene.set_params(text, image, voice_line)
+	add_child(scene)
+	get_tree().paused = true
+	await scene.done
+	get_tree().paused = false

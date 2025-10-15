@@ -123,6 +123,47 @@ text = "Burst Series
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Label4" type="Label" parent="."]
+offset_left = 8.0
+offset_top = 504.0
+offset_right = 200.0
+offset_bottom = 544.0
+theme_override_colors/font_shadow_color = Color(0.245501, 0.245501, 0.245501, 1)
+theme_override_constants/shadow_offset_y = 7
+theme_override_fonts/font = ExtResource("3_nf7ud")
+theme_override_font_sizes/font_size = 20
+text = "Assign All"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Team 1 All" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 552.0
+offset_right = 152.0
+offset_bottom = 600.0
+text = "Team 1"
+
+[node name="Team 2 All" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 616.0
+offset_right = 152.0
+offset_bottom = 664.0
+text = "Team 2"
+
+[node name="Team 3 All" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 680.0
+offset_right = 152.0
+offset_bottom = 728.0
+text = "Team 3"
+
+[node name="Team 4 All" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 744.0
+offset_right = 152.0
+offset_bottom = 792.0
+text = "Team 4"
+
 [connection signal="item_clicked" from="ball_grid" to="." method="_on_ball_grid_item_clicked"]
 [connection signal="item_clicked" from="burst_ball_grid" to="." method="_on_burst_ball_grid_item_clicked"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
@@ -130,3 +171,7 @@ vertical_alignment = 1
 [connection signal="pressed" from="Team 2" to="." method="_on_team_2_pressed"]
 [connection signal="pressed" from="Team 3" to="." method="_on_team_3_pressed"]
 [connection signal="pressed" from="Team 4" to="." method="_on_team_4_pressed"]
+[connection signal="pressed" from="Team 1 All" to="." method="_on_team_1_all_pressed"]
+[connection signal="pressed" from="Team 2 All" to="." method="_on_team_2_all_pressed"]
+[connection signal="pressed" from="Team 3 All" to="." method="_on_team_3_all_pressed"]
+[connection signal="pressed" from="Team 4 All" to="." method="_on_team_4_all_pressed"]

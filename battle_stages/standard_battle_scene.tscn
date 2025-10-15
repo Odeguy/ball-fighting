@@ -13,8 +13,6 @@ border_width_bottom = 20
 border_color = Color(0, 0, 0, 1)
 
 [node name="standard_battle_scene" instance=ExtResource("1_fu6ux")]
-clash_pause = false
-cut_ins = false
 
 [node name="ArenaBorder" parent="." index="2"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_xbpcg")
@@ -28,11 +26,14 @@ position = Vector2(320, 576)
 [node name="4" type="Marker2D" parent="SpawnPoints" index="3"]
 position = Vector2(512, 576)
 
+[node name="1" parent="StatPoints" index="0"]
+position = Vector2(114, 906)
+
 [node name="2" type="Marker2D" parent="StatPoints" index="1"]
-position = Vector2(562, 906)
+position = Vector2(522, 906)
 
 [node name="3" type="Marker2D" parent="StatPoints" index="2"]
-position = Vector2(154, 1098)
+position = Vector2(114, 1098)
 
 [node name="4" type="Marker2D" parent="StatPoints" index="3"]
-position = Vector2(562, 1098)
+position = Vector2(522, 1098)
