@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsrhmxmednjct"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_y4t35"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pmorp"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lgorn"]
+resource_local_to_scene = true
+
+[node name="burst_ball" instance=ExtResource("1_y4t35")]
+burst_limit = 100000
+radius = 40
+border_width = 10
+lin_accel = 1.0
+ang_accel = 1.0
+lin_speed = 1.0
+ang_speed = 1.0
+health = 121
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_pmorp")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_lgorn")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_pmorp")

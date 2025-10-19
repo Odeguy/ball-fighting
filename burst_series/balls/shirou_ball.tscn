@@ -1,0 +1,53 @@
+[gd_scene load_steps=10 format=3 uid="uid://dn1iiths8p8ss"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_if80w"]
+[ext_resource type="Texture2D" uid="uid://bmgctc0tudk7j" path="res://burst_series/cut_in_components/images/shriouubw.png" id="2_hfr0h"]
+[ext_resource type="PackedScene" uid="uid://buja1g351pjai" path="res://burst_series/bursts/shirou_burst.tscn" id="2_nfx07"]
+[ext_resource type="AudioStream" uid="uid://cnsu4tkftkymc" path="res://burst_series/cut_in_components/voice_lines/unlimitedbladeworks.wav" id="3_hfr0h"]
+[ext_resource type="AudioStream" uid="uid://cxnutgjeel0i5" path="res://sounds/flash.mp3" id="5_0p74m"]
+[ext_resource type="Texture2D" uid="uid://cnh2p32gjpmuj" path="res://summons/images/a87_png.png" id="6_0f00b"]
+[ext_resource type="PackedScene" uid="uid://chscjpjd5c4aa" path="res://burst_series/balls/saber_ball.tscn" id="7_8xp63"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nfx07"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aj343"]
+resource_local_to_scene = true
+
+[node name="shirou_ball" instance=ExtResource("1_if80w")]
+burst_name = "Unlimited Blade Works"
+cut_in_image = ExtResource("2_hfr0h")
+cut_in_voice_line = ExtResource("3_hfr0h")
+burst_scene = ExtResource("2_nfx07")
+burst_limit = 190
+color = Color(0.94902, 0.929412, 0.917647, 1)
+border_color = Color(0.195961, 0.379815, 0.755244, 1)
+health_color = Color(0.858824, 0.368627, 0.345098, 1)
+radius = 45
+border_width = 5
+lin_accel = 1.0
+ang_accel = 3.0
+lin_speed = 1.2
+ang_speed = 4.0
+health = 400
+attack = 1.0
+spawn_ability = "Trace: On"
+attack_sound = ExtResource("5_0p74m")
+summon_limit = 0.15
+summon_cut_in_image = ExtResource("6_0f00b")
+summoned = ExtResource("7_8xp63")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_nfx07")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_aj343")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_nfx07")

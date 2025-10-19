@@ -128,8 +128,7 @@ func play_clash_sound() -> void:
 	await get_tree().create_timer(0.1).timeout
 	get_tree().paused = false
 	
-func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: Ball, summoned: PackedScene, team: String, amount: int) -> void:
-	print(5)
+func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: Ball, summoned: PackedScene, team: String, amount: int, layer: int) -> void:
 	if cut_ins:
 		var cut_in: Cut_In = preload("res://cut_in.tscn").instantiate()
 		cut_in.set_params("", cut_in_image, cut_in_voice_line)
@@ -140,10 +139,21 @@ func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: B
 	
 	for i in range(amount):
 		var ball: Ball = summoned.instantiate()
-		spawn(ball, spawn_points[randi() % 4], Vector2(0, 0), 0, true)
+		spawn(ball, spawn_points[randi() % 4], Vector2(0, 0), i + 1, true)
 		ball.team = team
+		ball.layer = layer
 		ball.get_avg_dmg().hide()
 		summoner.connect("death", ball.die)
 	
 func get_spawns() -> int:
 	return $SpawnPoints.get_children().size()
+	
+func adopt_bg(txtrect: TextureRect) -> void:
+	txtrect.size = $ArenaBorder.size
+	txtrect.global_position = $ArenaBorder.global_position
+	txtrect.scale = $ArenaBorder.scale
+	add_child(txtrect)
+	
+func adopt_particles(particles: GPUParticles2D) -> void:
+	particles.global_position = $Arena.global_position + $Arena.size / 2
+	add_child(particles)

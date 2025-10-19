@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3 uid="uid://buja1g351pjai"]
+
+[ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst_series/burst.tscn" id="1_c6kg7"]
+[ext_resource type="Texture2D" uid="uid://disadhy2038ou" path="res://burst_series/cut_in_components/images/HD-wallpaper-unlimited-blade-works-shirou-fate-stay-night-emiya-ubw_jpg.png" id="2_o7unl"]
+[ext_resource type="AudioStream" uid="uid://b4qa80yg41q11" path="res://sounds/Atk_SwingA.wav" id="2_vtxr3"]
+[ext_resource type="Texture2D" uid="uid://dg34jyme4xa3" path="res://weapon_images/86-31-02781_lotr_witchking_sword_001_png.png" id="2_yid4j"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c6kg7"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vtxr3"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -500, 0)
+emission_shape_scale = Vector3(1, 1, 0)
+emission_shape = 3
+emission_box_extents = Vector3(500, 1, 1)
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 371.88
+initial_velocity_max = 703.13
+gravity = Vector3(0, 0, 0)
+scale_min = 0.4
+scale_max = 0.4
+collision_mode = 2
+collision_use_scale = true
+
+[node name="shirou_burst" instance=ExtResource("1_c6kg7")]
+sound_effect = ExtResource("2_vtxr3")
+duration = 10.0
+burst_damage = 3
+laser = false
+static_ = true
+burst_modifiers = {
+"ang_accel": 1.0,
+"ang_speed": 1.0,
+"attack": 39.0,
+"burst_limit": 4.0,
+"cooldown_length": 2.0,
+"lin_accel": 1.0,
+"lin_speed": 1.0,
+"regeneration": 1.0
+}
+
+[node name="CollisionShape2D" parent="AreaDetector" index="0"]
+visible = false
+scale = Vector2(48.1407, 48.1407)
+shape = SubResource("CircleShape2D_c6kg7")
+
+[node name="Particles" parent="." index="1"]
+amount = 48
+texture = ExtResource("2_yid4j")
+lifetime = 4.01
+process_material = SubResource("ParticleProcessMaterial_vtxr3")
+
+[node name="TextureRect" parent="." index="2"]
+offset_left = -392.0
+offset_top = -328.0
+offset_right = 408.0
+offset_bottom = 368.0
+texture = ExtResource("2_o7unl")

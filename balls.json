@@ -28,6 +28,8 @@
 		"Okarun": "res://burst_series/balls/okarun_ball.tscn",
 		"Jiren": "res://burst_series/balls/jiren_ball.tscn",
 		"True UI Goku": "res://burst_series/balls/trueuigoku_ball.tscn",
-		"UE Vegeta": "res://burst_series/balls/uevegeta_ball.tscn"
+		"UE Vegeta": "res://burst_series/balls/uevegeta_ball.tscn",
+		"Shirou Emiya": "res://burst_series/balls/shirou_ball.tscn",
+		"Sunless": "res://burst_series/balls/sunless_ball.tscn",
 	}
 }

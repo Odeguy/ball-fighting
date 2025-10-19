@@ -39,7 +39,7 @@ ang_accel = 1
 lin_speed = 3
 ang_speed = 1
 health = 500
-attack = 9
+attack = 20.0
 weapon = true
 field_type = "attack_field"
 flash_chance = 0.7
@@ -69,6 +69,6 @@ shape = SubResource("CircleShape2D_uwr8b")
 [node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_1mski")
 
-[node name="AvgDmg" parent="." index="1"]
+[node name="AvgDmg" parent="." index="3"]
 z_index = 4095
 z_as_relative = false

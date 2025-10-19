@@ -10,7 +10,11 @@ signal done
 var opps: Array[Ball]
 var user: Ball
 var initial_stats: Dictionary
+@onready var tr_init_pos: Vector2 = $TextureRect.position
 @export var laser: bool = true
+@export var static_: bool
+@onready var txtrect: TextureRect = $TextureRect
+@onready var particles: GPUParticles2D = $Particles
 @export var burst_modifiers: Dictionary = {
 	"attack": 1.0,
 	"regeneration": 1.0,
@@ -35,7 +39,18 @@ func _ready() -> void:
 	$AreaDetector.show()
 	$AreaDetector/CollisionShape2D.show()
 	$AudioStreamPlayer2D.stream = sound_effect
+	var tween = get_tree().create_tween()
+	txtrect.modulate.a = 0
+	tween.tween_property(txtrect, "modulate:a", 1, 1)
+	if static_:
+		remove_child(txtrect)
+		get_parent().get_parent().get_parent().get_parent().adopt_bg(txtrect)
+		remove_child(particles)
+		get_parent().get_parent().get_parent().get_parent().adopt_particles(particles)
 	
+func _physics_process(delta: float) -> void:
+	pass
+
 func _on_area_detector_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
 	if body.get_parent() is Ball && body.get_parent() != user && body.get_parent().team != user.team: 	
 		for b in $AreaDetector.get_overlapping_bodies():
@@ -72,6 +87,10 @@ func blast() -> void:
 	done.emit()
 	self.hide()
 	self.queue_free()
+	txtrect.hide()
+	txtrect.queue_free()
+	particles.hide()
+	particles.queue_free()
 
 func set_burst_modifiers(ball: Burst_Ball) -> void:
 	initial_stats["attack"] = ball.attack

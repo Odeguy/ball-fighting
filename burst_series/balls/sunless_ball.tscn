@@ -1,0 +1,69 @@
+[gd_scene load_steps=10 format=3 uid="uid://hwsv8l3ao8k5"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_om1ge"]
+[ext_resource type="Texture2D" uid="uid://b71akt5iegowk" path="res://burst_series/cut_in_components/images/250px-Black_png.png" id="2_ix3yu"]
+[ext_resource type="PackedScene" uid="uid://bk6nwg66psaex" path="res://burst_series/bursts/sunless_burst.tscn" id="2_r5ryn"]
+[ext_resource type="AudioStream" uid="uid://b4qa80yg41q11" path="res://sounds/Atk_SwingA.wav" id="4_k75sy"]
+[ext_resource type="Texture2D" uid="uid://diwibnjue8dfr" path="res://summons/images/6c8bf66f4c2d1dce2930e923f292764b019c7257.pnj.png" id="5_yn6xe"]
+[ext_resource type="Texture2D" uid="uid://bei7yumbqusho" path="res://weapon_images/f05b2e42e48413ca0ca3bf33eac66e56_png.png" id="6_k75sy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_om1ge"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yn6xe"]
+radius = 6.08295
+height = 26.2886
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r5ryn"]
+resource_local_to_scene = true
+
+[node name="sunless_ball" instance=ExtResource("1_om1ge")]
+burst_name = "Shadow Lantern"
+cut_in_image = ExtResource("2_ix3yu")
+burst_scene = ExtResource("2_r5ryn")
+burst_limit = 100
+radius = 45
+border_width = 10
+lin_accel = 1.0
+ang_accel = -2.0
+lin_speed = 1.5
+ang_speed = -3.0
+health = 230
+regeneration = 4.0
+attack = 13.0
+weapon = true
+trail = true
+trail_freq = 5
+field_type = "attack_field"
+spawn_ability = "7 Incarnations"
+attack_sound = ExtResource("4_k75sy")
+summon_cut_in_image = ExtResource("5_yn6xe")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_om1ge")
+
+[node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+offset_left = -188.0
+offset_top = 29.0
+offset_right = 399.0
+offset_bottom = 616.0
+scale = Vector2(0.263343, 0.263343)
+texture = ExtResource("6_k75sy")
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="4"]
+position = Vector2(-89, 87)
+rotation = 0.740423
+scale = Vector2(1.28262, 10.1993)
+shape = SubResource("CapsuleShape2D_yn6xe")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_r5ryn")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_om1ge")

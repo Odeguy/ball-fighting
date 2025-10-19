@@ -16,6 +16,7 @@ collision_mask = 4294967295
 [node name="Particles" type="GPUParticles2D" parent="."]
 
 [node name="TextureRect" type="TextureRect" parent="."]
+z_index = -7
 offset_left = 8.0
 offset_top = 48.0
 offset_right = 760.0

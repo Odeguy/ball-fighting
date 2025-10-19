@@ -53,12 +53,13 @@ signal clash
 	"ang_accel": 1.0
 }
 @export var scale_on_hit: bool
-signal summon(summon_cut_in_image, summon_cut_in_voice_line, summoner, summoned, team, amount)
+signal summon(summon_cut_in_image, summon_cut_in_voice_line, summoner, summoned, team, amount, layer)
 @onready var max_health: float = float(health)
 @onready var counter: int = 0
 @onready var physics_counter: int = 0
 signal death
 var camera_scale: Vector2
+var layer: int
 
 
 func _ready() -> void:
@@ -103,7 +104,7 @@ func _physics_process(delta: float) -> void:
 	else: 
 		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * -16 / lin_accel)
 		
-	if $RigidBody2D.angular_velocity < ang_speed * 4 && ang_speed != 0 && !$RigidBody2D.lock_rotation: 
+	if $RigidBody2D.angular_velocity < abs(ang_speed) * 4 && ang_speed != 0 && !$RigidBody2D.lock_rotation: 
 		$RigidBody2D.apply_torque(ang_accel * 160000)
 		
 	if center_force:
@@ -118,11 +119,12 @@ func _physics_process(delta: float) -> void:
 func _on_rigid_body_2d_body_entered(body: Node) -> void:
 	pass
 		
-func set_collision_layer(layer: int):
+func set_collision_layer(layerq: int):
 	for i in range(1, 33):
 		$RigidBody2D.set_collision_mask_value(i, true)
-	$RigidBody2D.set_collision_mask_value(layer, false)
-	$RigidBody2D.set_collision_layer_value(layer, true)
+	$RigidBody2D.set_collision_mask_value(layerq, false)
+	$RigidBody2D.set_collision_layer_value(layerq, true)
+	layer = layerq
 
 func set_avgdmg_position(pos: Vector2, sc: Vector2):
 	$AvgDmg.global_position = pos
@@ -275,7 +277,7 @@ func death_bound(sig: String) -> void:
 func try_summon(amount: int, bypass: bool) -> void:
 	if health / max_health  <= summon_limit && summon_enabled || bypass:
 		summon_enabled = false
-		summon.emit(summon_cut_in_image, summon_cut_in_voice_line, self, summoned, team, amount)
+		summon.emit(summon_cut_in_image, summon_cut_in_voice_line, self, summoned, team, amount, layer)
 
 func regenerate(counter: int) -> void:
 	if counter % 20 == 0 && health < max_health: health += regeneration
@@ -319,7 +321,7 @@ func activate_spawn_ability() -> void:
 		"7 Incarnations":
 			summon_enabled = true
 			summoned = load(self.scene_file_path)
-			try_summon(6, true)
+			try_summon(3, true)
 		"Trace: On":
 			await cut_in("Trace: On", load("res://burst_series/cut_in_components/images/7dbkruiygm131_jpg.png"), load("res://burst_series/cut_in_components/voice_lines/traceon.wav"))
 			trace_weapon()
@@ -339,8 +341,19 @@ func trace_weapon() -> void:
 			$RigidBody2D/WeaponShape2D.scale = properties[7]
 			$RigidBody2D/WeaponShape2D.shape = properties[8]
 			$RigidBody2D/WeaponShape2D/AudioStreamPlayer2D.stream = properties[9]
+			attack = fighter.attack
 			self.weapon = true
 			break
+		else:
+			var found: bool
+			for node in fighter.get_children():
+				if node is Floater or node is Bomb:
+					var dupe = node.duplicate()
+					attack = fighter.attack * 0.85
+					add_child(dupe)
+					found = true
+			if found:
+				break
 			
 func get_weapon_properties() -> Array:
 	var texture_rect: TextureRect = $RigidBody2D/Weapon/TextureRect

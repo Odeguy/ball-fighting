@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://bk6nwg66psaex"]
+
+[ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst_series/burst.tscn" id="1_rptv3"]
+[ext_resource type="Texture2D" uid="uid://bh6hfpo8dy8g6" path="res://particles/magic_02.png" id="2_r0i6b"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0mcqd"]
+blend_mode = 1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dwh5c"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 349.35
+orbit_velocity_min = -0.487
+orbit_velocity_max = 0.0870001
+radial_velocity_min = -93.75
+radial_velocity_max = 250.0
+scale_min = 0.2
+scale_max = 0.2
+color = Color(0.537255, 0.529412, 0.552941, 1)
+
+[sub_resource type="Gradient" id="Gradient_scde7"]
+offsets = PackedFloat32Array(0, 0.433898, 0.630508, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.130287, 0.130287, 0.130287, 1, 0.109712, 0.109712, 0.109712, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cbye5"]
+gradient = SubResource("Gradient_scde7")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0.977778, 0.0324786)
+
+[node name="sunless_burst" instance=ExtResource("1_rptv3")]
+duration = 6.0
+burst_damage = 2
+laser = false
+static_ = true
+
+[node name="Particles" parent="." index="1"]
+material = SubResource("CanvasItemMaterial_0mcqd")
+amount = 48
+texture = ExtResource("2_r0i6b")
+lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_dwh5c")
+
+[node name="TextureRect" parent="." index="2"]
+offset_left = -400.0
+offset_top = -352.0
+offset_right = 400.0
+offset_bottom = 344.0
+texture = SubResource("GradientTexture2D_cbye5")
