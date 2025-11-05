@@ -1,0 +1,70 @@
+[gd_scene load_steps=7 format=3 uid="uid://bpefy1gl8ianh"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_1wv0b"]
+[ext_resource type="AudioStream" uid="uid://dvorybc68tikp" path="res://sounds/Hit_SlashA.wav" id="2_r2rpa"]
+[ext_resource type="Texture2D" uid="uid://b3y3g8g6mj3gk" path="res://weapon_images/250.png" id="3_bpy8i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_57llh"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_njbqv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8mepr"]
+resource_local_to_scene = true
+
+[node name="reinhard_ball" instance=ExtResource("1_1wv0b")]
+color = Color(1, 1, 0.992157, 1)
+border_color = Color(0.698039, 0.607843, 0.858824, 1)
+health_color = Color(0.901961, 0.243137, 0.262745, 1)
+radius = 45
+border_width = 6
+lin_accel = 4.0
+ang_accel = 4.0
+lin_speed = 6.0
+ang_speed = 4.0
+health = 500
+regeneration = 50.0
+attack = 50.0
+weapon = true
+center_force = true
+field_type = "attack_field"
+cooldown_length = 0
+attack_sound = ExtResource("2_r2rpa")
+scaling_vars = {
+"ang_accel": 1.0,
+"ang_speed": 1.0,
+"attack": 6.0,
+"lin_accel": 1.0,
+"lin_speed": 1.0,
+"regeneration": 2.0
+}
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_57llh")
+
+[node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 258.0
+offset_bottom = 274.0
+scale = Vector2(0.730846, 0.730846)
+texture = ExtResource("3_bpy8i")
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="4"]
+position = Vector2(104, 112)
+rotation = -0.782795
+scale = Vector2(1.94539, 9.01304)
+shape = SubResource("CapsuleShape2D_njbqv")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_8mepr")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_57llh")

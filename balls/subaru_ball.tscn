@@ -1,0 +1,64 @@
+[gd_scene load_steps=9 format=3 uid="uid://dfec1tvs8r20k"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_2sr77"]
+[ext_resource type="AudioStream" uid="uid://cxnutgjeel0i5" path="res://sounds/flash.mp3" id="2_dtb7e"]
+[ext_resource type="Texture2D" uid="uid://mukqahc7go50" path="res://summons/images/latest(3).png" id="3_3qqd3"]
+[ext_resource type="AudioStream" uid="uid://djenups4e0ead" path="res://sounds/teleport-dbz-sound-effect-made-with-Voicemod.mp3" id="3_dtb7e"]
+[ext_resource type="AudioStream" uid="uid://85ppvehu1ehp" path="res://summons/voice_lines/ireinhardvanastrea.wav" id="4_rjtwe"]
+[ext_resource type="PackedScene" uid="uid://bpefy1gl8ianh" path="res://balls/reinhard_ball.tscn" id="5_vbtqn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wghgq"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t2h85"]
+resource_local_to_scene = true
+
+[node name="subaru_ball" instance=ExtResource("1_2sr77")]
+color = Color(1, 1, 1, 1)
+health_color = Color(0.999998, 0.365187, 0.170562, 1)
+radius = 45
+border_width = 7
+lin_accel = 1.0
+ang_accel = 0.1
+lin_speed = 1.0
+ang_speed = 0.2
+health = 130
+attack = 16.0
+cooldown_length = 5
+spawn_ability = "Help from Reinhard"
+return_by_death = true
+attack_sound = ExtResource("2_dtb7e")
+summon_cut_in_image = ExtResource("3_3qqd3")
+summon_cut_in_voice_line = ExtResource("4_rjtwe")
+summoned = ExtResource("5_vbtqn")
+summon_death_linked = false
+scaling_vars = {
+"ang_accel": 1.0,
+"ang_speed": 1.0,
+"attack": 1.0,
+"lin_accel": 1.0,
+"lin_speed": 1.2,
+"regeneration": 1.0
+}
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_wghgq")
+
+[node name="Sensory Field" parent="RigidBody2D" index="5"]
+field_multiply = 1.2
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_t2h85")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_wghgq")
+
+[node name="AudioStreamPlayer2D" parent="RigidBody2D/Sensory Field" index="2"]
+stream = ExtResource("3_dtb7e")

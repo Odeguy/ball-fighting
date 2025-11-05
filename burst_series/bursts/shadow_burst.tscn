@@ -1,0 +1,78 @@
+[gd_scene load_steps=13 format=3 uid="uid://eex266sieiei"]
+
+[ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst_series/burst.tscn" id="1_4oo1r"]
+[ext_resource type="Texture2D" uid="uid://bh6hfpo8dy8g6" path="res://particles/magic_02.png" id="2_ot2lv"]
+[ext_resource type="AudioStream" uid="uid://b52igr8ntsgvi" path="res://sounds/allrangeatomic-[AudioTrimmer.com].wav" id="2_t8c37"]
+[ext_resource type="Texture2D" uid="uid://c3ow5l1y44pmd" path="res://particles/window_04.png" id="3_we0fq"]
+[ext_resource type="Texture2D" uid="uid://2ue6h802pxq2" path="res://particles/star_08.png" id="4_t8c37"]
+[ext_resource type="Texture2D" uid="uid://xribewtphc08" path="res://particles/circle_03.png" id="5_o3y2a"]
+[ext_resource type="Texture2D" uid="uid://d3ypr4fv65ptn" path="res://burst_series/cut_in_components/images/whats-the-ost-playing-in-this-scene-cant-seem-to-find-it-v0-zn0wpokmy5db1_jpg.png" id="6_6h0g5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bvehp"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_gn2yw"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_tfrt4"]
+offsets = PackedFloat32Array(0, 0.7, 1)
+colors = PackedColorArray(0.536019, 0.0941616, 0.732978, 1, 0.806258, 0.279739, 0.838504, 1, 1, 0, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_we0fq"]
+gradient = SubResource("Gradient_tfrt4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t8c37"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+angular_velocity_min = -441.0
+angular_velocity_max = 459.0
+orbit_velocity_min = -1.625
+orbit_velocity_max = 1.574
+radial_velocity_min = 1000.0
+radial_velocity_max = 1000.0
+gravity = Vector3(0, 98, 0)
+scale_min = 0.2
+scale_max = 0.2
+color_ramp = SubResource("GradientTexture1D_we0fq")
+
+[node name="shadow_burst" instance=ExtResource("1_4oo1r")]
+one_time_sound_effect = ExtResource("2_t8c37")
+duration = 13.0
+burst_damage = 1
+laser = false
+static_ = true
+
+[node name="CollisionShape2D" parent="AreaDetector" index="0"]
+scale = Vector2(92.15, 92.15)
+shape = SubResource("CircleShape2D_bvehp")
+
+[node name="Particles" parent="." index="1"]
+material = SubResource("CanvasItemMaterial_gn2yw")
+amount = 4000
+texture = ExtResource("2_ot2lv")
+process_material = SubResource("ParticleProcessMaterial_t8c37")
+
+[node name="Particles2" type="GPUParticles2D" parent="." index="2"]
+material = SubResource("CanvasItemMaterial_gn2yw")
+amount = 280
+texture = ExtResource("3_we0fq")
+process_material = SubResource("ParticleProcessMaterial_t8c37")
+
+[node name="Particles3" type="GPUParticles2D" parent="." index="3"]
+material = SubResource("CanvasItemMaterial_gn2yw")
+amount = 280
+texture = ExtResource("4_t8c37")
+process_material = SubResource("ParticleProcessMaterial_t8c37")
+
+[node name="Particles4" type="GPUParticles2D" parent="." index="4"]
+material = SubResource("CanvasItemMaterial_gn2yw")
+amount = 640
+texture = ExtResource("5_o3y2a")
+process_material = SubResource("ParticleProcessMaterial_t8c37")
+
+[node name="TextureRect" parent="." index="5"]
+offset_left = -1528.0
+offset_top = -928.0
+offset_right = 1414.0
+offset_bottom = 968.0
+texture = ExtResource("6_6h0g5")

@@ -26,7 +26,7 @@ collision_use_scale = true
 [node name="shirou_burst" instance=ExtResource("1_c6kg7")]
 sound_effect = ExtResource("2_vtxr3")
 duration = 10.0
-burst_damage = 3
+burst_damage = 4
 laser = false
 static_ = true
 burst_modifiers = {

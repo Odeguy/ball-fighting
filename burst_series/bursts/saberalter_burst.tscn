@@ -1,0 +1,109 @@
+[gd_scene load_steps=15 format=3 uid="uid://sjemnb4lg2kp"]
+
+[ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst_series/burst.tscn" id="1_kh261"]
+[ext_resource type="AudioStream" uid="uid://bscp8jfcxqdcx" path="res://sounds/Cmn_TwinkleShort.wav" id="2_dkxbn"]
+[ext_resource type="Texture2D" uid="uid://dba201geyghwy" path="res://particles/spotlight_5.png" id="3_5kiad"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qhj47"]
+size = Vector2(146, 501)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mjgkb"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_kh261"]
+offsets = PackedFloat32Array(0, 0.575, 1)
+colors = PackedColorArray(0.623529, 0.156863, 0.980392, 1, 0.627478, 0, 0.166146, 1, 0.976657, 0.352219, 0.541233, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dkxbn"]
+gradient = SubResource("Gradient_kh261")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mjgkb"]
+particle_flag_disable_z = true
+direction = Vector3(0, -100, 0)
+spread = 32.307
+initial_velocity_min = 681.11
+initial_velocity_max = 681.11
+gravity = Vector3(0, -98, 0)
+scale_min = 0.0
+scale_max = 0.35
+scale_over_velocity_min = 71.21
+scale_over_velocity_max = 71.21
+color = Color(0.623529, 0.156863, 0.980392, 1)
+color_ramp = SubResource("GradientTexture1D_dkxbn")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5kiad"]
+blend_mode = 2
+
+[sub_resource type="Gradient" id="Gradient_7a2pc"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vaowe"]
+gradient = SubResource("Gradient_7a2pc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2sn4e"]
+particle_flag_disable_z = true
+direction = Vector3(0, -100, 0)
+spread = 28.824
+initial_velocity_min = 681.11
+initial_velocity_max = 681.11
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+gravity = Vector3(0, -98, 0)
+scale_min = 0.0
+scale_max = 0.35
+scale_over_velocity_min = 71.21
+scale_over_velocity_max = 71.21
+color = Color(0.988235, 0.992157, 0.992157, 1)
+color_ramp = SubResource("GradientTexture1D_vaowe")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8lhrv"]
+blend_mode = 2
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_20xmw"]
+particle_flag_disable_z = true
+direction = Vector3(0, -100, 0)
+spread = 8.516
+initial_velocity_min = 681.11
+initial_velocity_max = 681.11
+gravity = Vector3(0, -98, 0)
+scale_min = 0.0
+scale_max = 0.35
+scale_over_velocity_min = 71.21
+scale_over_velocity_max = 71.21
+color = Color(7.70092e-07, 0.774983, 0.899874, 1)
+
+[node name="saberalter_burst" instance=ExtResource("1_kh261")]
+rotation = -1.04353
+sound_effect = ExtResource("2_dkxbn")
+duration = 3.7
+burst_damage = 8
+laser = false
+
+[node name="CollisionShape2D" parent="AreaDetector" index="0"]
+position = Vector2(0, -253.5)
+shape = SubResource("RectangleShape2D_qhj47")
+
+[node name="Particles" parent="." index="1"]
+z_as_relative = false
+material = SubResource("CanvasItemMaterial_mjgkb")
+amount = 960
+texture = ExtResource("3_5kiad")
+lifetime = 2.11
+process_material = SubResource("ParticleProcessMaterial_mjgkb")
+
+[node name="Particles2" type="GPUParticles2D" parent="." index="2"]
+material = SubResource("CanvasItemMaterial_5kiad")
+amount = 240
+texture = ExtResource("3_5kiad")
+lifetime = 2.11
+process_material = SubResource("ParticleProcessMaterial_2sn4e")
+
+[node name="Particles3" type="GPUParticles2D" parent="." index="3"]
+z_index = 4096
+material = SubResource("CanvasItemMaterial_8lhrv")
+amount = 480
+texture = ExtResource("3_5kiad")
+lifetime = 2.11
+process_material = SubResource("ParticleProcessMaterial_20xmw")
+
+[node name="AudioStreamPlayer2D" parent="." index="5"]
+max_polyphony = 7

@@ -25,6 +25,7 @@ lin_speed = 3.0
 health = 500
 attack = 20
 field_type = "attack_field"
+cooldown_length = 0
 attack_sound = ExtResource("2_uy7fn")
 
 [node name="Face" parent="RigidBody2D" index="1"]

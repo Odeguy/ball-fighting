@@ -27,14 +27,14 @@ resource_local_to_scene = true
 burst_name = "Shadow Lantern"
 cut_in_image = ExtResource("2_ix3yu")
 burst_scene = ExtResource("2_r5ryn")
-burst_limit = 100
+burst_limit = 130
 radius = 45
 border_width = 10
 lin_accel = 1.0
 ang_accel = -2.0
 lin_speed = 1.5
 ang_speed = -3.0
-health = 230
+health = 170
 regeneration = 4.0
 attack = 13.0
 weapon = true
@@ -44,6 +44,8 @@ field_type = "attack_field"
 spawn_ability = "7 Incarnations"
 attack_sound = ExtResource("4_k75sy")
 summon_cut_in_image = ExtResource("5_yn6xe")
+summon_death_linked = false
+summon_burst_enabled = false
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_om1ge")

@@ -11,7 +11,6 @@
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
-border_blend = true
 corner_radius_top_left = 999
 corner_radius_top_right = 999
 corner_radius_bottom_right = 999
@@ -32,16 +31,17 @@ color = Color(0.266667, 0.329412, 0.72549, 1)
 border_color = Color(0.678431, 0.737255, 0.827451, 1)
 health_color = Color(0.952941, 0.831373, 0.494118, 1)
 radius = 40
+border_width = 2
 lin_accel = 7.0
 ang_accel = 1.0
-lin_speed = 3.0
+lin_speed = 2.3
 ang_speed = 1.0
 health = 500
 attack = 38.0
 weapon = true
 attack_sound = ExtResource("5_eduha")
 scaling_vars = {
-"ang_accel": 1.2,
+"ang_accel": 1.0,
 "ang_speed": 1.2,
 "attack": 1.05,
 "lin_accel": 2.0,

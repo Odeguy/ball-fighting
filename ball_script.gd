@@ -26,7 +26,9 @@ var total_damage: int
 @export var time_factor: int
 @export var black_flash: bool
 @export var flash_chance: float
-@export_enum("7 Incarnations", "Trace: On") var spawn_ability: String
+@export_enum("7 Incarnations", "Trace: On", "Steal!!", "Help from Reinhard") var spawn_ability: String
+@export var return_by_death: bool
+signal returning(ball)
 var center: Vector2
 var arena_origin: Vector2
 var arena_size: Vector2
@@ -43,6 +45,8 @@ signal clash
 @export var summon_cut_in_image: Texture2D
 @export var summon_cut_in_voice_line: AudioStream
 @export var summoned: PackedScene
+@export var summon_death_linked: bool = true
+@export var summon_burst_enabled: bool = true
 @export_category("Stat Scaling")
 @export var scaling_vars: Dictionary = {
 	"attack": 1.0,
@@ -53,7 +57,7 @@ signal clash
 	"ang_accel": 1.0
 }
 @export var scale_on_hit: bool
-signal summon(summon_cut_in_image, summon_cut_in_voice_line, summoner, summoned, team, amount, layer)
+signal summon(summon_cut_in_image, summon_cut_in_voice_line, summoner, summoned, team, amount, layer, death_linked, burst_enabled)
 @onready var max_health: float = float(health)
 @onready var counter: int = 0
 @onready var physics_counter: int = 0
@@ -93,7 +97,7 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	counter += 1
-	try_summon(1, false)
+	try_summon(1, false, summon_death_linked, summon_burst_enabled)
 	regenerate(counter)
 	scaling(counter)
 	
@@ -168,14 +172,13 @@ func leave_trail():
 	effect.queue_free()
 	
 func leave_weapon_trail():
-	var effect = $RigidBody2D.duplicate()
+	var effect = $RigidBody2D.duplicate(8)
 	effect.freeze = true
 	effect.z_index = -1
 	effect.position = $RigidBody2D.position
 	var i = 1
 	for nod in effect.get_children():
 		if nod.get_children().size() != 1: 
-			print(i)
 			nod.queue_free()
 			i += 1
 	add_child(effect)
@@ -207,6 +210,9 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 			die()
 			
 func die() -> void:
+	if return_by_death:
+		returning.emit(self)
+		return
 	$RigidBody2D.linear_velocity = Vector2(0, 0)
 	$RigidBody2D.angular_velocity = 0
 	$RigidBody2D/CollisionShape2D.disabled = true
@@ -274,10 +280,10 @@ func black_flash_attack() -> int:
 func death_bound(sig: String) -> void:
 	connect(sig, die)
 	
-func try_summon(amount: int, bypass: bool) -> void:
+func try_summon(amount: int, bypass: bool, death_linked: bool, burst_enabled: bool) -> void:
 	if health / max_health  <= summon_limit && summon_enabled || bypass:
 		summon_enabled = false
-		summon.emit(summon_cut_in_image, summon_cut_in_voice_line, self, summoned, team, amount, layer)
+		summon.emit(summon_cut_in_image, summon_cut_in_voice_line, self, summoned, team, amount, layer, death_linked, summon_enabled)
 
 func regenerate(counter: int) -> void:
 	if counter % 20 == 0 && health < max_health: health += regeneration
@@ -319,18 +325,30 @@ func round_stats() -> void:
 func activate_spawn_ability() -> void:
 	match spawn_ability:
 		"7 Incarnations":
+			max_health *= 1.3
 			summon_enabled = true
 			summoned = load(self.scene_file_path)
-			try_summon(3, true)
+			try_summon(3, true, summon_death_linked, summon_burst_enabled)
 		"Trace: On":
 			await cut_in("Trace: On", load("res://burst_series/cut_in_components/images/7dbkruiygm131_jpg.png"), load("res://burst_series/cut_in_components/voice_lines/traceon.wav"))
 			trace_weapon()
+		"Steal!!":
+			await cut_in("Steal!!", load("res://burst_series/cut_in_components/images/steal.png"), load("res://burst_series/cut_in_components/voice_lines/steal-(kazuma)-made-with-Voicemod.mp3"))
+			var target = await trace_weapon()
+			if target != null: target.lose_weapon()
+		"Help from Reinhard":
+			if randf() < 0.2: try_summon(1, true, summon_death_linked, summon_burst_enabled)
 			
-func trace_weapon() -> void:
+func trace_weapon() -> Ball:
 	var battle: Battle = self.get_parent()
+	var target: Ball
 	for fighter: Ball in battle.fighting:
+		if fighter == self: continue
 		if fighter.weapon && fighter.get_weapon_properties()[4] != null:
 			var properties = fighter.get_weapon_properties()
+			var blank = TextureRect.new()
+			blank.name = "TextureRect"
+			$RigidBody2D/Weapon/TextureRect.replace_by(blank)
 			$RigidBody2D/Weapon/TextureRect.position = properties[0]
 			$RigidBody2D/Weapon/TextureRect.rotation = properties[1]
 			$RigidBody2D/Weapon/TextureRect.size = properties[2]
@@ -343,6 +361,7 @@ func trace_weapon() -> void:
 			$RigidBody2D/WeaponShape2D/AudioStreamPlayer2D.stream = properties[9]
 			attack = fighter.attack
 			self.weapon = true
+			target = fighter
 			break
 		else:
 			var found: bool
@@ -352,8 +371,10 @@ func trace_weapon() -> void:
 					attack = fighter.attack * 0.85
 					add_child(dupe)
 					found = true
+					target = fighter
 			if found:
 				break
+	return target
 			
 func get_weapon_properties() -> Array:
 	var texture_rect: TextureRect = $RigidBody2D/Weapon/TextureRect
@@ -363,6 +384,16 @@ func get_weapon_properties() -> Array:
 		weapon_shape_2d.position, weapon_shape_2d.rotation, weapon_shape_2d.scale, weapon_shape_2d.shape, 
 		weapon_audio]
 
+func lose_weapon() -> void:
+	$RigidBody2D/Weapon/TextureRect.hide()
+	$RigidBody2D/WeaponShape2D.disabled = true
+	attack *= 0.2
+	for node in get_children():
+		if node is Floater or node is Bomb:
+			node.hide()
+			node.queue_free()
+	weapon = false
+
 func cut_in(text: String, image: Texture2D, voice_line: AudioStream) -> void:
 	var scene: Cut_In = cut_in_scene.instantiate()
 	scene.set_params(text, image, voice_line)
@@ -370,3 +401,8 @@ func cut_in(text: String, image: Texture2D, voice_line: AudioStream) -> void:
 	get_tree().paused = true
 	await scene.done
 	get_tree().paused = false
+
+func rbt_miasma() -> void:
+	$RBDSound.play()
+	$RigidBody2D/RBDMiasma.emitting = true
+	

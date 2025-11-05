@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://vncgfvhdwod8"]
+[gd_scene load_steps=22 format=3 uid="uid://vncgfvhdwod8"]
 
 [ext_resource type="Script" uid="uid://843d781qmk57" path="res://ball_script.gd" id="1_x8fbi"]
 [ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="2_41u45"]
@@ -7,6 +7,8 @@
 [ext_resource type="AudioStream" uid="uid://o4xnc6g7c1kr" path="res://sounds/parry-ultrakill.mp3" id="4_n5601"]
 [ext_resource type="Script" uid="uid://7dn0euhwvq3" path="res://sensory_field_script.gd" id="6_gchj4"]
 [ext_resource type="Texture2D" uid="uid://b7j480e8qm6qq" path="res://particles/spotlight_8.png" id="7_01kih"]
+[ext_resource type="AudioStream" uid="uid://ualg2kfpeujj" path="res://sounds/Re_Zero Return By Death Sound Effect.mp3" id="8_0jqm0"]
+[ext_resource type="Texture2D" uid="uid://dba201geyghwy" path="res://particles/spotlight_5.png" id="9_nidkk"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x8fbi"]
 friction = 0.0
@@ -27,6 +29,28 @@ corner_radius_bottom_left = 999
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n5601"]
 resource_local_to_scene = true
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vb544"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_mkf06"]
+offsets = PackedFloat32Array(0, 0.575, 1)
+colors = PackedColorArray(0.124146, 0.0272594, 0.221556, 1, 0.447059, 0.356863, 0.960784, 1, 0.258824, 0.156863, 0.960784, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_k6jcf"]
+gradient = SubResource("Gradient_mkf06")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tqsku"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 99.65
+radial_velocity_min = -2.23517e-05
+radial_velocity_max = 25.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.02
+scale_max = 0.02
+color = Color(0.803922, 0.698039, 0.976471, 1)
+color_ramp = SubResource("GradientTexture1D_k6jcf")
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1iob0"]
 blend_mode = 1
@@ -129,6 +153,18 @@ metadata/_edit_use_anchors_ = true
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="RigidBody2D/Sensory Field"]
 
+[node name="RBDMiasma" type="GPUParticles2D" parent="RigidBody2D"]
+z_index = -1
+material = SubResource("CanvasItemMaterial_vb544")
+position = Vector2(2, 0)
+emitting = false
+amount = 2000
+texture = ExtResource("9_nidkk")
+lifetime = 1.19
+one_shot = true
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_tqsku")
+
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [node name="BlackFlash" type="GPUParticles2D" parent="."]
@@ -185,6 +221,10 @@ theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_ktgx5")
 theme_override_font_sizes/font_size = 15
 
+[node name="RBDSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_0jqm0")
+
+[connection signal="returning" from="." to="." method="_on_returning"]
 [connection signal="body_entered" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_entered"]
 [connection signal="body_exited" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_exited"]
 [connection signal="body_shape_entered" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_shape_entered"]

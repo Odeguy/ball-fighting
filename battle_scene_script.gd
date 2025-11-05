@@ -20,6 +20,7 @@ var clash_sounds: Array = [preload("res://sounds/Hit_ClashA.wav"), preload("res:
 @onready var clash_itr = 0
 @export var clash_pause: bool = true
 @export var cut_ins: bool = true
+var selection_paths: Dictionary[String, String]
 
 func _ready() -> void:
 	winner = false
@@ -36,6 +37,9 @@ func _ready() -> void:
 	
 #the final ball number population limit should be <= 32
 func begin(fighters: Array):
+	selection_paths.clear()
+	for f: Ball in fighters:
+		selection_paths[f.scene_file_path] = f.team
 	var i := 0
 	for fighter: Ball in fighters:
 		spawn(fighter, spawn_points[i], stat_points[i], i + 1, false)
@@ -43,6 +47,7 @@ func begin(fighters: Array):
 		teams[fighter.team] = 0
 		if clash_pause: fighter.connect("clash", play_clash_sound)
 		fighter.connect("summon", summon)
+		fighter.connect("returning", return_by_death)
 	if teams.size() == 2:
 		if prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[0] && teams.keys()[1] == prev_teams.keys()[1] || prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[1] && teams.keys()[1] == prev_teams.keys()[0]:
 			teams = prev_teams
@@ -51,7 +56,7 @@ func begin(fighters: Array):
 	for x in range(50):
 		await get_tree().process_frame
 	for fighter: Ball in fighters:
-		fighter.activate_spawn_ability()
+		await fighter.activate_spawn_ability()
 		
 func _process(delta: float) -> void:
 	if showing && get_global_mouse_position().x > arena_origin.x && get_global_mouse_position().y > arena_origin.y && get_global_mouse_position().x < arena_origin.x + arena_size.x && get_global_mouse_position().y < arena_origin.y + arena_size.y:
@@ -59,7 +64,12 @@ func _process(delta: float) -> void:
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
-	if fighting.size() == 1 && !winner:
+	var team_check
+	if fighting.size() > 0: team_check = fighting[0].team
+	var other = true
+	for fighter in fighting:
+		if fighter.team != team_check: other = false
+	if fighting.size() == 1 && !winner || other && !winner:
 		winner = true
 		teams[fighting[0].team] += 1
 		$AudioStreamPlayer2D.play()
@@ -82,8 +92,10 @@ func countdown() -> void:
 	$Label.hide()
 	get_tree().paused = false
 
-
+signal back
 func _on_button_pressed() -> void:
+	winner = true
+	back.emit()
 	for i in range(fighting.size() - 1, -1, -1):
 		var ball = fighting[i]
 		fighting.remove_at(i)
@@ -105,7 +117,6 @@ func _on_button_pressed() -> void:
 	$Button.z_index = -10
 	$Button.disabled = true
 	showing = false
-	winner = false
 	prev_teams = teams
 	$Scoreboard.hide()
 	self.hide()
@@ -119,6 +130,7 @@ func _on_button_pressed() -> void:
 	showing = true
 	clash_itr = 0
 	self.show()
+	winner = false
 	
 func play_clash_sound() -> void:
 	$ClashAudio.stream = clash_sounds[clash_itr]
@@ -128,7 +140,7 @@ func play_clash_sound() -> void:
 	await get_tree().create_timer(0.1).timeout
 	get_tree().paused = false
 	
-func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: Ball, summoned: PackedScene, team: String, amount: int, layer: int) -> void:
+func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: Ball, summoned: PackedScene, team: String, amount: int, layer: int, death_linked: bool, summon_burst_enabled: bool) -> void:
 	if cut_ins:
 		var cut_in: Cut_In = preload("res://cut_in.tscn").instantiate()
 		cut_in.set_params("", cut_in_image, cut_in_voice_line)
@@ -139,11 +151,13 @@ func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: B
 	
 	for i in range(amount):
 		var ball: Ball = summoned.instantiate()
-		spawn(ball, spawn_points[randi() % 4], Vector2(0, 0), i + 1, true)
-		ball.team = team
 		ball.layer = layer
+		spawn(ball, spawn_points[randi() % 4], Vector2(0, 0), layer, true)
+		ball.team = team
 		ball.get_avg_dmg().hide()
-		summoner.connect("death", ball.die)
+		fighting.append(ball)
+		if death_linked: summoner.connect("death", ball.die)
+		if ball is Burst_Ball && !summon_burst_enabled: ball.burst_limit = 99999
 	
 func get_spawns() -> int:
 	return $SpawnPoints.get_children().size()
@@ -153,7 +167,40 @@ func adopt_bg(txtrect: TextureRect) -> void:
 	txtrect.global_position = $ArenaBorder.global_position
 	txtrect.scale = $ArenaBorder.scale
 	add_child(txtrect)
+	await back
+	txtrect.hide()
+	txtrect.queue_free()
+	
 	
 func adopt_particles(particles: GPUParticles2D) -> void:
 	particles.global_position = $Arena.global_position + $Arena.size / 2
 	add_child(particles)
+	await back
+	particles.hide()
+	particles.queue_free()
+	
+func return_by_death(returner: Ball) -> void:
+	winner = true
+	back.emit()
+	for i in range(fighting.size() - 1, -1, -1):
+		var ball = fighting[i]
+		fighting.remove_at(i)
+		ball.queue_free()
+	for i in range(summons.size() - 1, -1, -1):
+		var ball = summons[i]
+		summons.remove_at(i)
+		if ball != null: ball.queue_free()
+	var selections: Array
+	showing = false
+	for node in selection_paths.keys():
+		var scene: PackedScene = load(node)
+		var ball = scene.instantiate()
+		ball.team = selection_paths[node]
+		selections.append(ball)
+	begin(selections)
+	for ball: Ball in fighting:
+		if ball.return_by_death: ball.rbt_miasma()
+	showing = true
+	clash_itr = 0
+	self.show()
+	winner = false

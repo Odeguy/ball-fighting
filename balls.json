@@ -14,7 +14,8 @@
 		"The Enigma": "res://balls/the_enigma_ball.tscn",
 		"Mahoraga": "res://balls/mahoraga_ball.tscn",
 		"Kiyomaro": "res://balls/kiyomaro_ball.tscn",
-		"Evil Eye": "res://balls/evileye_ball.tscn"
+		"Evil Eye": "res://balls/evileye_ball.tscn",
+		"Subaru": "res://balls/subaru_ball.tscn"
 	},
 	"burst_series": {
 		"Saber": "res://burst_series/balls/saber_ball.tscn",
@@ -31,5 +32,8 @@
 		"UE Vegeta": "res://burst_series/balls/uevegeta_ball.tscn",
 		"Shirou Emiya": "res://burst_series/balls/shirou_ball.tscn",
 		"Sunless": "res://burst_series/balls/sunless_ball.tscn",
+		"Saber Alter": "res://burst_series/balls/saberalter_ball.tscn",
+		"Kazuma": "res://balls/kazuma_ball.tscn",
+		"Lord Shadow": "res://burst_series/balls/shadow_ball.tscn"
 	}
 }

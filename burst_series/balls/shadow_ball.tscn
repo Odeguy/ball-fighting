@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://bx6nyndivd4s5"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_n416e"]
+[ext_resource type="Texture2D" uid="uid://c2ul1kygo8km4" path="res://burst_series/cut_in_components/images/i_am_atomic__by_osamar911_dfmlc0t-fullview_jpg.png" id="2_4xrxy"]
+[ext_resource type="AudioStream" uid="uid://b2aw7nuqupyky" path="res://burst_series/cut_in_components/voice_lines/i-am-the-all-range-atomic-made-with-Voicemod.mp3" id="3_wfkg4"]
+[ext_resource type="PackedScene" uid="uid://eex266sieiei" path="res://burst_series/bursts/shadow_burst.tscn" id="4_6wbya"]
+[ext_resource type="AudioStream" uid="uid://cox04gqtoo8yd" path="res://sounds/SE198_StabC.wav" id="5_h6qlt"]
+[ext_resource type="Texture2D" uid="uid://crhhfvexid334" path="res://weapon_images/noFilter.png" id="6_4xrxy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ewb3n"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wfkg4"]
+radius = 3.12853
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_83kgu"]
+resource_local_to_scene = true
+
+[node name="shadow_ball" instance=ExtResource("1_n416e")]
+burst_name = "I AM THE ALL-RANGE ATOMIC"
+cut_in_image = ExtResource("2_4xrxy")
+cut_in_voice_line = ExtResource("3_wfkg4")
+burst_scene = ExtResource("4_6wbya")
+burst_limit = 260
+color = Color(0.0941176, 0.105882, 0.141176, 1)
+border_color = Color(0.168627, 0.152941, 0.243137, 1)
+health_color = Color(0.741176, 0.588235, 0.360784, 1)
+radius = 45
+border_width = 7
+lin_accel = 10.0
+lin_speed = 2.6
+health = 610
+regeneration = 2.0
+attack = 31.0
+weapon = true
+attack_sound = ExtResource("5_h6qlt")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_ewb3n")
+
+[node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+offset_left = -18.0
+offset_top = -26.0
+offset_right = 402.0
+offset_bottom = 394.0
+rotation = -3.10803
+scale = Vector2(0.417732, 0.417732)
+texture = ExtResource("6_4xrxy")
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="4"]
+position = Vector2(-97, -110)
+rotation = -0.760604
+scale = Vector2(8.81939, 7.75883)
+shape = SubResource("CapsuleShape2D_wfkg4")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_83kgu")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_ewb3n")

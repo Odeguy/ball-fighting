@@ -33,14 +33,13 @@ corner_radius_bottom_left = 999
 color = Color(0.624618, 0.0966638, 0.14593, 1)
 border_color = Color(0.916857, 0.733477, 0, 1)
 radius = 45
-lin_accel = 22.0
-lin_speed = 29.0
+lin_accel = 14.0
+lin_speed = 20.0
 health = 490
 regeneration = 1.0
 attack = 11.0
 trail = true
 attack_sound = ExtResource("2_vlgg5")
-team = "flash"
 scaling_vars = {
 "ang_accel": 1.0,
 "ang_speed": 1.0,

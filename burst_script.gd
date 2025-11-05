@@ -3,6 +3,7 @@ extends Node2D
 class_name Burst
 
 @export var sound_effect: AudioStream
+@export var one_time_sound_effect: AudioStream
 @export var duration: float
 @export var burst_damage: int
 signal enemy_detected
@@ -36,9 +37,11 @@ var initial_stats: Dictionary
 
 func _ready() -> void:
 	self.hide()
+	$Particles.emitting = true
 	$AreaDetector.show()
 	$AreaDetector/CollisionShape2D.show()
 	$AudioStreamPlayer2D.stream = sound_effect
+	$OneTimeSound.stream = one_time_sound_effect
 	var tween = get_tree().create_tween()
 	txtrect.modulate.a = 0
 	tween.tween_property(txtrect, "modulate:a", 1, 1)
@@ -63,6 +66,7 @@ func blast() -> void:
 	var counter = 0
 	var ball: Burst_Ball = self.get_parent().get_parent().get_parent()
 	set_burst_modifiers(ball)
+	$OneTimeSound.play()
 	while duration > 0:
 		await get_tree().process_frame
 		get_parent().get_parent().angular_velocity = 0
@@ -120,4 +124,3 @@ func reset_stats(ball: Burst_Ball) -> void:
 	ball.ang_accel = initial_stats["ang_accel"]
 	ball.regeneration = initial_stats["regeneration"]
 	ball.cooldown_length = initial_stats["cooldown_length"]
-	

@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://do6ch8cifk551"]
+
+[ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_5ow5c"]
+[ext_resource type="AudioStream" uid="uid://dtt2p0m4l7qsx" path="res://sounds/SE202_BladeC.wav" id="2_s3ltj"]
+[ext_resource type="Texture2D" uid="uid://dbkiip5sjyfrw" path="res://weapon_images/41bH2ryuUPL._AC_UY1000__jpg.png" id="3_5ep5v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_brwrr"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_md28h"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s3ltj"]
+resource_local_to_scene = true
+
+[node name="kazuma_ball" instance=ExtResource("1_5ow5c")]
+color = Color(0.211765, 0.458824, 0.47451, 1)
+border_color = Color(0.909804, 0.760784, 0.439216, 1)
+health_color = Color(0.341176, 0.294118, 0.270588, 1)
+radius = 40
+border_width = 5
+lin_accel = 1.0
+ang_accel = 1.0
+lin_speed = 1.7
+ang_speed = 1.0
+health = 300
+attack = 9.0
+weapon = true
+spawn_ability = "Steal!!"
+attack_sound = ExtResource("2_s3ltj")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_brwrr")
+
+[node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+offset_left = -80.0
+offset_top = -88.0
+offset_right = 963.0
+offset_bottom = 912.0
+rotation = -0.950383
+scale = Vector2(0.0888649, 0.0888649)
+texture = ExtResource("3_5ep5v")
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="4"]
+position = Vector2(-24, -96)
+rotation = -0.276454
+scale = Vector2(1.05177, 3.7913)
+shape = SubResource("CapsuleShape2D_md28h")
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_s3ltj")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_brwrr")
