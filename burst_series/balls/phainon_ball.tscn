@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://07tv01ugfn01" path="res://burst_series/cut_in_components/voice_lines/VO_Phainon_Ultimate_-_Unleash_01.wav" id="3_7inu4"]
 [ext_resource type="PackedScene" uid="uid://bykujpvv5e75d" path="res://burst_series/bursts/phainon_burst.tscn" id="4_7inu4"]
 [ext_resource type="AudioStream" uid="uid://chotrsfcrpb4u" path="res://sounds/Hit_ThrustB.wav" id="4_8jkph"]
-[ext_resource type="Texture2D" uid="uid://crhhfvexid334" path="res://weapon_images/noFilter.png" id="6_8jkph"]
+[ext_resource type="Texture2D" uid="uid://c3i50doibedy7" path="res://weapon_images/what-if-dawnmaker-phainons-signature-weapon-was-in-genshin-v0-5w4uq25jo8uf1_png.png" id="6_8jkph"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1mski"]
 resource_local_to_scene = true
@@ -49,12 +49,12 @@ attack_sound = ExtResource("4_8jkph")
 theme_override_styles/panel = SubResource("StyleBoxFlat_1mski")
 
 [node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
-offset_left = -5.0
-offset_top = 1.0
-offset_right = 415.0
-offset_bottom = 421.0
-rotation = 1.60371
-scale = Vector2(0.613393, 0.613393)
+offset_left = -270.0
+offset_top = 11.0
+offset_right = 330.0
+offset_bottom = 611.0
+rotation = -0.159594
+scale = Vector2(0.394522, 0.394522)
 texture = ExtResource("6_8jkph")
 
 [node name="WeaponShape2D" parent="RigidBody2D" index="4"]

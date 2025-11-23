@@ -337,7 +337,7 @@ func activate_spawn_ability() -> void:
 			var target = await trace_weapon()
 			if target != null: target.lose_weapon()
 		"Help from Reinhard":
-			if randf() < 0.2: try_summon(1, true, summon_death_linked, summon_burst_enabled)
+			if randf() < 0.15: try_summon(1, true, summon_death_linked, summon_burst_enabled)
 			
 func trace_weapon() -> Ball:
 	var battle: Battle = self.get_parent()
