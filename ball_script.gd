@@ -26,7 +26,7 @@ var total_damage: int
 @export var time_factor: int
 @export var black_flash: bool
 @export var flash_chance: float
-@export_enum("7 Incarnations", "Trace: On", "Steal!!", "Help from Reinhard") var spawn_ability: String
+@export_enum("7 Incarnations", "Trace: On", "Steal!!", "Help from Reinhard", "King Crimson") var spawn_ability: String
 @export var return_by_death: bool
 signal returning(ball)
 var center: Vector2
@@ -124,7 +124,8 @@ func _on_rigid_body_2d_body_entered(body: Node) -> void:
 	pass
 		
 func set_collision_layer(layerq: int):
-	for i in range(1, 33):
+	layerq = layerq % 31
+	for i in range(1, 32):
 		$RigidBody2D.set_collision_mask_value(i, true)
 	$RigidBody2D.set_collision_mask_value(layerq, false)
 	$RigidBody2D.set_collision_layer_value(layerq, true)
@@ -248,7 +249,7 @@ func _on_sensory_field_body_shape_entered(body_rid: RID, body: Node2D, body_shap
 				body.angular_damp = time_factor
 		"attack_field":
 			if opp is Ball && opp != self && cooldown == 0:
-				$RigidBody2D.apply_force((body.global_position - $RigidBody2D.global_position) * 4000)
+				$RigidBody2D.apply_force((body.global_position - $RigidBody2D.global_position) * 20000)
 				$RigidBody2D.linear_damp = ProjectSettings.get_setting("physics/2d/default_linear_damp")
 				$RigidBody2D.angular_damp = ProjectSettings.get_setting("physics/2d/default_angular_damp")
 		"dodge_field":

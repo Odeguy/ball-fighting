@@ -1,0 +1,74 @@
+[gd_scene load_steps=11 format=3 uid="uid://bsptpfrlh5jjs"]
+
+[ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst_series/burst.tscn" id="1_ec1gn"]
+[ext_resource type="AudioStream" uid="uid://6jn6dqrbmlax" path="res://burst_series/cut_in_components/voice_lines/king-crimson-sound-effect_ZoH0o16.mp3" id="2_7bmqv"]
+[ext_resource type="Texture2D" uid="uid://b7j480e8qm6qq" path="res://particles/spotlight_8.png" id="3_g5a30"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7bmqv"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_q8hch"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_mm40h"]
+offsets = PackedFloat32Array(0.65, 0.820833, 0.920833, 0.979167)
+colors = PackedColorArray(1, 1, 1, 1, 0.333333, 1, 1, 1, 0.621533, 1, 0.572664, 1, 0.971535, 0.252666, 0.348775, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_s8cp6"]
+gradient = SubResource("Gradient_mm40h")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_c861c"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(400, 400, 1)
+angular_velocity_min = -99.0
+angular_velocity_max = 99.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -13.12
+radial_accel_max = 13.75
+scale_min = 0.3
+scale_max = 0.7
+color_ramp = SubResource("GradientTexture1D_s8cp6")
+
+[sub_resource type="Gradient" id="Gradient_c504d"]
+colors = PackedColorArray(0, 0, 0, 0.615686, 0, 0, 0, 0.615686)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0ny3d"]
+gradient = SubResource("Gradient_c504d")
+
+[node name="diavolo_burst" instance=ExtResource("1_ec1gn")]
+one_time_sound_effect = ExtResource("2_7bmqv")
+duration = 20.0
+laser = false
+static_ = true
+burst_modifiers = {
+"ang_accel": 1.0,
+"ang_speed": 1.0,
+"attack": 1.0,
+"burst_limit": 1.0,
+"cooldown_length": 2.0,
+"lin_accel": 1.0,
+"lin_speed": 0.1,
+"regeneration": 1.0
+}
+
+[node name="CollisionShape2D" parent="AreaDetector" index="0"]
+scale = Vector2(20.5243, -15.1171)
+shape = SubResource("CircleShape2D_7bmqv")
+
+[node name="Particles" parent="." index="1"]
+material = SubResource("CanvasItemMaterial_q8hch")
+scale = Vector2(1, 1.00372)
+amount = 64
+texture = ExtResource("3_g5a30")
+lifetime = 2.45
+visibility_rect = Rect2(-456.273, -443.957, 918.869, 935.74)
+process_material = SubResource("ParticleProcessMaterial_c861c")
+
+[node name="TextureRect" parent="." index="2"]
+modulate = Color(1, 1, 1, 0.427451)
+z_index = 0
+offset_left = -368.0
+offset_top = -304.0
+offset_right = 384.0
+offset_bottom = 392.0
+texture = SubResource("GradientTexture2D_0ny3d")

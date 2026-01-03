@@ -43,6 +43,7 @@ func _ready() -> void:
 	$AudioStreamPlayer2D.stream = sound_effect
 	$OneTimeSound.stream = one_time_sound_effect
 	var tween = get_tree().create_tween()
+	tween.set_speed_scale(3)
 	txtrect.modulate.a = 0
 	tween.tween_property(txtrect, "modulate:a", 1, 1)
 	if static_:

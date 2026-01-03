@@ -141,7 +141,7 @@ func play_clash_sound() -> void:
 	get_tree().paused = false
 	
 func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: Ball, summoned: PackedScene, team: String, amount: int, layer: int, death_linked: bool, summon_burst_enabled: bool) -> void:
-	if cut_ins:
+	if cut_ins && cut_in_image != null:
 		var cut_in: Cut_In = preload("res://cut_in.tscn").instantiate()
 		cut_in.set_params("", cut_in_image, cut_in_voice_line)
 		add_child(cut_in)
@@ -168,7 +168,6 @@ func adopt_bg(txtrect: TextureRect) -> void:
 	txtrect.scale = $ArenaBorder.scale
 	add_child(txtrect)
 	await back
-	txtrect.hide()
 	txtrect.queue_free()
 	
 	
@@ -176,7 +175,6 @@ func adopt_particles(particles: GPUParticles2D) -> void:
 	particles.global_position = $Arena.global_position + $Arena.size / 2
 	add_child(particles)
 	await back
-	particles.hide()
 	particles.queue_free()
 	
 func return_by_death(returner: Ball) -> void:

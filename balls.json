@@ -34,6 +34,7 @@
 		"Sunless": "res://burst_series/balls/sunless_ball.tscn",
 		"Saber Alter": "res://burst_series/balls/saberalter_ball.tscn",
 		"Kazuma": "res://balls/kazuma_ball.tscn",
-		"Lord Shadow": "res://burst_series/balls/shadow_ball.tscn"
+		"Lord Shadow": "res://burst_series/balls/shadow_ball.tscn",
+		"Diavolo": "res://burst_series/balls/diavolo_ball.tscn"
 	}
 }

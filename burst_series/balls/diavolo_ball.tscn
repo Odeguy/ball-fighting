@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://5vtrniubar5c"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_sbfod"]
+[ext_resource type="Texture2D" uid="uid://c5hov214bjrl7" path="res://burst_series/cut_in_components/images/maxresdefault_jpg(1).png" id="2_r68uw"]
+[ext_resource type="AudioStream" uid="uid://ce6sd4xn4i2bj" path="res://burst_series/cut_in_components/voice_lines/king-crimson-cry.mp3" id="3_3e83l"]
+[ext_resource type="PackedScene" uid="uid://bsptpfrlh5jjs" path="res://burst_series/bursts/diavolo_burst.tscn" id="4_ghk8f"]
+[ext_resource type="AudioStream" uid="uid://c8nt3452m7y3m" path="res://sounds/isagi.mp3" id="5_3e83l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tot8h"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_46ilj"]
+resource_local_to_scene = true
+
+[node name="diavolo_ball" instance=ExtResource("1_sbfod")]
+burst_name = "King Crimson"
+cut_in_image = ExtResource("2_r68uw")
+cut_in_voice_line = ExtResource("3_3e83l")
+burst_scene = ExtResource("4_ghk8f")
+burst_limit = 70
+color = Color(0.980392, 0.172549, 0.443137, 1)
+border_color = Color(0.819608, 0.807843, 0.819608, 1)
+health_color = Color(0.588235, 0.878431, 0.568627, 1)
+radius = 40
+border_width = 4
+lin_accel = 6.0
+lin_speed = 2.0
+health = 400
+attack = 28.0
+field_type = "attack_field"
+spawn_ability = "King Crimson"
+attack_sound = ExtResource("5_3e83l")
+
+[node name="Face" parent="RigidBody2D" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_tot8h")
+
+[node name="Label" parent="RigidBody2D" index="2"]
+theme_override_font_sizes/font_size = 30
+
+[node name="Sensory Field" parent="RigidBody2D" index="5"]
+collision_layer = 2147483647
+collision_mask = 2147483647
+field_multiply = 2.0
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
+shape = SubResource("CircleShape2D_46ilj")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_tot8h")

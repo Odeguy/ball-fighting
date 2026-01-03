@@ -12,6 +12,8 @@ var burst: int
 @export_category("Burst")
 @export var burst_scene: PackedScene
 @export var burst_limit: int
+signal burst_activation
+signal burst_finished
 
 @onready var scroll_incr: int = 1
 
@@ -57,6 +59,7 @@ func burst_cut_in() -> void:
 	cut_in(burst_name, cut_in_image, cut_in_voice_line)
 	
 func burst_attack() -> void:
+	burst_activation.emit()
 	var scene: Burst = burst_scene.instantiate()
 	scene.user = self
 	scene.z_index *= 1000
@@ -72,6 +75,7 @@ func burst_attack() -> void:
 	reset_burst_meter()
 	scene.blast()
 	await scene.done
+	burst_finished.emit()
 	$RigidBody2D.lock_rotation = false
 	lin_speed = ls
 	lin_accel = la
@@ -88,3 +92,31 @@ func moving_burst_label() -> void:
 func scaling(counter: int) -> void:
 	super(counter)
 	if counter % 600 == 0: burst_limit += attack
+
+func activate_spawn_ability() -> void:
+	super()
+	match spawn_ability:
+		"King Crimson":
+			while true:
+				await burst_activation
+				var self_scene: PackedScene = load(self.scene_file_path)
+				var ball: Burst_Ball = self_scene.instantiate()
+				ball.get_body().global_position = self.get_body().global_position
+				ball.health = self.health
+				ball.burst_limit = 99999999
+				ball.set_collision_layer(layer)
+				add_sibling(ball)
+				ball.set_avgdmg_position(Vector2(9999, 9999), Vector2(0, 0))
+				for i in range(1, 32):
+					$RigidBody2D.set_collision_layer_value(i, false)
+					$RigidBody2D.set_collision_mask_value(i, false)
+				$RigidBody2D.set_collision_layer_value(32, true)
+				$RigidBody2D.set_collision_mask_value(32, true)
+				$"RigidBody2D/Sensory Field".monitoring = false
+				self.z_index += 999
+				await burst_finished
+				if ball != null: ball.die()
+				self.set_collision_layer(layer)
+				$"RigidBody2D/Sensory Field".monitoring = true
+				self.z_index -= 999
+			
