@@ -24,6 +24,7 @@ var total_damage: int
 @export_enum("time_field", "attack_field", "dodge_field") var field_type: String
 @export var cooldown_length: int = 2
 @export var time_factor: int
+@export var attack_factor: int = 1
 @export var black_flash: bool
 @export var flash_chance: float
 @export_enum("7 Incarnations", "Trace: On", "Steal!!", "Help from Reinhard", "King Crimson") var spawn_ability: String
@@ -249,7 +250,7 @@ func _on_sensory_field_body_shape_entered(body_rid: RID, body: Node2D, body_shap
 				body.angular_damp = time_factor
 		"attack_field":
 			if opp is Ball && opp != self && cooldown == 0:
-				$RigidBody2D.apply_force((body.global_position - $RigidBody2D.global_position) * 20000)
+				$RigidBody2D.apply_force((body.global_position - $RigidBody2D.global_position) * 5000 * attack_factor)
 				$RigidBody2D.linear_damp = ProjectSettings.get_setting("physics/2d/default_linear_damp")
 				$RigidBody2D.angular_damp = ProjectSettings.get_setting("physics/2d/default_angular_damp")
 		"dodge_field":

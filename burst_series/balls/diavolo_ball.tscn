@@ -27,21 +27,18 @@ burst_limit = 70
 color = Color(0.980392, 0.172549, 0.443137, 1)
 border_color = Color(0.819608, 0.807843, 0.819608, 1)
 health_color = Color(0.588235, 0.878431, 0.568627, 1)
-radius = 40
-border_width = 4
+radius = 50
 lin_accel = 6.0
 lin_speed = 2.0
-health = 400
-attack = 28.0
+health = 340
+attack = 23.0
 field_type = "attack_field"
+cooldown_length = 4
 spawn_ability = "King Crimson"
 attack_sound = ExtResource("5_3e83l")
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_tot8h")
-
-[node name="Label" parent="RigidBody2D" index="2"]
-theme_override_font_sizes/font_size = 30
 
 [node name="Sensory Field" parent="RigidBody2D" index="5"]
 collision_layer = 2147483647

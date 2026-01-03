@@ -168,6 +168,8 @@ func adopt_bg(txtrect: TextureRect) -> void:
 	txtrect.scale = $ArenaBorder.scale
 	add_child(txtrect)
 	await back
+	if txtrect == null: return
+	txtrect.hide()
 	txtrect.queue_free()
 	
 	
@@ -175,6 +177,8 @@ func adopt_particles(particles: GPUParticles2D) -> void:
 	particles.global_position = $Arena.global_position + $Arena.size / 2
 	add_child(particles)
 	await back
+	if particles == null: return
+	particles.hide()
 	particles.queue_free()
 	
 func return_by_death(returner: Ball) -> void:
