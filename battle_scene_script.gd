@@ -21,6 +21,7 @@ var clash_sounds: Array = [preload("res://sounds/Hit_ClashA.wav"), preload("res:
 @export var clash_pause: bool = true
 @export var cut_ins: bool = true
 var selection_paths: Dictionary[String, String]
+@export var gravity_scale: float
 
 func _ready() -> void:
 	winner = false
@@ -48,6 +49,7 @@ func begin(fighters: Array):
 		if clash_pause: fighter.connect("clash", play_clash_sound)
 		fighter.connect("summon", summon)
 		fighter.connect("returning", return_by_death)
+		fighter.get_body().gravity_scale = gravity_scale
 	if teams.size() == 2:
 		if prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[0] && teams.keys()[1] == prev_teams.keys()[1] || prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[1] && teams.keys()[1] == prev_teams.keys()[0]:
 			teams = prev_teams

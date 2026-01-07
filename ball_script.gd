@@ -97,13 +97,13 @@ func _ready() -> void:
 	scaling(0)
 	
 func _process(delta: float) -> void:
-	$Label.global_position = Vector2($RigidBody2D.global_position.x - $Label.size.x / 2, $RigidBody2D.global_position.y - $Label.size.y / 2)
 	counter += 1
 	try_summon(1, false, summon_death_linked, summon_burst_enabled)
 	regenerate(counter)
 	scaling(counter)
 	
 func _physics_process(delta: float) -> void:
+	$Label.global_position = Vector2($RigidBody2D.global_position.x - $Label.size.x / 2, $RigidBody2D.global_position.y - $Label.size.y / 2)
 	physics_counter += 1
 	if $RigidBody2D.linear_velocity.length() < lin_speed * 500: 
 		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * lin_accel / 2 + Vector2(1, 1))
