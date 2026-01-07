@@ -83,7 +83,7 @@ func _ready() -> void:
 	$RigidBody2D/Face.get_theme_stylebox("panel").expand_margin_bottom = radius
 	$RigidBody2D/Face.get_theme_stylebox("panel").bg_color = color
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_color = border_color
-	$RigidBody2D/Label.add_theme_color_override("font_color", health_color)
+	$Label.add_theme_color_override("font_color", health_color)
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_left = border_width
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_right = border_width
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_top = border_width
@@ -97,6 +97,7 @@ func _ready() -> void:
 	scaling(0)
 	
 func _process(delta: float) -> void:
+	$Label.global_position = Vector2($RigidBody2D.global_position.x - $Label.size.x / 2, $RigidBody2D.global_position.y - $Label.size.y / 2)
 	counter += 1
 	try_summon(1, false, summon_death_linked, summon_burst_enabled)
 	regenerate(counter)
@@ -116,7 +117,7 @@ func _physics_process(delta: float) -> void:
 		$RigidBody2D.apply_central_force(Vector2(center.x - $RigidBody2D.global_position.x, center.y - $RigidBody2D.global_position.y) * 2)
 	if hit_limit < 0.2: hit_limit += 0.01
 	
-	$RigidBody2D/Label.text = str(health)
+	$Label.text = str(health)
 	speed_bonus = abs(get_velocity_mag()) / 500 + abs($RigidBody2D.angular_velocity) / 8
 	if trail: leave_trail()
 	if weapon_trail: leave_weapon_trail()
