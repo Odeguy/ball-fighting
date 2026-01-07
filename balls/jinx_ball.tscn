@@ -14,7 +14,6 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
-border_blend = true
 corner_radius_top_left = 999
 corner_radius_top_right = 999
 corner_radius_bottom_right = 999
@@ -62,7 +61,6 @@ lin_speed = 6
 health = 425
 weapon = true
 attack_sound = ExtResource("2_d4n4s")
-team = "jinx"
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_ea8hu")

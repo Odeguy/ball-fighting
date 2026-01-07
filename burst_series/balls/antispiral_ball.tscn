@@ -11,7 +11,6 @@
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
-border_blend = true
 corner_radius_top_left = 999
 corner_radius_top_right = 999
 corner_radius_bottom_right = 999
@@ -49,7 +48,7 @@ cut_in_voice_line = ExtResource("3_5e8a4")
 burst_scene = ExtResource("4_r8l6l")
 burst_limit = 265
 border_color = Color(1, 1, 1, 1)
-radius = 45
+radius = 50
 border_width = 5
 lin_accel = 5.0
 ang_accel = 1.0

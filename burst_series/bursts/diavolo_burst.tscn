@@ -37,7 +37,7 @@ gradient = SubResource("Gradient_c504d")
 
 [node name="diavolo_burst" instance=ExtResource("1_ec1gn")]
 one_time_sound_effect = ExtResource("2_7bmqv")
-duration = 20.0
+duration = 10.0
 laser = false
 static_ = true
 burst_modifiers = {

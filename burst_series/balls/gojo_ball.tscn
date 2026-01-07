@@ -10,7 +10,6 @@
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
-border_blend = true
 corner_radius_top_left = 999
 corner_radius_top_right = 999
 corner_radius_bottom_right = 999
@@ -27,7 +26,7 @@ burst_scene = ExtResource("4_kd76l")
 burst_limit = 325
 color = Color(1, 1, 1, 1)
 health_color = Color(0.27451, 1, 1, 1)
-radius = 45
+radius = 50
 border_width = 10
 lin_accel = 4.0
 lin_speed = 4.0

@@ -11,7 +11,6 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
-border_blend = true
 corner_radius_top_left = 999
 corner_radius_top_right = 999
 corner_radius_bottom_right = 999
@@ -38,7 +37,7 @@ corner_radius_bottom_left = 999
 color = Color(0.917647, 0.733333, 0, 1)
 border_color = Color(0.623529, 0.0980392, 0.145098, 1)
 health_color = Color(0.623529, 0.0980392, 0.145098, 1)
-radius = 45
+radius = 50
 lin_accel = 8.0
 lin_speed = 8.0
 health = 350
@@ -47,7 +46,6 @@ trail = true
 field_type = "time_field"
 time_factor = 5
 attack_sound = ExtResource("2_42etv")
-team = "flash"
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_r4s7v")

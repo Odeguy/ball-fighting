@@ -13,7 +13,6 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
-border_blend = true
 corner_radius_top_left = 999
 corner_radius_top_right = 999
 corner_radius_bottom_right = 999
@@ -55,14 +54,14 @@ corner_radius_bottom_left = 999
 [node name="isagi_ball" instance=ExtResource("1_fhiuv")]
 color = Color(0.139459, 0.374668, 1, 1)
 border_color = Color(0.0823506, 0.0823506, 0.0823506, 1)
-radius = 40
+radius = 50
+border_width = 5
 lin_accel = 1
 lin_speed = 2
 health = 425
 attack = 33
 weapon = true
 attack_sound = ExtResource("2_3difo")
-team = "isagi"
 
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_ea8hu")

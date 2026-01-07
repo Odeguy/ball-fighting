@@ -10,7 +10,6 @@
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
-border_blend = true
 corner_radius_top_left = 999
 corner_radius_top_right = 999
 corner_radius_bottom_right = 999
@@ -27,7 +26,7 @@ burst_scene = ExtResource("2_uddb2")
 burst_limit = 132
 border_color = Color(0.85098, 0.00392157, 0, 1)
 health_color = Color(0.921569, 0.878431, 0.752941, 1)
-radius = 40
+radius = 50
 border_width = 10
 lin_accel = 6.0
 lin_speed = 6.0

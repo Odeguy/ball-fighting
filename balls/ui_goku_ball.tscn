@@ -9,7 +9,6 @@
 resource_local_to_scene = true
 bg_color = Color(0.984314, 0.988235, 0.964706, 1)
 border_color = Color(0, 0, 0, 1)
-border_blend = true
 corner_radius_top_left = 999
 corner_radius_top_right = 999
 corner_radius_bottom_right = 999
@@ -39,7 +38,7 @@ corner_radius_bottom_left = 999
 color = Color(0.101961, 0.239216, 0.423529, 1)
 border_color = Color(1, 0.529412, 0.117647, 1)
 health_color = Color(1, 0.529412, 0.117647, 1)
-radius = 40
+radius = 50
 lin_accel = 10.0
 lin_speed = 16.0
 health = 425
