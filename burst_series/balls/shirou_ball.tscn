@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_if80w"]
 [ext_resource type="Texture2D" uid="uid://bmgctc0tudk7j" path="res://burst_series/cut_in_components/images/shriouubw.png" id="2_hfr0h"]
 [ext_resource type="PackedScene" uid="uid://buja1g351pjai" path="res://burst_series/bursts/shirou_burst.tscn" id="2_nfx07"]
-[ext_resource type="AudioStream" uid="uid://cnsu4tkftkymc" path="res://burst_series/cut_in_components/voice_lines/unlimitedbladeworks.wav" id="3_hfr0h"]
+[ext_resource type="AudioStream" uid="uid://b7y73c047r5kc" path="res://burst_series/cut_in_components/voice_lines/unlimitedbladeworks[shortened].wav" id="3_hfr0h"]
 [ext_resource type="AudioStream" uid="uid://cxnutgjeel0i5" path="res://sounds/flash.mp3" id="5_0p74m"]
 [ext_resource type="Texture2D" uid="uid://cnh2p32gjpmuj" path="res://summons/images/a87_png.png" id="6_0f00b"]
 [ext_resource type="PackedScene" uid="uid://chscjpjd5c4aa" path="res://burst_series/balls/saber_ball.tscn" id="7_8xp63"]
