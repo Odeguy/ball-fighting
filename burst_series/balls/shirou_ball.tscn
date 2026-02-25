@@ -46,6 +46,9 @@ summoned = ExtResource("7_8xp63")
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_nfx07")
 
+[node name="WeaponShape2D" parent="RigidBody2D" index="3"]
+one_way_collision = false
+
 [node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
 shape = SubResource("CircleShape2D_aj343")
 

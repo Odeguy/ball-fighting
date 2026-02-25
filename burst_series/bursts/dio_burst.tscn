@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://4m52yclqqnpo"]
+
+[ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst_series/burst.tscn" id="1_ffy23"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wifqt"]
+
+[sub_resource type="Gradient" id="Gradient_ffy23"]
+colors = PackedColorArray(0.078431375, 0.09019608, 0.03137255, 0.30588236, 0.23137255, 0.25882354, 0.12941177, 0.30588236)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wifqt"]
+gradient = SubResource("Gradient_ffy23")
+
+[node name="dio_burst" unique_id=177255232 instance=ExtResource("1_ffy23")]
+duration = 20.0
+laser = false
+static_ = true
+time_stop = true
+toggle_invincible = true
+
+[node name="CollisionShape2D" parent="AreaDetector" parent_id_path=PackedInt32Array(1397305596) index="0" unique_id=1948378736]
+scale = Vector2(102.099464, -78.23329)
+shape = SubResource("CircleShape2D_wifqt")
+
+[node name="TextureRect" parent="." index="2" unique_id=823812109]
+z_index = 7
+texture = SubResource("GradientTexture2D_wifqt")

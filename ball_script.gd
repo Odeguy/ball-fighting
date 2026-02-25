@@ -10,6 +10,9 @@ class_name Ball
 @export var ang_accel: float
 @export var lin_speed: float
 @export var ang_speed: float
+@onready var oscillation: float = 0
+@export var oscillation_arc: float
+@export var oscillation_speed: float
 @export var health: int
 @export var regeneration: float
 @export var attack: float
@@ -29,6 +32,7 @@ var total_damage: int
 @export var flash_chance: float
 @export_enum("7 Incarnations", "Trace: On", "Steal!!", "Help from Reinhard", "King Crimson") var spawn_ability: String
 @export var return_by_death: bool
+@export var invincible: bool
 signal returning(ball)
 var center: Vector2
 var arena_origin: Vector2
@@ -63,6 +67,7 @@ signal summon(summon_cut_in_image, summon_cut_in_voice_line, summoner, summoned,
 @onready var counter: int = 0
 @onready var physics_counter: int = 0
 signal death
+signal time_stop(ball)
 var camera_scale: Vector2
 var layer: int
 
@@ -103,9 +108,8 @@ func _process(delta: float) -> void:
 	scaling(counter)
 	
 func _physics_process(delta: float) -> void:
-	$Label.global_position = Vector2($RigidBody2D.global_position.x - $Label.size.x / 2, $RigidBody2D.global_position.y - $Label.size.y / 2)
 	physics_counter += 1
-	if $RigidBody2D.linear_velocity.length() < lin_speed * 500: 
+	if $RigidBody2D.linear_velocity.length() < lin_speed * 300: 
 		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * lin_accel / 2 + Vector2(1, 1))
 	else: 
 		$RigidBody2D.apply_central_force($RigidBody2D.linear_velocity * -16 / lin_accel)
@@ -116,6 +120,13 @@ func _physics_process(delta: float) -> void:
 	if center_force:
 		$RigidBody2D.apply_central_force(Vector2(center.x - $RigidBody2D.global_position.x, center.y - $RigidBody2D.global_position.y) * 2)
 	if hit_limit < 0.2: hit_limit += 0.01
+	
+	
+	oscillation += oscillation_speed / 1080.0
+	$RigidBody2D.rotation += oscillation_speed / 1080.0
+	if abs(oscillation) >= oscillation_arc / 360.0:
+		oscillation = 0
+		oscillation_speed *= -1
 	
 	$Label.text = str(health)
 	speed_bonus = abs(get_velocity_mag()) / 500 + abs($RigidBody2D.angular_velocity) / 8
@@ -203,9 +214,10 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 		if opp.black_flash && randf() <= opp.flash_chance:
 			damage *= 2
 			await opp.black_flash_attack()
-		health -= damage
+		if !invincible:
+			health -= damage
+			opp.damage_effect(damage)
 		hit_limit = 0
-		opp.damage_effect(damage)
 		if scale_on_hit: scaling(0)
 		opp.record_hit(damage)
 		opp.recalc_avg_dmg()
@@ -257,11 +269,11 @@ func _on_sensory_field_body_shape_entered(body_rid: RID, body: Node2D, body_shap
 		"dodge_field":
 			if opp is Ball && cooldown == 0 || enemyCollider is Weapon:
 				$"RigidBody2D/Sensory Field/AudioStreamPlayer2D".play()
-				var pos = $RigidBody2D.global_position + 2 * (body.global_position - $RigidBody2D.global_position)
+				var pos = $RigidBody2D.global_position + 3 * (body.global_position - $RigidBody2D.global_position)
 				if pos.x > arena_origin.x && pos.y > arena_origin.y && pos.x < arena_origin.x + arena_size.x && pos.y < arena_origin.y + arena_size.y: $RigidBody2D.global_position = pos
-				$RigidBody2D.apply_force((body.global_position - $RigidBody2D.global_position) * 4000)
-				$RigidBody2D.linear_damp = ProjectSettings.get_setting("physics/2d/default_linear_damp")
-				$RigidBody2D.angular_damp = ProjectSettings.get_setting("physics/2d/default_angular_damp")
+				#$RigidBody2D.apply_force((body.global_position - $RigidBody2D.global_position) * 4000)
+				#$RigidBody2D.linear_damp = ProjectSettings.get_setting("physics/2d/default_linear_damp")
+				#$RigidBody2D.angular_damp = ProjectSettings.get_setting("physics/2d/default_angular_damp")
 				cooldown = cooldown_length
 	if cooldown > 0: cooldown -= 1
 					
@@ -399,11 +411,12 @@ func lose_weapon() -> void:
 
 func cut_in(text: String, image: Texture2D, voice_line: AudioStream) -> void:
 	var scene: Cut_In = cut_in_scene.instantiate()
-	scene.set_params(text, image, voice_line)
+	var battle: Battle = get_parent()
+	scene.set_params(text, image, voice_line, battle.show_cut_in_images, battle.play_voice_lines, battle.cut_in_pause)
 	add_child(scene)
-	get_tree().paused = true
+	if battle.cut_in_pause: get_tree().paused = true
 	await scene.done
-	get_tree().paused = false
+	if battle.cut_in_pause: get_tree().paused = false
 
 func rbt_miasma() -> void:
 	$RBDSound.play()

@@ -1,12 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://5vtrniubar5c"]
+[gd_scene format=3 uid="uid://5vtrniubar5c"]
 
 [ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_sbfod"]
 [ext_resource type="Texture2D" uid="uid://c5hov214bjrl7" path="res://burst_series/cut_in_components/images/maxresdefault_jpg(1).png" id="2_r68uw"]
 [ext_resource type="AudioStream" uid="uid://ce6sd4xn4i2bj" path="res://burst_series/cut_in_components/voice_lines/king-crimson-cry.mp3" id="3_3e83l"]
 [ext_resource type="PackedScene" uid="uid://bsptpfrlh5jjs" path="res://burst_series/bursts/diavolo_burst.tscn" id="4_ghk8f"]
 [ext_resource type="AudioStream" uid="uid://c8nt3452m7y3m" path="res://sounds/isagi.mp3" id="5_3e83l"]
+[ext_resource type="Texture2D" uid="uid://bs6n88ls2ghw4" path="res://weapon_images2/diavolo-left.png" id="6_i54cs"]
+[ext_resource type="Texture2D" uid="uid://f0yxnbsqt0wg" path="res://weapon_images2/diavolo-right.png" id="7_ss1f0"]
+[ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="8_usdtd"]
+[ext_resource type="AudioStream" uid="uid://o4xnc6g7c1kr" path="res://sounds/parry-ultrakill.mp3" id="9_nc8yq"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tot8h"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dt1iu"]
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
@@ -15,10 +19,12 @@ corner_radius_top_right = 999
 corner_radius_bottom_right = 999
 corner_radius_bottom_left = 999
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_46ilj"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_onfl0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uho37"]
 resource_local_to_scene = true
 
-[node name="diavolo_ball" instance=ExtResource("1_sbfod")]
+[node name="diavolo_ball" unique_id=129603212 instance=ExtResource("1_sbfod")]
 burst_name = "King Crimson"
 cut_in_image = ExtResource("2_r68uw")
 cut_in_voice_line = ExtResource("3_3e83l")
@@ -30,23 +36,58 @@ health_color = Color(0.588235, 0.878431, 0.568627, 1)
 radius = 50
 lin_accel = 6.0
 lin_speed = 2.0
+oscillation_arc = 720.0
+oscillation_speed = 10.0
 health = 340
 attack = 23.0
+weapon = true
 field_type = "attack_field"
 cooldown_length = 4
 spawn_ability = "King Crimson"
 attack_sound = ExtResource("5_3e83l")
 
-[node name="Face" parent="RigidBody2D" index="1"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_tot8h")
+[node name="Face" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="1" unique_id=1420178409]
+theme_override_styles/panel = SubResource("StyleBoxFlat_dt1iu")
 
-[node name="Sensory Field" parent="RigidBody2D" index="5"]
+[node name="TextureRect" parent="RigidBody2D/Weapon" parent_id_path=PackedInt32Array(1495547949) index="0" unique_id=138853334]
+z_index = -7
+offset_left = -96.00001
+offset_top = -88.00001
+offset_right = -14.000008
+offset_bottom = -8.000008
+scale = Vector2(0.8384845, 0.8384845)
+texture = ExtResource("6_i54cs")
+
+[node name="TextureRect2" type="TextureRect" parent="RigidBody2D/Weapon" parent_id_path=PackedInt32Array(1495547949) index="1" unique_id=1426703497]
+z_index = -7
+offset_left = 24.0
+offset_top = -88.0
+offset_right = 106.0
+offset_bottom = -8.0
+scale = Vector2(0.8384845, 0.8384845)
+texture = ExtResource("7_ss1f0")
+
+[node name="WeaponShape2D" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="3" unique_id=720970176]
+position = Vector2(-56, -56)
+scale = Vector2(4.02, 4.02)
+shape = SubResource("CircleShape2D_onfl0")
+
+[node name="WeaponShape2D2" type="CollisionShape2D" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="4" unique_id=1289656474]
+position = Vector2(56, -56)
+scale = Vector2(4.02, 4.02)
+shape = SubResource("CircleShape2D_onfl0")
+script = ExtResource("8_usdtd")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="RigidBody2D/WeaponShape2D2" index="0" unique_id=416831441]
+stream = ExtResource("9_nc8yq")
+
+[node name="Sensory Field" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="5" unique_id=1493948663]
 collision_layer = 2147483647
 collision_mask = 2147483647
 field_multiply = 2.0
 
-[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
-shape = SubResource("CircleShape2D_46ilj")
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0" unique_id=101097463]
+shape = SubResource("CircleShape2D_uho37")
 
-[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_tot8h")
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1" unique_id=1410089568]
+theme_override_styles/panel = SubResource("StyleBoxFlat_dt1iu")

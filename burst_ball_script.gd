@@ -114,6 +114,7 @@ func activate_spawn_ability() -> void:
 				$RigidBody2D.set_collision_mask_value(32, true)
 				$"RigidBody2D/Sensory Field".monitoring = false
 				self.z_index += 999
+				get_parent().summons.append(ball)
 				await burst_finished
 				if ball != null: ball.die()
 				self.set_collision_layer(layer)

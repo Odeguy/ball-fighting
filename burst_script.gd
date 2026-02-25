@@ -26,6 +26,8 @@ var initial_stats: Dictionary
 	"burst_limit": 1.0,
 	"cooldown_length": 2.0
 }
+@export var time_stop: bool
+@export var toggle_invincible: bool
 
 """"
 1. Wait for Ball detection
@@ -36,6 +38,10 @@ var initial_stats: Dictionary
 """
 
 func _ready() -> void:
+	var ball: Burst_Ball = get_parent().get_parent().get_parent()
+	var road_roller = false
+	if ball.burst_name == "THE WORLD!!": road_roller = true
+	if time_stop: ball.time_stop.emit(ball, road_roller)
 	self.hide()
 	$Particles.emitting = true
 	$AreaDetector.show()
@@ -70,7 +76,7 @@ func blast() -> void:
 	$OneTimeSound.play()
 	while duration > 0:
 		await get_tree().process_frame
-		get_parent().get_parent().angular_velocity = 0
+		if laser: get_parent().get_parent().angular_velocity = 0
 		ball.burst = 0
 		if get_tree().paused: continue
 		if counter % 10 == 0: $AudioStreamPlayer2D.play()
@@ -114,6 +120,7 @@ func set_burst_modifiers(ball: Burst_Ball) -> void:
 	if(burst_modifiers["regeneration"] != 1): ball.regeneration = burst_modifiers["regeneration"]
 	if(burst_modifiers["cooldown_length"] != 1): ball.cooldown_length = burst_modifiers["cooldown_length"]
 	if(burst_modifiers["burst_limit"] != 1): ball.burst_limit *= burst_modifiers["burst_limit"]
+	if toggle_invincible: ball.invincible = !ball.invincible
 	ball.round_stats()
 	ball.scaling(0)
 
@@ -125,3 +132,4 @@ func reset_stats(ball: Burst_Ball) -> void:
 	ball.ang_accel = initial_stats["ang_accel"]
 	ball.regeneration = initial_stats["regeneration"]
 	ball.cooldown_length = initial_stats["cooldown_length"]
+	if toggle_invincible: ball.invincible = !ball.invincible

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dfec1tvs8r20k"]
+[gd_scene load_steps=11 format=3 uid="uid://dfec1tvs8r20k"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_2sr77"]
 [ext_resource type="AudioStream" uid="uid://cxnutgjeel0i5" path="res://sounds/flash.mp3" id="2_dtb7e"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://djenups4e0ead" path="res://sounds/teleport-dbz-sound-effect-made-with-Voicemod.mp3" id="3_dtb7e"]
 [ext_resource type="AudioStream" uid="uid://85ppvehu1ehp" path="res://summons/voice_lines/ireinhardvanastrea.wav" id="4_rjtwe"]
 [ext_resource type="PackedScene" uid="uid://bpefy1gl8ianh" path="res://balls/reinhard_ball.tscn" id="5_vbtqn"]
+[ext_resource type="Texture2D" uid="uid://cwo3ctru4wrkt" path="res://weapon_images/rezero-subaru-and-guiltywhip-pack_png.png" id="6_rjtwe"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wghgq"]
 resource_local_to_scene = true
@@ -16,6 +17,8 @@ corner_radius_top_right = 999
 corner_radius_bottom_right = 999
 corner_radius_bottom_left = 999
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_vbtqn"]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_t2h85"]
 resource_local_to_scene = true
 
@@ -25,11 +28,12 @@ health_color = Color(0.999998, 0.365187, 0.170562, 1)
 radius = 50
 border_width = 7
 lin_accel = 1.0
-ang_accel = 0.1
+ang_accel = 2.0
 lin_speed = 1.0
-ang_speed = 0.2
+ang_speed = 2.0
 health = 130
 attack = 16.0
+weapon = true
 cooldown_length = 5
 spawn_ability = "Help from Reinhard"
 return_by_death = true
@@ -50,7 +54,21 @@ scaling_vars = {
 [node name="Face" parent="RigidBody2D" index="1"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_wghgq")
 
-[node name="Sensory Field" parent="RigidBody2D" index="5"]
+[node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+offset_left = -144.0
+offset_top = -144.0
+offset_right = 109.0
+offset_bottom = 137.0
+scale = Vector2(0.446121, 0.446121)
+texture = ExtResource("6_rjtwe")
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="3"]
+position = Vector2(-72, -56)
+rotation = -0.760898
+scale = Vector2(2.64771, 10.6308)
+shape = SubResource("CircleShape2D_vbtqn")
+
+[node name="Sensory Field" parent="RigidBody2D" index="4"]
 field_multiply = 1.2
 
 [node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]

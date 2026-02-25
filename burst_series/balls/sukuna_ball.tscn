@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cgq37akfuyiyh"]
+[gd_scene format=3 uid="uid://cgq37akfuyiyh"]
 
 [ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_dku4s"]
 [ext_resource type="Texture2D" uid="uid://cbtkcgxvvysp" path="res://burst_series/cut_in_components/images/40ba9c1daea8ee2a56a633b1843719b68e38b71dr1-540-244_hq_gif.png" id="2_d8ihi"]
@@ -6,10 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://cax6d0qhjvp4a" path="res://burst_series/bursts/sukuna_burst.tscn" id="4_qts6m"]
 [ext_resource type="AudioStream" uid="uid://cox04gqtoo8yd" path="res://sounds/SE198_StabC.wav" id="5_ad2y7"]
 [ext_resource type="Texture2D" uid="uid://chacylyqtnv4d" path="res://summons/images/mahoraga-sukuna-jujutsu-kaisen-230-1_jpg.png" id="6_ad2y7"]
-[ext_resource type="AudioStream" uid="uid://bbiqqwxpj7d8u" path="res://summons/voice_lines/mahoraga-help-made-with-Voicemod.mp3" id="7_x2jbf"]
+[ext_resource type="AudioStream" uid="uid://xdjwvmxuywo4" path="res://sounds2/sukuna-yelling-mahoraga.mp3" id="7_ad2y7"]
 [ext_resource type="PackedScene" uid="uid://byh3scbytc318" path="res://balls/mahoraga_ball.tscn" id="8_ad2y7"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ony0"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ad2y7"]
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
@@ -18,10 +18,10 @@ corner_radius_top_right = 999
 corner_radius_bottom_right = 999
 corner_radius_bottom_left = 999
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_5ptv8"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_x2jbf"]
 resource_local_to_scene = true
 
-[node name="sukuna_ball" instance=ExtResource("1_dku4s")]
+[node name="sukuna_ball" unique_id=340624257 instance=ExtResource("1_dku4s")]
 burst_name = "Domain Expansion: Malevolent Shrine"
 cut_in_image = ExtResource("2_d8ihi")
 cut_in_voice_line = ExtResource("3_sercl")
@@ -35,22 +35,26 @@ border_width = 4
 lin_accel = 2.0
 lin_speed = 2.0
 health = 400
-regeneration = 2.0
+regeneration = 3.0
 attack = 14.0
+field_type = "attack_field"
 black_flash = true
 flash_chance = 0.06
 attack_sound = ExtResource("5_ad2y7")
 summon_enabled = true
 summon_limit = 0.7
 summon_cut_in_image = ExtResource("6_ad2y7")
-summon_cut_in_voice_line = ExtResource("7_x2jbf")
+summon_cut_in_voice_line = ExtResource("7_ad2y7")
 summoned = ExtResource("8_ad2y7")
 
-[node name="Face" parent="RigidBody2D" index="1"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_3ony0")
+[node name="Face" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="1" unique_id=1420178409]
+theme_override_styles/panel = SubResource("StyleBoxFlat_ad2y7")
 
-[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
-shape = SubResource("CircleShape2D_5ptv8")
+[node name="Sensory Field" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="4" unique_id=1493948663]
+field_multiply = 2.3
 
-[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_3ony0")
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0" unique_id=101097463]
+shape = SubResource("CircleShape2D_x2jbf")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1" unique_id=1410089568]
+theme_override_styles/panel = SubResource("StyleBoxFlat_ad2y7")

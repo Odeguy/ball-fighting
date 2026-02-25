@@ -21,6 +21,7 @@ class_name Floater
 
 
 func _ready() -> void:
+	if !vulnerable: health = 999999999
 	self.attack = get_parent().attack
 	team = get_parent().team
 	center = get_parent().center
@@ -29,6 +30,7 @@ func _ready() -> void:
 	
 	
 func _physics_process(delta: float) -> void:
+	if !vulnerable: health = 9999999
 	$RigidBody2D.apply_central_force((get_parent().get_body().position - $RigidBody2D.position) * 20)
 	speed_bonus = abs(get_velocity_mag()) / 1000 + abs($RigidBody2D.angular_velocity) / 24
 	if center_force:
@@ -59,6 +61,11 @@ func die() -> void:
 	self.queue_free()
 	
 
+func record_hit(damage: int) -> void:
+	super(damage)
+	if get_parent() is Burst_Ball && get_parent().burst < get_parent().burst_limit: 
+		get_parent().record_hit(damage)
+	
 func damage_effect(num: int):
 	var effect = RichTextLabel.new()
 	get_parent().get_audio().stop()

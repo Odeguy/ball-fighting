@@ -5,6 +5,9 @@ class_name Cut_In
 var image: Texture2D
 var voice_line: AudioStream
 var text: String
+var show_image: bool
+var play_line: bool
+var pause_sound: bool
 
 signal done
 
@@ -17,40 +20,48 @@ Init. Set label text, image texture, voice line, and sound effect
 5. hide & queue_free() self
 """
 
-func set_params(name: String, img: Texture2D, voice: AudioStream) -> void:
+func set_params(name: String, img: Texture2D, voice: AudioStream, show_img: bool, play_snd: bool, pause_snd: bool) -> void:
 	text = name
 	image = img
 	voice_line = voice
+	show_image = show_img
+	play_line = play_snd
+	pause_sound = pause_snd
 
 func _ready() -> void:
-	$Overlay.global_position = Vector2(0, 0)
-	$Poster.texture = image
-	$Label.text = text
+	if !show_image:
+		$CanvasLayer/Overlay.hide()
+		$CanvasLayer/Border.hide()
+		$CanvasLayer/Poster.hide()
+		$CanvasLayer/Label.hide()
+	$CanvasLayer/Overlay.global_position = Vector2(0, 0)
+	$CanvasLayer/Poster.texture = image
+	$CanvasLayer/Label.text = text
 	var tween: Tween = get_tree().create_tween()
 	tween.set_speed_scale(16)
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	await tween.tween_property($Overlay, "modulate:a", 0.7, 2)
-	$AudioStreamPlayer2D.play()
+	if show_image: await tween.tween_property($CanvasLayer/Overlay, "modulate:a", 0.7, 2)
+	if pause_sound: $AudioStreamPlayer2D.play()
 	
-	var label_diff = $Label.position.x - $Poster.position.x
+	var label_diff = $CanvasLayer/Label.position.x - $CanvasLayer/Poster.position.x
 	tween.set_parallel()
-	$Border.global_position.x = 0
-	$Poster.global_position.x = 0
-	$Border.modulate.a = 0
-	$Poster.modulate.a = 0
+	$CanvasLayer/Border.global_position.x = 0
+	$CanvasLayer/Poster.global_position.x = 0
+	$CanvasLayer/Border.modulate.a = 0
+	$CanvasLayer/Poster.modulate.a = 0
 	
-	tween.tween_property($Border, "modulate:a", 1, 14)
-	tween.tween_property($Poster, "modulate:a", 1, 14)
-	await $AudioStreamPlayer2D.finished
-	#tween.tween_property($Border, "global_position:x", 0, 1)
-	#tween.tween_property($Poster, "global_position:x", 0, 1)
-	await tween.tween_property($Label, "global_position:x", label_diff * -1, 2)
+	tween.tween_property($CanvasLayer/Border, "modulate:a", 1, 14)
+	tween.tween_property($CanvasLayer/Poster, "modulate:a", 1, 14)
+	if pause_sound: await $AudioStreamPlayer2D.finished
+	#tween.tween_property($CanvasLayer/Border, "global_position:x", 0, 1)
+	#tween.tween_property($CanvasLayer/Poster, "global_position:x", 0, 1)
+	if show_image: tween.tween_property($CanvasLayer/Label, "global_position:x", label_diff * -1, 2)
 	
 	$AudioStreamPlayer2D.stream = voice_line
-	$AudioStreamPlayer2D.play()
+	if play_line: $AudioStreamPlayer2D.play()
 	tween.set_parallel(false)
-	tween.tween_property($Label, "global_position:x", label_diff * 40, 100)
-	if voice_line != null: await $AudioStreamPlayer2D.finished
+	tween.tween_property($CanvasLayer/Label, "global_position:x", label_diff * 40, 100)
+	if play_line: if voice_line != null: await $AudioStreamPlayer2D.finished
 	done.emit()
 	self.hide()
 	self.queue_free()

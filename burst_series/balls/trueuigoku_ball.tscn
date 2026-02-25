@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b8xok1b40gc4t"]
+[gd_scene format=3 uid="uid://b8xok1b40gc4t"]
 
 [ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_tmxou"]
 [ext_resource type="Texture2D" uid="uid://df0klx2e8hkh2" path="res://burst_series/cut_in_components/images/this-is-the-best-goku-has-ever-looked-in-my-opinion-moro-v0-tpep6sd7xbwa1_jpg.png" id="2_l5wsb"]
@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dba201geyghwy" path="res://particles/spotlight_5.png" id="6_p52ps"]
 [ext_resource type="AudioStream" uid="uid://djenups4e0ead" path="res://sounds/teleport-dbz-sound-effect-made-with-Voicemod.mp3" id="7_183si"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5qtt"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_183si"]
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
@@ -18,7 +18,7 @@ corner_radius_top_right = 999
 corner_radius_bottom_right = 999
 corner_radius_bottom_left = 999
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_l5wsb"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_hhul4"]
 resource_local_to_scene = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p52ps"]
@@ -50,7 +50,7 @@ scale_max = 0.02
 color = Color(0.803922, 0.698039, 0.976471, 1)
 color_ramp = SubResource("GradientTexture1D_183si")
 
-[node name="trueuigoku_ball" instance=ExtResource("1_tmxou")]
+[node name="trueuigoku_ball" unique_id=1879280978 instance=ExtResource("1_tmxou")]
 burst_name = "Perfected Ultra Instinct"
 cut_in_image = ExtResource("2_l5wsb")
 cut_in_voice_line = ExtResource("3_714to")
@@ -64,7 +64,7 @@ border_width = 6
 lin_accel = 10.0
 lin_speed = 7.0
 health = 525
-attack = 28.0
+attack = 35.0
 trail = true
 trail_freq = 2
 field_type = "dodge_field"
@@ -78,24 +78,24 @@ scaling_vars = {
 "regeneration": 1.0
 }
 
-[node name="Face" parent="RigidBody2D" index="1"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_m5qtt")
+[node name="Face" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="1" unique_id=1420178409]
+theme_override_styles/panel = SubResource("StyleBoxFlat_183si")
 
-[node name="Sensory Field" parent="RigidBody2D" index="5"]
+[node name="Sensory Field" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="4" unique_id=1493948663]
 visible = true
 field_multiply = 2.0
 
-[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
-shape = SubResource("CircleShape2D_l5wsb")
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0" unique_id=101097463]
+shape = SubResource("CircleShape2D_hhul4")
 
-[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1" unique_id=1410089568]
 material = SubResource("ShaderMaterial_p52ps")
-theme_override_styles/panel = SubResource("StyleBoxFlat_m5qtt")
+theme_override_styles/panel = SubResource("StyleBoxFlat_183si")
 
-[node name="AudioStreamPlayer2D" parent="RigidBody2D/Sensory Field" index="2"]
+[node name="AudioStreamPlayer2D" parent="RigidBody2D/Sensory Field" index="2" unique_id=821503103]
 stream = ExtResource("7_183si")
 
-[node name="AntiSpiralGlow" type="GPUParticles2D" parent="RigidBody2D" index="7"]
+[node name="AntiSpiralGlow" type="GPUParticles2D" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="7" unique_id=1295113783]
 z_index = -1
 material = SubResource("CanvasItemMaterial_inflo")
 position = Vector2(2, 0)

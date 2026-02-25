@@ -20,21 +20,30 @@ var clash_sounds: Array = [preload("res://sounds/Hit_ClashA.wav"), preload("res:
 @onready var clash_itr = 0
 @export var clash_pause: bool = true
 @export var cut_ins: bool = true
+@export var play_voice_lines: bool = true
+@export var show_cut_in_images: bool = true
+@export var cut_in_pause: bool = true
 var selection_paths: Dictionary[String, String]
 @export var gravity_scale: float
 
 func _ready() -> void:
+	$Camera2D.make_current()
 	winner = false
 	for child: Marker2D in $SpawnPoints.get_children():
 		spawn_points.append(child.position)
 	for child: Marker2D in $StatPoints.get_children():
 		stat_points.append(child.position * scale)
-	$Button.modulate.a = button_opacity
+	$CanvasLayer/Button.modulate.a = button_opacity
 	showing = true
 	balls = JSON.parse_string(FileAccess.get_file_as_string("res://balls.json"))
 	screen_size = get_viewport_rect().size
 	arena_origin = $Arena.position
 	arena_size = $Arena.size
+	
+func _physics_process(delta: float) -> void:
+	processes(delta)
+	camera_position()
+	#re_capture()
 	
 #the final ball number population limit should be <= 32
 func begin(fighters: Array):
@@ -49,6 +58,7 @@ func begin(fighters: Array):
 		if clash_pause: fighter.connect("clash", play_clash_sound)
 		fighter.connect("summon", summon)
 		fighter.connect("returning", return_by_death)
+		fighter.connect("time_stop", za_warudo)
 		fighter.get_body().gravity_scale = gravity_scale
 	if teams.size() == 2:
 		if prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[0] && teams.keys()[1] == prev_teams.keys()[1] || prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[1] && teams.keys()[1] == prev_teams.keys()[0]:
@@ -60,11 +70,8 @@ func begin(fighters: Array):
 	for fighter: Ball in fighters:
 		await fighter.activate_spawn_ability()
 		
-func _process(delta: float) -> void:
-	if showing && get_global_mouse_position().x > arena_origin.x && get_global_mouse_position().y > arena_origin.y && get_global_mouse_position().x < arena_origin.x + arena_size.x && get_global_mouse_position().y < arena_origin.y + arena_size.y:
-		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+func processes(delta: float) -> void:
+	#update_mouse_visibility()
 	
 	var team_check
 	if fighting.size() > 0: team_check = fighting[0].team
@@ -106,6 +113,7 @@ func _on_button_pressed() -> void:
 		var ball = summons[i]
 		summons.remove_at(i)
 		if ball != null: ball.queue_free()
+	$Camera2D.enabled = false
 	var select_screen: Selection_Screen = selection_screen.instantiate()
 	add_sibling(select_screen)
 	select_screen.scale = scale
@@ -116,8 +124,8 @@ func _on_button_pressed() -> void:
 	tween.tween_property($start_button, "modulate:a", 0, 1)
 	tween.tween_property($Panel, "modulate:a", 0, 2)
 	var selections: Array
-	$Button.z_index = -10
-	$Button.disabled = true
+	$CanvasLayer/Button.z_index = -10
+	$CanvasLayer/Button.disabled = true
 	showing = false
 	prev_teams = teams
 	$Scoreboard.hide()
@@ -126,9 +134,10 @@ func _on_button_pressed() -> void:
 	selections = await select_screen.get_selections($SpawnPoints.get_children().size())
 	select_screen.hide()
 	select_screen.queue_free()
+	$Camera2D.enabled = true
 	begin(selections)
-	$Button.disabled = false
-	$Button.z_index = 1
+	$CanvasLayer/Button.disabled = false
+	$CanvasLayer/Button.z_index = 1
 	showing = true
 	clash_itr = 0
 	self.show()
@@ -145,11 +154,11 @@ func play_clash_sound() -> void:
 func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: Ball, summoned: PackedScene, team: String, amount: int, layer: int, death_linked: bool, summon_burst_enabled: bool) -> void:
 	if cut_ins && cut_in_image != null:
 		var cut_in: Cut_In = preload("res://cut_in.tscn").instantiate()
-		cut_in.set_params("", cut_in_image, cut_in_voice_line)
+		cut_in.set_params("", cut_in_image, cut_in_voice_line, show_cut_in_images, play_voice_lines, cut_in_pause)
 		add_child(cut_in)
-		get_tree().paused = true
+		if cut_in_pause: get_tree().paused = true
 		await cut_in.done
-		get_tree().paused = false
+		if cut_in_pause: get_tree().paused = false
 	
 	for i in range(amount):
 		var ball: Ball = summoned.instantiate()
@@ -182,6 +191,12 @@ func adopt_particles(particles: GPUParticles2D) -> void:
 	if particles == null: return
 	particles.hide()
 	particles.queue_free()
+
+func update_mouse_visibility() -> void:
+	if showing && get_global_mouse_position().x > arena_origin.x && get_global_mouse_position().y > arena_origin.y && get_global_mouse_position().x < arena_origin.x + arena_size.x && get_global_mouse_position().y < arena_origin.y + arena_size.y:
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 func return_by_death(returner: Ball) -> void:
 	winner = true
@@ -208,3 +223,71 @@ func return_by_death(returner: Ball) -> void:
 	clash_itr = 0
 	self.show()
 	winner = false
+	
+func za_warudo(ball: Burst_Ball, road_roller: bool) -> void:
+	for fighter: Ball in fighting:
+		if !(fighter.scene_file_path == "res://burst_series/balls/dio_ball.tscn") && !(fighter.scene_file_path == "res://burst_series/balls/jotaro_ball.tscn"): 
+			var body: RigidBody2D = fighter.get_body()
+			body.set_deferred("freeze", true)
+		
+	if road_roller:
+		await get_tree().create_timer(5).timeout
+		var audio_player: AudioStreamPlayer2D = AudioStreamPlayer2D.new()
+		audio_player.stream = preload("res://sounds2/road-roller-da.mp3")
+		add_child(audio_player)
+		audio_player.play()
+		var roller: TextureRect = TextureRect.new()
+		roller.texture = preload("res://weapon_images2/road-roller.png")
+		roller.position = Vector2(0, -1 * screen_size.y)
+		add_child(roller)
+		var tween = get_tree().create_tween()
+		tween.tween_property(roller, "position:y", screen_size.y / 2, 4)
+		await tween.finished
+		for fighter: Ball in fighting:
+			if fighter != ball:
+				ball.health -= 50
+				ball.damage_effect(50)
+	
+	await ball.burst_finished
+	
+	for fighter: Ball in fighting:
+		if !(fighter.scene_file_path == "res://burst_series/balls/dio_ball.tscn") && !(fighter.scene_file_path == "res://burst_series/balls/jotaro_ball.tscn"): 
+			var body: RigidBody2D = fighter.get_body()
+			body.set_deferred("freeze", false)
+			
+func camera_position() -> void:
+	#if fighting.size() < 2: return
+	var camera = $Camera2D
+	var leftmost: float = screen_size.x
+	var rightmost: float = 0
+	var downmost: float = screen_size.y
+	var upmost: float = 0
+	
+	for fighter: Ball in fighting:
+		var body: RigidBody2D = fighter.get_body()
+		if body.global_position.x < leftmost: leftmost = body.global_position.x - 400
+		if body.global_position.y < downmost: downmost = body.global_position.y - 400
+		if body.global_position.x > rightmost: rightmost = body.global_position.x + 400
+		if body.global_position.y > upmost: upmost = body.global_position.x + 400
+	
+	camera.position = Vector2(leftmost, downmost)
+	var tween = get_tree().create_tween()
+	tween.set_parallel()
+	var zoom_x = screen_size.x / (rightmost - leftmost)
+	var zoom_y = camera.zoom.x
+	tween.tween_property(camera, "scale", Vector2(zoom_x, zoom_y), 1)
+
+@onready var arena_pos = $Arena.position
+@onready var arena_end = $Arena.position + $Arena.size * $Arena.scale
+func re_capture() -> void:
+	for ball: Ball in fighting:
+		var pos = ball.global_position
+		if (
+			pos.x > arena_end.x ||
+			pos.x < arena_pos.x ||
+			pos.y > arena_end.y ||
+			pos.y < arena_size.x
+		):
+			ball.global_position = spawn_points[fighting.find(ball)]
+			pass
+		

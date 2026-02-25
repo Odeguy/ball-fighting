@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://vncgfvhdwod8"]
+[gd_scene format=3 uid="uid://vncgfvhdwod8"]
 
 [ext_resource type="Script" uid="uid://843d781qmk57" path="res://ball_script.gd" id="1_x8fbi"]
 [ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="2_41u45"]
@@ -6,8 +6,8 @@
 [ext_resource type="FontFile" uid="uid://cp8ckbrt1edkh" path="res://fonts/BarberChop.otf" id="4_hgol0"]
 [ext_resource type="AudioStream" uid="uid://o4xnc6g7c1kr" path="res://sounds/parry-ultrakill.mp3" id="4_n5601"]
 [ext_resource type="Script" uid="uid://7dn0euhwvq3" path="res://sensory_field_script.gd" id="6_gchj4"]
-[ext_resource type="Texture2D" uid="uid://b7j480e8qm6qq" path="res://particles/spotlight_8.png" id="7_01kih"]
 [ext_resource type="AudioStream" uid="uid://ualg2kfpeujj" path="res://sounds/Re_Zero Return By Death Sound Effect.mp3" id="8_0jqm0"]
+[ext_resource type="Script" uid="uid://c771cegkg6jpb" path="res://ball_label_script.gd" id="9_0jqm0"]
 [ext_resource type="Texture2D" uid="uid://dba201geyghwy" path="res://particles/spotlight_5.png" id="9_nidkk"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x8fbi"]
@@ -51,47 +51,26 @@ scale_max = 0.02
 color = Color(0.803922, 0.698039, 0.976471, 1)
 color_ramp = SubResource("GradientTexture1D_k6jcf")
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1iob0"]
-blend_mode = 1
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0jqm0"]
-particle_flag_disable_z = true
-emission_shape = 2
-emission_sphere_radius = 102.56
-angle_min = -56.6
-angle_max = 116.6
-gravity = Vector3(0, 0, 0)
-color = Color(0.792157, 0, 0.0745098, 1)
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_nidkk"]
-blend_mode = 2
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vb544"]
-particle_flag_disable_z = true
-emission_shape = 2
-emission_sphere_radius = 102.56
-angle_min = -38.0
-angle_max = 37.0
-gravity = Vector3(0, 0, 0)
-
-[node name="ball" type="Node2D"]
+[node name="ball" type="Node2D" unique_id=1938722329]
 editor_description = "bouncy"
 script = ExtResource("1_x8fbi")
 health_color = Color(1, 1, 1, 1)
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
+[node name="RigidBody2D" type="RigidBody2D" parent="." unique_id=961107475]
 collision_layer = 0
 collision_mask = 0
 physics_material_override = SubResource("PhysicsMaterial_x8fbi")
 gravity_scale = 0.0
 center_of_mass_mode = 1
+freeze_mode = 1
 contact_monitor = true
 max_contacts_reported = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D" unique_id=928397621]
+z_index = 4096
 shape = SubResource("CircleShape2D_x8fbi")
 
-[node name="Face" type="Panel" parent="RigidBody2D"]
+[node name="Face" type="Panel" parent="RigidBody2D" unique_id=1420178409]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -102,30 +81,30 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_x8fbi")
 metadata/_edit_use_anchors_ = true
 
-[node name="Weapon" type="Node2D" parent="RigidBody2D"]
+[node name="Weapon" type="Node2D" parent="RigidBody2D" unique_id=1495547949]
 z_index = 7
 
-[node name="TextureRect" type="TextureRect" parent="RigidBody2D/Weapon"]
+[node name="TextureRect" type="TextureRect" parent="RigidBody2D/Weapon" unique_id=138853334]
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="WeaponShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+[node name="WeaponShape2D" type="CollisionShape2D" parent="RigidBody2D" unique_id=720970176]
 script = ExtResource("2_41u45")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="RigidBody2D/WeaponShape2D"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="RigidBody2D/WeaponShape2D" unique_id=1575740380]
 stream = ExtResource("4_n5601")
 
-[node name="Sensory Field" type="Area2D" parent="RigidBody2D"]
+[node name="Sensory Field" type="Area2D" parent="RigidBody2D" unique_id=1493948663]
 visible = false
 collision_layer = 4294967295
 collision_mask = 4294967295
 monitorable = false
 script = ExtResource("6_gchj4")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D/Sensory Field"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D/Sensory Field" unique_id=101097463]
 shape = SubResource("CircleShape2D_n5601")
 
-[node name="Face" type="Panel" parent="RigidBody2D/Sensory Field"]
+[node name="Face" type="Panel" parent="RigidBody2D/Sensory Field" unique_id=1410089568]
 modulate = Color(1, 1, 1, 0.364706)
 y_sort_enabled = true
 anchors_preset = 8
@@ -138,9 +117,9 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_x8fbi")
 metadata/_edit_use_anchors_ = true
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="RigidBody2D/Sensory Field"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="RigidBody2D/Sensory Field" unique_id=821503103]
 
-[node name="RBDMiasma" type="GPUParticles2D" parent="RigidBody2D"]
+[node name="RBDMiasma" type="GPUParticles2D" parent="RigidBody2D" unique_id=939561579]
 z_index = -1
 material = SubResource("CanvasItemMaterial_vb544")
 position = Vector2(2, 0)
@@ -152,24 +131,9 @@ one_shot = true
 fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_tqsku")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=2118060029]
 
-[node name="BlackFlash" type="GPUParticles2D" parent="."]
-visible = false
-material = SubResource("CanvasItemMaterial_1iob0")
-amount = 32
-texture = ExtResource("7_01kih")
-lifetime = 0.01
-process_material = SubResource("ParticleProcessMaterial_0jqm0")
-
-[node name="BlackFlash2" type="GPUParticles2D" parent="BlackFlash"]
-material = SubResource("CanvasItemMaterial_nidkk")
-amount = 32
-texture = ExtResource("7_01kih")
-lifetime = 0.01
-process_material = SubResource("ParticleProcessMaterial_vb544")
-
-[node name="AvgDmg" type="Label" parent="."]
+[node name="AvgDmg" type="Label" parent="." unique_id=644978063]
 z_index = 1200
 anchors_preset = 8
 anchor_left = 0.5
@@ -194,7 +158,7 @@ text = "Average
 Damage: 0"
 horizontal_alignment = 1
 
-[node name="Scaling" type="Label" parent="AvgDmg"]
+[node name="Scaling" type="Label" parent="AvgDmg" unique_id=1288273960]
 layout_mode = 0
 offset_left = 146.0
 offset_top = -0.5
@@ -208,10 +172,11 @@ theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_ktgx5")
 theme_override_font_sizes/font_size = 15
 
-[node name="RBDSound" type="AudioStreamPlayer2D" parent="."]
+[node name="RBDSound" type="AudioStreamPlayer2D" parent="." unique_id=536965822]
 stream = ExtResource("8_0jqm0")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1290918234]
+process_mode = 3
 offset_right = 25.0
 offset_bottom = 63.0
 theme_override_fonts/font = ExtResource("2_ktgx5")
@@ -219,6 +184,7 @@ theme_override_font_sizes/font_size = 40
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("9_0jqm0")
 metadata/_edit_use_anchors_ = true
 
 [connection signal="returning" from="." to="." method="_on_returning"]

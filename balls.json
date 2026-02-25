@@ -35,6 +35,8 @@
 		"Saber Alter": "res://burst_series/balls/saberalter_ball.tscn",
 		"Kazuma": "res://balls/kazuma_ball.tscn",
 		"Lord Shadow": "res://burst_series/balls/shadow_ball.tscn",
-		"Diavolo": "res://burst_series/balls/diavolo_ball.tscn"
+		"Diavolo": "res://burst_series/balls/diavolo_ball.tscn",
+		"Dio": "res://burst_series/balls/dio_ball.tscn",
+		"Jotaro": "res://burst_series/balls/jotaro_ball.tscn"
 	}
 }

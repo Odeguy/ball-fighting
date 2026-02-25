@@ -1,12 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://cfqkftli2p4by"]
+[gd_scene format=3 uid="uid://cfqkftli2p4by"]
 
 [ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_82h18"]
+[ext_resource type="Script" uid="uid://dmk74hgxh0i3x" path="res://burst_series/balls/gojo_ball_script.gd" id="2_bmrmg"]
 [ext_resource type="Texture2D" uid="uid://1lba6tovaamp" path="res://burst_series/cut_in_components/images/latest.png" id="2_kd76l"]
 [ext_resource type="AudioStream" uid="uid://c7nib06suwmc" path="res://burst_series/cut_in_components/voice_lines/voice_JJGJO_skill1.ogg" id="3_kd76l"]
 [ext_resource type="PackedScene" uid="uid://c2iaymivct4kk" path="res://burst_series/bursts/gojo_burst2.tscn" id="4_kd76l"]
-[ext_resource type="AudioStream" uid="uid://bayl1epsx3o76" path="res://sounds/SE006.wav" id="5_s0qdr"]
+[ext_resource type="Shader" uid="uid://b6feltswonh0h" path="res://shaders/pulse.gdshader" id="6_a5mf5"]
+[ext_resource type="AudioStream" uid="uid://165wgoblthi0" path="res://sounds/SE_CuttingDing.wav" id="6_bmrmg"]
+[ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="7_2bq0q"]
+[ext_resource type="Texture2D" uid="uid://ch25l8tyhxrb3" path="res://weapon_images/terrific/ball2.png" id="9_7jxhr"]
+[ext_resource type="Script" uid="uid://7dn0euhwvq3" path="res://sensory_field_script.gd" id="10_7jxhr"]
+[ext_resource type="Texture2D" uid="uid://b85kto3kh5ac2" path="res://weapon_images/terrific/ball3.png" id="10_bmrmg"]
+[ext_resource type="Script" uid="uid://d2e8tmbys2dbd" path="res://burst_series/balls/red-blue-script.gd" id="11_bmrmg"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xccwo"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kd76l"]
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
@@ -15,10 +22,123 @@ corner_radius_top_right = 999
 corner_radius_bottom_right = 999
 corner_radius_bottom_left = 999
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_v20b8"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_kblg1"]
 resource_local_to_scene = true
 
-[node name="gojo_ball" instance=ExtResource("1_82h18")]
+[sub_resource type="Shader" id="Shader_pktsc"]
+code = "shader_type canvas_item;
+
+uniform sampler2D t0 : hint_screen_texture;
+uniform vec2 blur_size = vec2(.5, .5);
+
+void fragment() {
+    vec2 size = vec2(textureSize(t0, 0));
+
+    float uv_x = float(SCREEN_UV.x) * size.x;
+    float uv_y = float(SCREEN_UV.y) * size.y;
+
+    vec4 sum = vec4(0.0);
+    for (int n = 0; n < 9; ++n) {
+        uv_y = float(SCREEN_UV.y) * size.y + (blur_size.y * (float(n) - 4.5));
+        vec4 h_sum = vec4(0.0);
+        h_sum += texelFetch(t0, ivec2(int(uv_x) - int(4.0 * blur_size.x), int(uv_y)), 0);
+        h_sum += texelFetch(t0, ivec2(int(uv_x) - int(3.0 * blur_size.x), int(uv_y)), 0);
+        h_sum += texelFetch(t0, ivec2(int(uv_x) - int(2.0 * blur_size.x), int(uv_y)), 0);
+        h_sum += texelFetch(t0, ivec2(int(uv_x) - int(blur_size.x), int(uv_y)), 0);
+        h_sum += texelFetch(t0, ivec2(int(uv_x), int(uv_y)), 0);
+        h_sum += texelFetch(t0, ivec2(int(uv_x) + int(blur_size.x), int(uv_y)), 0);
+        h_sum += texelFetch(t0, ivec2(int(uv_x) + int(2.0 * blur_size.x), int(uv_y)), 0);
+        h_sum += texelFetch(t0, ivec2(int(uv_x) + int(3.0 * blur_size.x), int(uv_y)), 0);
+        h_sum += texelFetch(t0, ivec2(int(uv_x) + int(4.0 * blur_size.x), int(uv_y)), 0);
+        sum += h_sum / 9.0;
+    }
+
+    COLOR = sum / 9.0;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s0qdr"]
+shader = SubResource("Shader_pktsc")
+shader_parameter/blur_size = Vector2(1, 1)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xxufj"]
+friction = 0.0
+bounce = 0.2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vdwou"]
+radius = 56.0089
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e8kpq"]
+resource_local_to_scene = true
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a5mf5"]
+shader = ExtResource("6_a5mf5")
+shader_parameter/glow_color = Color(0, 0.6901961, 1, 1)
+shader_parameter/intensity = 1.6570000787075
+shader_parameter/spread = 1.5760000716001201
+shader_parameter/pulse_speed = 1.7230000818425
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7jxhr"]
+bg_color = Color(0.23536122, 0.5078433, 0.66046506, 1)
+corner_radius_top_left = 9999
+corner_radius_top_right = 9999
+corner_radius_bottom_right = 9999
+corner_radius_bottom_left = 9999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bmrmg"]
+resource_local_to_scene = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xxufj"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="Shader" id="Shader_bmrmg"]
+code = "shader_type canvas_item;
+render_mode blend_add;
+uniform vec4 glow_color : source_color = vec4(1.0, 0.9, 0.5, 1.0);
+uniform float intensity : hint_range(0.0, 5.0) = 1.5;
+uniform float spread : hint_range(0.1, 2.0) = 1.0;
+uniform float pulse_speed : hint_range(0.0, 10.0) = 1.0;
+void fragment() {
+    vec2 centered_uv = UV - vec2(0.5);
+    float dist = length(centered_uv) * spread;
+    float alpha = max(0.0, 1.0 - dist);
+    alpha *= (1.0 + 0.2 * sin(TIME * pulse_speed));
+    alpha = clamp(alpha * intensity, 0.0, 1.0);
+    COLOR = glow_color * alpha;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xxufj"]
+shader = SubResource("Shader_bmrmg")
+shader_parameter/glow_color = Color(1, 0, 0, 1)
+shader_parameter/intensity = 1.6570000787075
+shader_parameter/spread = 1.5760000716001201
+shader_parameter/pulse_speed = 1.7230000818425
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vdwou"]
+bg_color = Color(0.23536122, 0.5078433, 0.66046506, 1)
+corner_radius_top_left = 9999
+corner_radius_top_right = 9999
+corner_radius_bottom_right = 9999
+corner_radius_bottom_left = 9999
+
+[node name="gojo_ball" unique_id=1488709613 instance=ExtResource("1_82h18")]
+script = ExtResource("2_bmrmg")
 burst_name = "Domain Expansion: Unlimited Void"
 cut_in_image = ExtResource("2_kd76l")
 cut_in_voice_line = ExtResource("3_kd76l")
@@ -28,33 +148,249 @@ color = Color(1, 1, 1, 1)
 health_color = Color(0.27451, 1, 1, 1)
 radius = 50
 border_width = 4
-lin_accel = 4.0
-lin_speed = 4.0
+lin_accel = 2.0
+lin_speed = 2.0
 health = 310
-regeneration = 5.0
+regeneration = 2.5
 attack = 23.0
+weapon = true
 field_type = "time_field"
-time_factor = 1
+time_factor = 5
 black_flash = true
 flash_chance = 0.1
-attack_sound = ExtResource("5_s0qdr")
+attack_sound = ExtResource("6_bmrmg")
 scaling_vars = {
 "ang_accel": 1.0,
 "ang_speed": 1.0,
 "attack": 1.3,
 "lin_accel": 1.0,
 "lin_speed": 1.01,
-"regeneration": 1.4
+"regeneration": 1.0
 }
 
-[node name="Face" parent="RigidBody2D" index="1"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_xccwo")
+[node name="Face" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="1" unique_id=1420178409]
+theme_override_styles/panel = SubResource("StyleBoxFlat_kd76l")
 
-[node name="Sensory Field" parent="RigidBody2D" index="4"]
+[node name="Sensory Field" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="4" unique_id=1493948663]
 field_multiply = 2.0
 
-[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
-shape = SubResource("CircleShape2D_v20b8")
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0" unique_id=101097463]
+shape = SubResource("CircleShape2D_kblg1")
 
-[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_xccwo")
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1" unique_id=1410089568]
+z_index = 2
+material = SubResource("ShaderMaterial_s0qdr")
+theme_override_styles/panel = SubResource("StyleBoxFlat_kd76l")
+
+[node name="Blue" type="Node2D" parent="." index="6" unique_id=29738531]
+position = Vector2(-96, 96)
+scale = Vector2(0.679389, 0.592953)
+script = ExtResource("11_bmrmg")
+radius = 10
+metadata/_custom_type_script = "uid://843d781qmk57"
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Blue" index="0" unique_id=1676418994]
+collision_layer = 0
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_xxufj")
+center_of_mass_mode = 1
+contact_monitor = true
+max_contacts_reported = 2
+linear_damp_mode = 1
+angular_damp_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Blue/RigidBody2D" index="0" unique_id=603798367]
+visible = false
+position = Vector2(-23.601, -23.1783)
+scale = Vector2(0.517498, 0.517498)
+shape = SubResource("CircleShape2D_vdwou")
+
+[node name="Face" type="Panel" parent="Blue/RigidBody2D" index="1" unique_id=991984769]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_e8kpq")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Blue/RigidBody2D" index="2" unique_id=1855659067]
+visible = false
+offset_left = -40.0
+offset_top = -32.0
+offset_right = 40.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Weapon" type="Node2D" parent="Blue/RigidBody2D" index="3" unique_id=261244065]
+visible = false
+z_index = 7
+
+[node name="TextureRect" type="TextureRect" parent="Blue/RigidBody2D/Weapon" index="0" unique_id=703964667]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WeaponShape2D" type="CollisionShape2D" parent="Blue/RigidBody2D" index="4" unique_id=150668757]
+visible = false
+script = ExtResource("7_2bq0q")
+
+[node name="TextureRect" type="TextureRect" parent="Blue/RigidBody2D" index="5" unique_id=767851599]
+visible = false
+offset_left = -74.1663
+offset_top = -69.9817
+offset_right = 1125.83
+offset_bottom = 1130.02
+scale = Vector2(0.0787622, 0.0779341)
+texture = ExtResource("9_7jxhr")
+
+[node name="Panel" type="Panel" parent="Blue/RigidBody2D" index="6" unique_id=385097886]
+material = SubResource("ShaderMaterial_a5mf5")
+offset_left = -50.044968
+offset_top = -50.594223
+offset_right = 4.4157257
+offset_bottom = 3.8664703
+theme_override_styles/panel = SubResource("StyleBoxFlat_7jxhr")
+
+[node name="Sensory Field" type="Area2D" parent="Blue/RigidBody2D" index="7" unique_id=1772335684]
+collision_layer = 4294967295
+collision_mask = 4294967295
+monitorable = false
+script = ExtResource("10_7jxhr")
+field_multiply = 3.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Blue/RigidBody2D/Sensory Field" index="0" unique_id=426137715]
+position = Vector2(-22.078663, -21.924164)
+shape = SubResource("CircleShape2D_bmrmg")
+
+[node name="Face" type="Panel" parent="Blue/RigidBody2D/Sensory Field" index="1" unique_id=647190063]
+visible = false
+modulate = Color(1, 1, 1, 0.364706)
+y_sort_enabled = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xxufj")
+metadata/_edit_use_anchors_ = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Blue/RigidBody2D/Sensory Field" index="2" unique_id=178884392]
+
+[node name="Red" type="Node2D" parent="." index="7" unique_id=500677315]
+position = Vector2(168, 32)
+scale = Vector2(0.679389, 0.592953)
+script = ExtResource("11_bmrmg")
+radius = 10
+field_type = "attack_field"
+attack_factor = 15
+metadata/_custom_type_script = "uid://843d781qmk57"
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Red" index="0" unique_id=1151998941]
+collision_layer = 0
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_xxufj")
+center_of_mass_mode = 1
+contact_monitor = true
+max_contacts_reported = 2
+linear_damp_mode = 1
+angular_damp_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Red/RigidBody2D" index="0" unique_id=49450466]
+visible = false
+position = Vector2(-23.601, -23.1783)
+scale = Vector2(0.517498, 0.517498)
+shape = SubResource("CircleShape2D_vdwou")
+
+[node name="Face" type="Panel" parent="Red/RigidBody2D" index="1" unique_id=1694937234]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_e8kpq")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Red/RigidBody2D" index="2" unique_id=478731604]
+visible = false
+offset_left = -40.0
+offset_top = -32.0
+offset_right = 40.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Weapon" type="Node2D" parent="Red/RigidBody2D" index="3" unique_id=414879341]
+visible = false
+z_index = 7
+
+[node name="TextureRect" type="TextureRect" parent="Red/RigidBody2D/Weapon" index="0" unique_id=1530242776]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WeaponShape2D" type="CollisionShape2D" parent="Red/RigidBody2D" index="4" unique_id=1220672061]
+visible = false
+script = ExtResource("7_2bq0q")
+
+[node name="TextureRect" type="TextureRect" parent="Red/RigidBody2D" index="5" unique_id=1652497662]
+visible = false
+offset_left = -65.4408
+offset_top = -64.9831
+offset_right = 1134.55
+offset_bottom = 1135.02
+scale = Vector2(0.0710646, 0.0705574)
+texture = ExtResource("10_bmrmg")
+
+[node name="Panel" type="Panel" parent="Red/RigidBody2D" index="6" unique_id=1043956858]
+material = SubResource("ShaderMaterial_xxufj")
+offset_left = -50.044968
+offset_top = -50.594223
+offset_right = 4.4157257
+offset_bottom = 3.8664703
+theme_override_styles/panel = SubResource("StyleBoxFlat_vdwou")
+
+[node name="Sensory Field" type="Area2D" parent="Red/RigidBody2D" index="7" unique_id=1147410171]
+collision_layer = 4294967295
+collision_mask = 4294967295
+monitorable = false
+script = ExtResource("10_7jxhr")
+field_multiply = 2.5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Red/RigidBody2D/Sensory Field" index="0" unique_id=1436007792]
+position = Vector2(-22.078663, -20.23769)
+shape = SubResource("CircleShape2D_bmrmg")
+
+[node name="Face" type="Panel" parent="Red/RigidBody2D/Sensory Field" index="1" unique_id=2129283163]
+visible = false
+modulate = Color(1, 1, 1, 0.364706)
+y_sort_enabled = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xxufj")
+metadata/_edit_use_anchors_ = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Red/RigidBody2D/Sensory Field" index="2" unique_id=439674262]
+
+[connection signal="body_shape_entered" from="Blue/RigidBody2D" to="Blue" method="_on_rigid_body_2d_body_shape_entered"]
+[connection signal="body_shape_entered" from="Blue/RigidBody2D/Sensory Field" to="Blue" method="_on_sensory_field_body_shape_entered"]
+[connection signal="body_shape_entered" from="Red/RigidBody2D" to="Red" method="_on_rigid_body_2d_body_shape_entered"]
+[connection signal="body_shape_entered" from="Red/RigidBody2D/Sensory Field" to="Red" method="_on_sensory_field_body_shape_entered"]

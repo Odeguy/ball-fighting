@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b614u07swipwx"]
+[gd_scene format=3 uid="uid://b614u07swipwx"]
 
 [ext_resource type="Script" uid="uid://c44lakislluqg" path="res://black_flash_script.gd" id="1_ss16q"]
 [ext_resource type="Texture2D" uid="uid://b7j480e8qm6qq" path="res://particles/spotlight_8.png" id="2_fyf0v"]
@@ -34,23 +34,25 @@ initial_velocity_min = 358.25
 initial_velocity_max = 604.36
 gravity = Vector3(0, 0, 0)
 
-[node name="black_flash" type="Node2D"]
+[node name="black_flash" type="Node2D" unique_id=1069634178]
 process_mode = 3
+position = Vector2(88, -64)
 script = ExtResource("1_ss16q")
 
-[node name="Particles" type="GPUParticles2D" parent="."]
+[node name="Particles" type="GPUParticles2D" parent="." unique_id=641525948]
 material = SubResource("CanvasItemMaterial_utilc")
-amount = 128
+scale = Vector2(0.5462722, 0.5462722)
+amount = 64
 texture = ExtResource("2_fyf0v")
 lifetime = 0.4
 process_material = SubResource("ParticleProcessMaterial_dkk4l")
 
-[node name="Particles2" type="GPUParticles2D" parent="Particles"]
+[node name="Particles2" type="GPUParticles2D" parent="Particles" unique_id=2014465048]
 material = SubResource("CanvasItemMaterial_dicil")
-amount = 256
+amount = 100
 texture = ExtResource("2_fyf0v")
 lifetime = 0.4
 process_material = SubResource("ParticleProcessMaterial_svhi3")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=818850389]
 stream = ExtResource("2_utilc")

@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cax6d0qhjvp4a"]
+[gd_scene format=3 uid="uid://cax6d0qhjvp4a"]
 
 [ext_resource type="PackedScene" uid="uid://bl4g66wpb37wv" path="res://burst_series/burst.tscn" id="1_g2ugs"]
-[ext_resource type="AudioStream" uid="uid://dvorybc68tikp" path="res://sounds/Hit_SlashA.wav" id="2_opjmm"]
+[ext_resource type="AudioStream" uid="uid://dsdg6st7b50mg" path="res://sounds2/ARC_BTL_TOP_EFC_ExeRush.ogg" id="2_opjmm"]
 [ext_resource type="Texture2D" uid="uid://di5khq4bav6lj" path="res://particles/trace_01.png" id="2_rfm1b"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_opjmm"]
@@ -20,16 +20,16 @@ scale_min = 0.2
 scale_max = 0.2
 color = Color(0.766962, 0, 0.202973, 1)
 
-[node name="sukuna_burst" instance=ExtResource("1_g2ugs")]
-sound_effect = ExtResource("2_opjmm")
-duration = 6.0
+[node name="sukuna_burst" unique_id=688540533 instance=ExtResource("1_g2ugs")]
+one_time_sound_effect = ExtResource("2_opjmm")
+duration = 4.0
 burst_damage = 5
 
-[node name="CollisionShape2D" parent="AreaDetector" index="0"]
+[node name="CollisionShape2D" parent="AreaDetector" parent_id_path=PackedInt32Array(1397305596) index="0" unique_id=1948378736]
 scale = Vector2(60.6643, 60.6643)
 shape = SubResource("CircleShape2D_opjmm")
 
-[node name="Particles" parent="." index="1"]
+[node name="Particles" parent="." index="1" unique_id=1274215746]
 material = SubResource("CanvasItemMaterial_elbld")
 amount = 5000
 texture = ExtResource("2_rfm1b")

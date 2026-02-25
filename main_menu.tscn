@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dlbkv65emj76"]
+[gd_scene format=3 uid="uid://dlbkv65emj76"]
 
 [ext_resource type="Script" uid="uid://dckntke6583cf" path="res://main_menu_script.gd" id="1_06t4h"]
 [ext_resource type="PackedScene" uid="uid://cod0lxjttge88" path="res://selection_screen.tscn" id="2_7vrkn"]
@@ -9,12 +9,12 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fu7sn"]
 bg_color = Color(0.78227, 0.541545, 0.307412, 1)
 
-[node name="main_menu" type="Node2D"]
+[node name="main_menu" type="Node2D" unique_id=745938995]
 scale = Vector2(0.99724, 1)
 script = ExtResource("1_06t4h")
 selection_screen = ExtResource("2_7vrkn")
 
-[node name="standard_select" type="Button" parent="."]
+[node name="standard_select" type="Button" parent="." unique_id=88444559]
 z_index = 800
 offset_left = 128.0
 offset_top = 312.0
@@ -22,7 +22,7 @@ offset_right = 706.0
 offset_bottom = 384.0
 text = "Standard"
 
-[node name="space_select" type="Button" parent="."]
+[node name="space_select" type="Button" parent="." unique_id=799755035]
 z_index = 800
 offset_left = 128.354
 offset_top = 440.0
@@ -30,7 +30,7 @@ offset_right = 706.354
 offset_bottom = 512.0
 text = "Deep Space"
 
-[node name="arena_select" type="Button" parent="."]
+[node name="arena_select" type="Button" parent="." unique_id=1346146055]
 z_index = 800
 offset_left = 128.354
 offset_top = 568.0
@@ -38,7 +38,7 @@ offset_right = 706.354
 offset_bottom = 640.0
 text = "World Tournament Arena"
 
-[node name="circle_select" type="Button" parent="."]
+[node name="circle_select" type="Button" parent="." unique_id=800274878]
 z_index = 800
 offset_left = 128.354
 offset_top = 696.0
@@ -47,7 +47,7 @@ offset_bottom = 768.0
 text = "Circle
 "
 
-[node name="huge_select" type="Button" parent="."]
+[node name="huge_select" type="Button" parent="." unique_id=1391598581]
 z_index = 800
 offset_left = 128.354
 offset_top = 824.0
@@ -55,14 +55,14 @@ offset_right = 706.354
 offset_bottom = 896.0
 text = "Huge"
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=2034227818]
 z_index = 60
 offset_right = 840.0
 offset_bottom = 1280.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_fu7sn")
 
-[node name="Label2" type="Label" parent="Panel"]
+[node name="Label2" type="Label" parent="Panel" unique_id=97459182]
 layout_mode = 0
 offset_left = 257.0
 offset_top = 80.0
@@ -77,13 +77,14 @@ text = "stage select"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1011427071]
 anchor_mode = 0
+enabled = false
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 script = ExtResource("4_jix8l")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1719829747]
 stream = ExtResource("5_glbon")
 
 [connection signal="pressed" from="standard_select" to="." method="_on_standard_select_pressed"]

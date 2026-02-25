@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://v1rdjwhh0fy4"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_spi5k"]
+[ext_resource type="PackedScene" uid="uid://4m52yclqqnpo" path="res://burst_series/bursts/dio_burst.tscn" id="2_hwpmo"]
+[ext_resource type="Texture2D" uid="uid://cfm15ehqw0elf" path="res://burst_series/cut_in_components/images/za_warudo.png" id="2_u58ou"]
+[ext_resource type="AudioStream" uid="uid://b86hlbyvqsxeo" path="res://sounds2/jojo-punch.mp3" id="3_a0ga7"]
+[ext_resource type="AudioStream" uid="uid://dthvfnp0ylvoj" path="res://sounds2/za-warudo.mp3" id="3_ksjnr"]
+[ext_resource type="Texture2D" uid="uid://hn2jw3qssocc" path="res://weapon_images2/dio-left.png" id="6_funm8"]
+[ext_resource type="Texture2D" uid="uid://bme47uay5r5wm" path="res://weapon_images2/dio-right.png" id="7_0i1bb"]
+[ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="8_vrxox"]
+[ext_resource type="AudioStream" uid="uid://o4xnc6g7c1kr" path="res://sounds/parry-ultrakill.mp3" id="9_nol5g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_funm8"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1euj4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0i1bb"]
+resource_local_to_scene = true
+
+[node name="dio_ball" unique_id=949548496 instance=ExtResource("1_spi5k")]
+burst_name = "THE WORLD!!"
+cut_in_image = ExtResource("2_u58ou")
+cut_in_voice_line = ExtResource("3_ksjnr")
+burst_scene = ExtResource("2_hwpmo")
+burst_limit = 200
+color = Color(0.99607843, 0.95686275, 0.32941177, 1)
+border_color = Color(0.6039216, 0.46666667, 0.13725491, 1)
+health_color = Color(0.93333334, 0.8666667, 0.4509804, 1)
+radius = 50
+lin_accel = 2.0
+lin_speed = 2.0
+oscillation_arc = 720.0
+oscillation_speed = 20.0
+health = 300
+regeneration = 2.0
+attack = 25.0
+weapon = true
+field_type = "attack_field"
+attack_sound = ExtResource("3_a0ga7")
+
+[node name="RigidBody2D" parent="." index="0" unique_id=961107475]
+freeze_mode = 0
+
+[node name="CollisionShape2D" parent="RigidBody2D" index="0" unique_id=928397621]
+z_index = 0
+
+[node name="Face" parent="RigidBody2D" index="1" unique_id=1420178409]
+theme_override_styles/panel = SubResource("StyleBoxFlat_funm8")
+
+[node name="TextureRect" parent="RigidBody2D/Weapon" parent_id_path=PackedInt32Array(1495547949) index="0" unique_id=138853334]
+offset_left = -88.0
+offset_top = -88.0
+offset_right = 79.0
+offset_bottom = 63.0
+scale = Vector2(0.41625482, 0.41625482)
+texture = ExtResource("6_funm8")
+
+[node name="TextureRect2" type="TextureRect" parent="RigidBody2D/Weapon" parent_id_path=PackedInt32Array(1495547949) index="1" unique_id=1227170417]
+offset_left = 24.0
+offset_top = -88.0
+offset_right = 191.0
+offset_bottom = 63.0
+scale = Vector2(0.41625482, 0.41625482)
+texture = ExtResource("7_0i1bb")
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="3" unique_id=720970176]
+position = Vector2(-56, -56)
+scale = Vector2(4.0200295, 4.0200295)
+shape = SubResource("CircleShape2D_1euj4")
+
+[node name="WeaponShape2D2" type="CollisionShape2D" parent="RigidBody2D" index="4" unique_id=1503927926]
+position = Vector2(56, -56)
+scale = Vector2(4.0200295, 4.0200295)
+shape = SubResource("CircleShape2D_1euj4")
+script = ExtResource("8_vrxox")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="RigidBody2D/WeaponShape2D2" index="0" unique_id=456910673]
+stream = ExtResource("9_nol5g")
+
+[node name="Sensory Field" parent="RigidBody2D" index="5" unique_id=1493948663]
+field_multiply = 5.0
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0" unique_id=101097463]
+shape = SubResource("CircleShape2D_0i1bb")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1" unique_id=1410089568]
+theme_override_styles/panel = SubResource("StyleBoxFlat_funm8")

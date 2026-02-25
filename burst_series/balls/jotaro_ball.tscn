@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://ctqr8t0rimskd"]
+
+[ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_3xrqc"]
+[ext_resource type="Texture2D" uid="uid://82vm0ssn6bkc" path="res://burst_series/cut_in_components/images/star-platinum.png" id="2_3xrqc"]
+[ext_resource type="AudioStream" uid="uid://cowrfnee1pu74" path="res://burst_series/cut_in_components/voice_lines/star-platinum-za-warudo.mp3" id="3_e5e5e"]
+[ext_resource type="PackedScene" uid="uid://4m52yclqqnpo" path="res://burst_series/bursts/dio_burst.tscn" id="4_jci6h"]
+[ext_resource type="AudioStream" uid="uid://b86hlbyvqsxeo" path="res://sounds2/jojo-punch.mp3" id="5_di5i3"]
+[ext_resource type="Texture2D" uid="uid://ca2d4bo34ikxk" path="res://weapon_images2/jotaro-left.png" id="6_3xrqc"]
+[ext_resource type="Texture2D" uid="uid://cmka1lfvqrm8f" path="res://weapon_images2/jotaro-right.png" id="7_e5e5e"]
+[ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="8_ae677"]
+[ext_resource type="AudioStream" uid="uid://o4xnc6g7c1kr" path="res://sounds/parry-ultrakill.mp3" id="9_y0aul"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3xrqc"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1euj4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e5e5e"]
+resource_local_to_scene = true
+
+[node name="jotaro_ball" unique_id=949548496 instance=ExtResource("1_3xrqc")]
+burst_name = "STAR PLATINUM: THE WORLD!"
+cut_in_image = ExtResource("2_3xrqc")
+cut_in_voice_line = ExtResource("3_e5e5e")
+burst_scene = ExtResource("4_jci6h")
+burst_limit = 300
+color = Color(0.75686276, 0.59607846, 0.85882354, 1)
+border_color = Color(0.34509805, 0.17254902, 0.4117647, 1)
+health_color = Color(0.96862745, 0.7921569, 0.25490198, 1)
+radius = 50
+lin_accel = 2.0
+lin_speed = 2.0
+oscillation_arc = 720.0
+oscillation_speed = 20.0
+health = 350
+attack = 30.0
+weapon = true
+field_type = "attack_field"
+attack_sound = ExtResource("5_di5i3")
+
+[node name="RigidBody2D" parent="." index="0" unique_id=961107475]
+freeze_mode = 0
+
+[node name="CollisionShape2D" parent="RigidBody2D" index="0" unique_id=928397621]
+z_index = 0
+
+[node name="Face" parent="RigidBody2D" index="1" unique_id=1420178409]
+theme_override_styles/panel = SubResource("StyleBoxFlat_3xrqc")
+
+[node name="TextureRect" parent="RigidBody2D/Weapon" parent_id_path=PackedInt32Array(1495547949) index="0" unique_id=138853334]
+offset_left = -88.0
+offset_top = -88.0
+offset_right = 79.0
+offset_bottom = 63.0
+scale = Vector2(0.41625482, 0.41625482)
+texture = ExtResource("6_3xrqc")
+
+[node name="TextureRect2" type="TextureRect" parent="RigidBody2D/Weapon" parent_id_path=PackedInt32Array(1495547949) index="1" unique_id=1227170417]
+offset_left = 24.0
+offset_top = -88.0
+offset_right = 191.0
+offset_bottom = 63.0
+scale = Vector2(0.41625482, 0.41625482)
+texture = ExtResource("7_e5e5e")
+
+[node name="WeaponShape2D" parent="RigidBody2D" index="3" unique_id=720970176]
+position = Vector2(-56, -56)
+scale = Vector2(4.0200295, 4.0200295)
+shape = SubResource("CircleShape2D_1euj4")
+
+[node name="WeaponShape2D2" type="CollisionShape2D" parent="RigidBody2D" index="4" unique_id=1503927926]
+position = Vector2(56, -56)
+scale = Vector2(4.0200295, 4.0200295)
+shape = SubResource("CircleShape2D_1euj4")
+script = ExtResource("8_ae677")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="RigidBody2D/WeaponShape2D2" index="0" unique_id=456910673]
+stream = ExtResource("9_y0aul")
+
+[node name="Sensory Field" parent="RigidBody2D" index="5" unique_id=1493948663]
+field_multiply = 5.0
+
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0" unique_id=101097463]
+shape = SubResource("CircleShape2D_e5e5e")
+
+[node name="Face" parent="RigidBody2D/Sensory Field" index="1" unique_id=1410089568]
+theme_override_styles/panel = SubResource("StyleBoxFlat_3xrqc")
