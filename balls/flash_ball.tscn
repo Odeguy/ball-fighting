@@ -1,9 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://fseg6tovuwog"]
+[gd_scene format=3 uid="uid://fseg6tovuwog"]
 
 [ext_resource type="PackedScene" uid="uid://vncgfvhdwod8" path="res://ball.tscn" id="1_vmmo3"]
-[ext_resource type="AudioStream" uid="uid://cxnutgjeel0i5" path="res://sounds/flash.mp3" id="2_vlgg5"]
+[ext_resource type="AudioStream" uid="uid://dnah538qhaqg7" path="res://sounds/flash.mp3" id="2_vlgg5"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r4s7v"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vlgg5"]
 resource_local_to_scene = true
 border_width_left = 1
 border_width_top = 1
@@ -15,10 +15,10 @@ corner_radius_top_right = 999
 corner_radius_bottom_right = 999
 corner_radius_bottom_left = 999
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_vlgg5"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_t2qm2"]
 resource_local_to_scene = true
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2qm2"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1em5b"]
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
@@ -28,14 +28,14 @@ corner_radius_top_right = 999
 corner_radius_bottom_right = 999
 corner_radius_bottom_left = 999
 
-[node name="ball" instance=ExtResource("1_vmmo3")]
+[node name="ball" unique_id=65836896 instance=ExtResource("1_vmmo3")]
 color = Color(0.624618, 0.0966638, 0.14593, 1)
 border_color = Color(0.916857, 0.733477, 0, 1)
 radius = 50
 lin_accel = 14.0
 lin_speed = 20.0
 health = 490
-regeneration = 1.0
+defense = 9.0
 attack = 11.0
 trail = true
 attack_sound = ExtResource("2_vlgg5")
@@ -48,11 +48,11 @@ scaling_vars = {
 "regeneration": 1.0
 }
 
-[node name="Face" parent="RigidBody2D" index="1"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_r4s7v")
+[node name="Face" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="1" unique_id=1420178409]
+theme_override_styles/panel = SubResource("StyleBoxFlat_vlgg5")
 
-[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
-shape = SubResource("CircleShape2D_vlgg5")
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" parent_id_path=PackedInt32Array(1493948663) index="0" unique_id=101097463]
+shape = SubResource("CircleShape2D_t2qm2")
 
-[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_t2qm2")
+[node name="Face" parent="RigidBody2D/Sensory Field" parent_id_path=PackedInt32Array(1493948663) index="1" unique_id=1410089568]
+theme_override_styles/panel = SubResource("StyleBoxFlat_1em5b")

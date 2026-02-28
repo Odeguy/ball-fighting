@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://bqmvtdhm13wtr" path="res://weapon_shape_2d_script.gd" id="8_usdtd"]
 [ext_resource type="AudioStream" uid="uid://o4xnc6g7c1kr" path="res://sounds/parry-ultrakill.mp3" id="9_nc8yq"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dt1iu"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i54cs"]
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
@@ -21,7 +21,7 @@ corner_radius_bottom_left = 999
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_onfl0"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_uho37"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ss1f0"]
 resource_local_to_scene = true
 
 [node name="diavolo_ball" unique_id=129603212 instance=ExtResource("1_sbfod")]
@@ -39,6 +39,7 @@ lin_speed = 2.0
 oscillation_arc = 720.0
 oscillation_speed = 10.0
 health = 340
+defense = 8.0
 attack = 23.0
 weapon = true
 field_type = "attack_field"
@@ -47,7 +48,7 @@ spawn_ability = "King Crimson"
 attack_sound = ExtResource("5_3e83l")
 
 [node name="Face" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="1" unique_id=1420178409]
-theme_override_styles/panel = SubResource("StyleBoxFlat_dt1iu")
+theme_override_styles/panel = SubResource("StyleBoxFlat_i54cs")
 
 [node name="TextureRect" parent="RigidBody2D/Weapon" parent_id_path=PackedInt32Array(1495547949) index="0" unique_id=138853334]
 z_index = -7
@@ -87,7 +88,7 @@ collision_mask = 2147483647
 field_multiply = 2.0
 
 [node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0" unique_id=101097463]
-shape = SubResource("CircleShape2D_uho37")
+shape = SubResource("CircleShape2D_ss1f0")
 
 [node name="Face" parent="RigidBody2D/Sensory Field" index="1" unique_id=1410089568]
-theme_override_styles/panel = SubResource("StyleBoxFlat_dt1iu")
+theme_override_styles/panel = SubResource("StyleBoxFlat_i54cs")

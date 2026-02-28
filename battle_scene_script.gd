@@ -16,7 +16,11 @@ var teams: Dictionary
 var winner: bool
 @export var selection_screen: PackedScene
 @export_range (0, 1.0) var button_opacity: float
-var clash_sounds: Array = [preload("res://sounds/Hit_ClashA.wav"), preload("res://sounds/Hit_ClashB.wav"), preload("res://sounds/Hit_ClashC.wav")]
+var clash_sounds: Array = [
+	preload("res://sounds/Hit_ClashA.wav"), 
+	preload("res://sounds/Hit_ClashB.wav"), 
+	preload("res://sounds/Hit_ClashC.wav")
+]
 @onready var clash_itr = 0
 @export var clash_pause: bool = true
 @export var cut_ins: bool = true
@@ -61,7 +65,14 @@ func begin(fighters: Array):
 		fighter.connect("time_stop", za_warudo)
 		fighter.get_body().gravity_scale = gravity_scale
 	if teams.size() == 2:
-		if prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[0] && teams.keys()[1] == prev_teams.keys()[1] || prev_teams.size() == 2 && teams.keys()[0] == prev_teams.keys()[1] && teams.keys()[1] == prev_teams.keys()[0]:
+		if (
+			prev_teams.size() == 2 && 
+			teams.keys()[0] == prev_teams.keys()[0] && 
+			teams.keys()[1] == prev_teams.keys()[1] || 
+			prev_teams.size() == 2 && 
+			teams.keys()[0] == prev_teams.keys()[1] && 
+			teams.keys()[1] == prev_teams.keys()[0]
+		):
 			teams = prev_teams
 		$Scoreboard.show()
 	else: $Scoreboard.hide()
@@ -151,10 +162,18 @@ func play_clash_sound() -> void:
 	await get_tree().create_timer(0.1).timeout
 	get_tree().paused = false
 	
-func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: Ball, summoned: PackedScene, team: String, amount: int, layer: int, death_linked: bool, summon_burst_enabled: bool) -> void:
+func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: Ball, summoned: PackedScene, 
+	team: String, amount: int, layer: int, death_linked: bool, summon_burst_enabled: bool) -> void:
 	if cut_ins && cut_in_image != null:
 		var cut_in: Cut_In = preload("res://cut_in.tscn").instantiate()
-		cut_in.set_params("", cut_in_image, cut_in_voice_line, show_cut_in_images, play_voice_lines, cut_in_pause)
+		cut_in.set_params(
+			"", 
+			cut_in_image, 
+			cut_in_voice_line, 
+			show_cut_in_images, 
+			play_voice_lines, 
+			cut_in_pause
+		)
 		add_child(cut_in)
 		if cut_in_pause: get_tree().paused = true
 		await cut_in.done
@@ -163,12 +182,22 @@ func summon(cut_in_image: Texture2D, cut_in_voice_line: AudioStream, summoner: B
 	for i in range(amount):
 		var ball: Ball = summoned.instantiate()
 		ball.layer = layer
-		spawn(ball, spawn_points[randi() % 4], Vector2(0, 0), layer, true)
+		spawn(
+			ball, 
+			spawn_points[randi() % 4], 
+			Vector2(0, 0), 
+			layer, 
+			true
+		)
 		ball.team = team
 		ball.get_avg_dmg().hide()
 		fighting.append(ball)
 		if death_linked: summoner.connect("death", ball.die)
-		if ball is Burst_Ball && !summon_burst_enabled: ball.burst_limit = 99999
+		if (
+			ball is Burst_Ball && 
+			!summon_burst_enabled
+		): 
+			ball.burst_limit = 99999
 	
 func get_spawns() -> int:
 	return $SpawnPoints.get_children().size()
@@ -193,7 +222,13 @@ func adopt_particles(particles: GPUParticles2D) -> void:
 	particles.queue_free()
 
 func update_mouse_visibility() -> void:
-	if showing && get_global_mouse_position().x > arena_origin.x && get_global_mouse_position().y > arena_origin.y && get_global_mouse_position().x < arena_origin.x + arena_size.x && get_global_mouse_position().y < arena_origin.y + arena_size.y:
+	if (
+		showing && 
+		get_global_mouse_position().x > arena_origin.x && 
+		get_global_mouse_position().y > arena_origin.y && 
+		get_global_mouse_position().x < arena_origin.x + arena_size.x && 
+		get_global_mouse_position().y < arena_origin.y + arena_size.y
+	):
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -226,9 +261,16 @@ func return_by_death(returner: Ball) -> void:
 	
 func za_warudo(ball: Burst_Ball, road_roller: bool) -> void:
 	for fighter: Ball in fighting:
-		if !(fighter.scene_file_path == "res://burst_series/balls/dio_ball.tscn") && !(fighter.scene_file_path == "res://burst_series/balls/jotaro_ball.tscn"): 
+		if (
+			fighter.scene_file_path != "res://burst_series/balls/dio_ball.tscn" && 
+			fighter.scene_file_path != "res://burst_series/balls/jotaro_ball.tscn"
+		): 
 			var body: RigidBody2D = fighter.get_body()
 			body.set_deferred("freeze", true)
+			fighter.temp_1 = fighter.oscillation_speed
+			fighter.temp_2 = fighter.ang_speed
+			fighter.oscillation_speed = 0
+			fighter.ang_speed = 0
 		
 	if road_roller:
 		await get_tree().create_timer(5).timeout
@@ -244,16 +286,21 @@ func za_warudo(ball: Burst_Ball, road_roller: bool) -> void:
 		tween.tween_property(roller, "position:y", screen_size.y / 2, 4)
 		await tween.finished
 		for fighter: Ball in fighting:
-			if fighter != ball:
+			if fighter != ball && fighter != null:
 				ball.health -= 50
 				ball.damage_effect(50)
 	
 	await ball.burst_finished
 	
 	for fighter: Ball in fighting:
-		if !(fighter.scene_file_path == "res://burst_series/balls/dio_ball.tscn") && !(fighter.scene_file_path == "res://burst_series/balls/jotaro_ball.tscn"): 
+		if (
+			fighter.scene_file_path != "res://burst_series/balls/dio_ball.tscn" && 
+			fighter.scene_file_path != "res://burst_series/balls/jotaro_ball.tscn"
+		): 
 			var body: RigidBody2D = fighter.get_body()
 			body.set_deferred("freeze", false)
+			fighter.oscillation_speed = fighter.temp_1
+			fighter.ang_speed = fighter.temp_2
 			
 func camera_position() -> void:
 	#if fighting.size() < 2: return

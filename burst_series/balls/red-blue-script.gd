@@ -10,15 +10,29 @@ func _on_sensory_field_body_shape_entered(body_rid: RID, body: Node2D, body_shap
 				body.linear_damp = time_factor
 				body.angular_damp = time_factor
 		"attack_field":
-			if opp is Ball && opp != self && cooldown == 0:
+			if (
+				opp is Ball && 
+				opp != self && 
+				cooldown == 0
+			):
 				$RigidBody2D.apply_force((body.global_position - $RigidBody2D.global_position) * 5000 * attack_factor)
 				$RigidBody2D.linear_damp = ProjectSettings.get_setting("physics/2d/default_linear_damp")
 				$RigidBody2D.angular_damp = ProjectSettings.get_setting("physics/2d/default_angular_damp")
 		"dodge_field":
-			if opp is Ball && cooldown == 0 || enemyCollider is Weapon:
+			if (
+				opp is Ball && 
+				cooldown == 0 || 
+				enemyCollider is Weapon
+			):
 				$"RigidBody2D/Sensory Field/AudioStreamPlayer2D".play()
 				var pos = $RigidBody2D.global_position + 2 * (body.global_position - $RigidBody2D.global_position)
-				if pos.x > arena_origin.x && pos.y > arena_origin.y && pos.x < arena_origin.x + arena_size.x && pos.y < arena_origin.y + arena_size.y: $RigidBody2D.global_position = pos
+				if (
+					pos.x > arena_origin.x && 
+					pos.y > arena_origin.y && 
+					pos.x < arena_origin.x + arena_size.x &&
+					pos.y < arena_origin.y + arena_size.y
+				): 
+					$RigidBody2D.global_position = pos
 				$RigidBody2D.apply_force((body.global_position - $RigidBody2D.global_position) * 4000)
 				$RigidBody2D.linear_damp = ProjectSettings.get_setting("physics/2d/default_linear_damp")
 				$RigidBody2D.angular_damp = ProjectSettings.get_setting("physics/2d/default_angular_damp")

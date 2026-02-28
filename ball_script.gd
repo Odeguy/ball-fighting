@@ -14,6 +14,7 @@ class_name Ball
 @export var oscillation_arc: float
 @export var oscillation_speed: float
 @export var health: int
+@export var defense: float = 5
 @export var regeneration: float
 @export var attack: float
 @export var weapon: bool
@@ -24,13 +25,23 @@ var speed_bonus: float
 var hits: int
 var total_damage: int
 @export var center_force: bool
-@export_enum("time_field", "attack_field", "dodge_field") var field_type: String
+@export_enum(
+	"time_field", 
+	"attack_field", 
+	"dodge_field"
+) var field_type: String
 @export var cooldown_length: int = 2
 @export var time_factor: int
 @export var attack_factor: int = 1
 @export var black_flash: bool
 @export var flash_chance: float
-@export_enum("7 Incarnations", "Trace: On", "Steal!!", "Help from Reinhard", "King Crimson") var spawn_ability: String
+@export_enum(
+	"7 Incarnations", 
+	"Trace: On", 
+	"Steal!!", 
+	"Help from Reinhard", 
+	"King Crimson"
+) var spawn_ability: String
 @export var return_by_death: bool
 @export var invincible: bool
 signal returning(ball)
@@ -62,7 +73,17 @@ signal clash
 	"ang_accel": 1.0
 }
 @export var scale_on_hit: bool
-signal summon(summon_cut_in_image, summon_cut_in_voice_line, summoner, summoned, team, amount, layer, death_linked, burst_enabled)
+signal summon(
+	summon_cut_in_image, 
+	summon_cut_in_voice_line, 
+	summoner, 
+	summoned, 
+	team, 
+	amount, 
+	layer, 
+	death_linked, 
+	burst_enabled
+)
 @onready var max_health: float = float(health)
 @onready var counter: int = 0
 @onready var physics_counter: int = 0
@@ -70,6 +91,8 @@ signal death
 signal time_stop(ball)
 var camera_scale: Vector2
 var layer: int
+var temp_1: Variant
+var temp_2: Variant
 
 
 func _ready() -> void:
@@ -93,7 +116,10 @@ func _ready() -> void:
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_right = border_width
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_top = border_width
 	$RigidBody2D/Face.get_theme_stylebox("panel").border_width_bottom = border_width
-	$RigidBody2D.linear_velocity = Vector2(get_viewport_rect().size.x / 2 - self.position.x  * -1 * lin_speed / 2 * (randf() / 5 + 1), get_viewport_rect().size.y / 2 - self.position.y  * -1 * lin_speed / 2 * (randf() / 5 + 1))
+	$RigidBody2D.linear_velocity = Vector2(
+		get_viewport_rect().size.x / 2 - self.position.x  * -1 * lin_speed / 2 * (randf() / 5 + 1), 
+		get_viewport_rect().size.y / 2 - self.position.y  * -1 * lin_speed / 2 * (randf() / 5 + 1)
+	)
 	$RigidBody2D.angular_velocity = ang_speed
 	#$AvgDmg.global_position.y += 325
 	#$AvgDmg.global_position.y *= 1.2
@@ -118,7 +144,12 @@ func _physics_process(delta: float) -> void:
 		$RigidBody2D.apply_torque(ang_accel * 160000)
 		
 	if center_force:
-		$RigidBody2D.apply_central_force(Vector2(center.x - $RigidBody2D.global_position.x, center.y - $RigidBody2D.global_position.y) * 2)
+		$RigidBody2D.apply_central_force(
+			Vector2(
+				center.x - $RigidBody2D.global_position.x, 
+				center.y - $RigidBody2D.global_position.y
+			) * 2
+		)
 	if hit_limit < 0.2: hit_limit += 0.01
 	
 	
@@ -129,7 +160,7 @@ func _physics_process(delta: float) -> void:
 		oscillation_speed *= -1
 	
 	$Label.text = str(health)
-	speed_bonus = abs(get_velocity_mag()) / 500 + abs($RigidBody2D.angular_velocity) / 8
+	speed_bonus = abs(get_velocity_mag()) / 250 + abs($RigidBody2D.angular_velocity) / 8
 	if trail: leave_trail()
 	if weapon_trail: leave_weapon_trail()
 
@@ -156,7 +187,12 @@ func damage_effect(num: int) -> void:
 	var effect = RichTextLabel.new()
 	$AudioStreamPlayer2D.stop()
 	$AudioStreamPlayer2D.play()
-	effect.set_position($RigidBody2D.position + Vector2(int($RigidBody2D.linear_velocity.x) % 10 * -1, int($RigidBody2D.linear_velocity.y) % 10 * -1) * (randi() % 50 - 25))
+	effect.set_position(
+		$RigidBody2D.position + Vector2(
+			int($RigidBody2D.linear_velocity.x) % 10 * -1, 
+			int($RigidBody2D.linear_velocity.y) % 10 * -1) * (randi() % 50 - 25
+		)
+	)
 	effect.push_font_size(25)
 	effect.push_color(color)
 	effect.set_size(Vector2(100, 100))
@@ -209,8 +245,22 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 	if local_shape_index == 1 && enemyCollider is Weapon:
 			clash.emit()
 	#after this point the shape indexes and collider variables get messed up for some reason that i'm not looking into right now
-	if enemyCollider is Weapon && selfCollider is not Weapon && opp.team != self.team && hit_limit >= 0.2 || opp is Ball && !opp.weapon  && selfCollider is not Weapon and opp.get_parent() != self && opp.team != self.team && hit_limit >= 0.2: 
-		var damage: int = int(opp.attack + opp.speed_bonus)
+	if (
+		enemyCollider is Weapon &&
+		selfCollider is not Weapon &&
+		opp.team != self.team && hit_limit >= 0.2 ||
+		opp is Ball &&
+		!opp.weapon  &&
+		selfCollider is not Weapon and opp.get_parent() != self &&
+		opp.team != self.team && hit_limit >= 0.2
+	):
+		var damage: int = int(opp.attack + opp.speed_bonus - self.defense)
+		#print("damage: " + str(damage))
+		#print("attack: " + str(opp.attack))
+		#print("speed_bonus: " + str(opp.speed_bonus))
+		#print("defense: " + str(self.defense) + "\n")
+		#print()
+		if damage < 0: damage = 0
 		if opp.black_flash && randf() <= opp.flash_chance:
 			damage *= 2
 			await opp.black_flash_attack()
@@ -262,17 +312,31 @@ func _on_sensory_field_body_shape_entered(body_rid: RID, body: Node2D, body_shap
 				body.linear_damp = time_factor
 				body.angular_damp = time_factor
 		"attack_field":
-			if opp is Ball && opp != self && cooldown == 0:
+			if (
+				opp is Ball && 
+				opp != self && 
+				cooldown == 0
+			):
 				$RigidBody2D.apply_force((body.global_position - $RigidBody2D.global_position) * 5000 * attack_factor)
 				$RigidBody2D.linear_damp = ProjectSettings.get_setting("physics/2d/default_linear_damp")
 				$RigidBody2D.angular_damp = ProjectSettings.get_setting("physics/2d/default_angular_damp")
 		"dodge_field":
-			if opp is Ball && cooldown == 0 || enemyCollider is Weapon:
+			if (
+				opp is Ball && 
+				cooldown == 0 || 
+				enemyCollider is Weapon
+			):
 				$"RigidBody2D/Sensory Field/AudioStreamPlayer2D".play()
 				var pos = $RigidBody2D.global_position + 3 * (body.global_position - $RigidBody2D.global_position)
-				if pos.x > arena_origin.x && pos.y > arena_origin.y && pos.x < arena_origin.x + arena_size.x && pos.y < arena_origin.y + arena_size.y: $RigidBody2D.global_position = pos
+				if (
+					pos.x > arena_origin.x && 
+					pos.y > arena_origin.y && 
+					pos.x < arena_origin.x + arena_size.x && 
+					pos.y < arena_origin.y + arena_size.y
+				): 
+					$RigidBody2D.global_position = pos
 				#$RigidBody2D.apply_force((body.global_position - $RigidBody2D.global_position) * 4000)
-				#$RigidBody2D.linear_damp = ProjectSettings.get_setting("physics/2d/default_linear_damp")
+				#$RigidBody2D.linear_damp = ProjectSettings.get_setting("physics/2d/default_linear_damp")   not sure what this was for
 				#$RigidBody2D.angular_damp = ProjectSettings.get_setting("physics/2d/default_angular_damp")
 				cooldown = cooldown_length
 	if cooldown > 0: cooldown -= 1
@@ -281,11 +345,18 @@ func _on_sensory_field_body_shape_entered(body_rid: RID, body: Node2D, body_shap
 
 
 func _on_sensory_field_body_shape_exited(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
-	if body != null && field_type == "time_field":
+	if (
+		body != null && 
+		field_type == "time_field"
+	):
 		var opp = body.get_parent()
 		body.linear_damp = 0
 		body.angular_damp = 0
-		if opp.lin_accel > 0: body.linear_velocity = Vector2(randi() % int(opp.lin_accel * 2) - opp.lin_accel, randi() % int(opp.lin_accel * 2) - opp.lin_accel) * 50
+		if opp.lin_accel > 0: 
+			body.linear_velocity = Vector2(
+				randi() % int(opp.lin_accel * 2) - opp.lin_accel, 
+				randi() % int(opp.lin_accel * 2) - opp.lin_accel
+			) * 50
 		
 func black_flash_attack() -> int:
 	var scene: Black_Flash = black_flash_scene.instantiate()
@@ -296,12 +367,30 @@ func death_bound(sig: String) -> void:
 	connect(sig, die)
 	
 func try_summon(amount: int, bypass: bool, death_linked: bool, burst_enabled: bool) -> void:
-	if health / max_health  <= summon_limit && summon_enabled || bypass:
+	if (
+		health / max_health  <= summon_limit && 
+		summon_enabled || 
+		bypass
+	):
 		summon_enabled = false
-		summon.emit(summon_cut_in_image, summon_cut_in_voice_line, self, summoned, team, amount, layer, death_linked, summon_enabled)
+		summon.emit(
+			summon_cut_in_image, 
+			summon_cut_in_voice_line, 
+			self, 
+			summoned, 
+			team, 
+			amount, 
+			layer, 
+			death_linked, 
+			summon_enabled
+		)
 
 func regenerate(counter: int) -> void:
-	if counter % 20 == 0 && health < max_health: health += regeneration
+	if (
+		counter % 20 == 0 && 
+		health < max_health
+	): 
+		health += regeneration
 	if health > max_health: health = max_health
 
 func scaling(counter: int) -> void:
@@ -316,7 +405,10 @@ func scaling(counter: int) -> void:
 	$AvgDmg/Scaling.text = ""
 	for i in range(0, scaling_vars.size()):
 		var key = scaling_vars.keys()[i]
-		if scaling_vars[key] > 1 || key == "regeneration" && regeneration != 0:
+		if (
+			scaling_vars[key] > 1 || 
+			key == "regeneration" && 
+			regeneration != 0):
 			$AvgDmg/Scaling.text += key + ": " + str(get_stat(key)) + "\n"
 			
 func get_stat(stat: String) -> Variant:
@@ -384,6 +476,8 @@ func trace_weapon() -> Ball:
 				if node is Floater or node is Bomb:
 					var dupe = node.duplicate()
 					attack = fighter.attack * 0.85
+					oscillation_arc = fighter.oscillation_arc
+					if fighter.ang_speed == 0: ang_speed = 0
 					add_child(dupe)
 					found = true
 					target = fighter
@@ -412,7 +506,14 @@ func lose_weapon() -> void:
 func cut_in(text: String, image: Texture2D, voice_line: AudioStream) -> void:
 	var scene: Cut_In = cut_in_scene.instantiate()
 	var battle: Battle = get_parent()
-	scene.set_params(text, image, voice_line, battle.show_cut_in_images, battle.play_voice_lines, battle.cut_in_pause)
+	scene.set_params(
+		text, 
+		image, 
+		voice_line, 
+		battle.show_cut_in_images, 
+		battle.play_voice_lines, 
+		battle.cut_in_pause
+	)
 	add_child(scene)
 	if battle.cut_in_pause: get_tree().paused = true
 	await scene.done

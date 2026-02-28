@@ -64,6 +64,7 @@ border_width = 6
 lin_accel = 10.0
 lin_speed = 7.0
 health = 525
+defense = 10.0
 attack = 35.0
 trail = true
 trail_freq = 2

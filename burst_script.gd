@@ -29,19 +29,16 @@ var initial_stats: Dictionary
 @export var time_stop: bool
 @export var toggle_invincible: bool
 
-""""
-1. Wait for Ball detection
-2. Show beam
-3. Delay
-4. Send signal
-5. hide & queue_free
-"""
 
 func _ready() -> void:
 	var ball: Burst_Ball = get_parent().get_parent().get_parent()
+	
 	var road_roller = false
-	if ball.burst_name == "THE WORLD!!": road_roller = true
-	if time_stop: ball.time_stop.emit(ball, road_roller)
+	if ball.burst_name == "THE WORLD!!": 
+		road_roller = true
+	if time_stop: 
+		ball.time_stop.emit(ball, road_roller)
+		
 	self.hide()
 	$Particles.emitting = true
 	$AreaDetector.show()
@@ -52,19 +49,25 @@ func _ready() -> void:
 	tween.set_speed_scale(3)
 	txtrect.modulate.a = 0
 	tween.tween_property(txtrect, "modulate:a", 1, 1)
+	
 	if static_:
 		remove_child(txtrect)
 		get_parent().get_parent().get_parent().get_parent().adopt_bg(txtrect)
 		remove_child(particles)
 		get_parent().get_parent().get_parent().get_parent().adopt_particles(particles)
-	
-func _physics_process(delta: float) -> void:
-	pass
 
 func _on_area_detector_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
-	if body.get_parent() is Ball && body.get_parent() != user && body.get_parent().team != user.team: 	
+	if (
+		body.get_parent() is Ball && 
+		body.get_parent() != user && 
+		body.get_parent().team != user.team
+	): 	
 		for b in $AreaDetector.get_overlapping_bodies():
-			if b.get_parent() is Ball && b.get_parent() != user && b.get_parent().team != user.team: 
+			if (
+				b.get_parent() is Ball && 
+				b.get_parent() != user && 
+				b.get_parent().team != user.team
+			): 
 				opps.append(b.get_parent())
 		enemy_detected.emit()
 	
@@ -74,6 +77,7 @@ func blast() -> void:
 	var ball: Burst_Ball = self.get_parent().get_parent().get_parent()
 	set_burst_modifiers(ball)
 	$OneTimeSound.play()
+	
 	while duration > 0:
 		await get_tree().process_frame
 		if laser: get_parent().get_parent().angular_velocity = 0
@@ -83,17 +87,32 @@ func blast() -> void:
 		duration -= 1.0 / 60.0
 		counter += burst_damage 
 		if opps.is_empty(): break
+		
 		for body in $AreaDetector.get_overlapping_bodies():
-			if body.get_parent() is Ball && body.get_parent() != user && body.get_parent().team != user.team:
-				if !$AreaDetector.overlaps_body(body): continue
+			if (
+				body.get_parent() is Ball && 
+				body.get_parent() != user && 
+				body.get_parent().team != user.team
+			):
+				if !$AreaDetector.overlaps_body(body): 
+					continue
 				var opp: Ball = body.get_parent()
-				if opp.health >= 0 && counter % 16 == 0: opp.health -= burst_damage
-				if opp.health < 0: opp.health = 0
-				if burst_damage != 0: opp.damage_effect(burst_damage)
-				ball.total_damage += 1
-				opp.recalc_avg_dmg()
+				if burst_damage > int(opp.defense / 10.0):
+					if (
+						opp.health >= 0 && 
+						counter % 16 == 0
+					): 
+						opp.health -= burst_damage - int(opp.defense / 10.0)
+					if opp.health < 0: 
+						opp.health = 0
+					if burst_damage != 0: 
+						opp.damage_effect(burst_damage- int(opp.defense / 10.0))
+						
+					ball.total_damage += 1
+					opp.recalc_avg_dmg()
 				if opp.health == 0:
 					opp.die()
+					
 	reset_stats(ball)
 	done.emit()
 	self.hide()
@@ -132,4 +151,5 @@ func reset_stats(ball: Burst_Ball) -> void:
 	ball.ang_accel = initial_stats["ang_accel"]
 	ball.regeneration = initial_stats["regeneration"]
 	ball.cooldown_length = initial_stats["cooldown_length"]
-	if toggle_invincible: ball.invincible = !ball.invincible
+	if toggle_invincible: 
+		ball.invincible = !ball.invincible

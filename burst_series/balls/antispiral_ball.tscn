@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://deaqdcbsdk0dh"]
+[gd_scene format=3 uid="uid://deaqdcbsdk0dh"]
 
 [ext_resource type="PackedScene" uid="uid://eaa5byxjqno7" path="res://burst_series/burst_ball.tscn" id="1_yvqvp"]
 [ext_resource type="Texture2D" uid="uid://bln0bprpfap8b" path="res://burst_series/cut_in_components/images/m4lja1ve7eb61_gif.png" id="2_k6jcf"]
@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://ddd8a20nmn364" path="res://sounds/SE_BombEnergy.wav" id="5_k6jcf"]
 [ext_resource type="Texture2D" uid="uid://dba201geyghwy" path="res://particles/spotlight_5.png" id="6_k6jcf"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_diu0i"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k6jcf"]
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 1)
 border_color = Color(0, 0, 0, 1)
@@ -16,7 +16,7 @@ corner_radius_top_right = 999
 corner_radius_bottom_right = 999
 corner_radius_bottom_left = 999
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_8wfgu"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_5e8a4"]
 resource_local_to_scene = true
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wo3ve"]
@@ -41,7 +41,7 @@ scale_max = 0.02
 color = Color(0.803922, 0.698039, 0.976471, 1)
 color_ramp = SubResource("GradientTexture1D_k6jcf")
 
-[node name="antispiral_ball" instance=ExtResource("1_yvqvp")]
+[node name="antispiral_ball" unique_id=1482408175 instance=ExtResource("1_yvqvp")]
 burst_name = "Anti Spiral: Giga Drill Breaker"
 cut_in_image = ExtResource("2_k6jcf")
 cut_in_voice_line = ExtResource("3_5e8a4")
@@ -55,6 +55,7 @@ ang_accel = 1.0
 lin_speed = 5.0
 ang_speed = 3.0
 health = 760
+defense = 13.0
 regeneration = 5.0
 attack = 23.0
 attack_sound = ExtResource("5_k6jcf")
@@ -67,30 +68,30 @@ scaling_vars = {
 "regeneration": 1.4
 }
 
-[node name="Face" parent="RigidBody2D" index="1"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_diu0i")
+[node name="Face" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="1" unique_id=1420178409]
+theme_override_styles/panel = SubResource("StyleBoxFlat_k6jcf")
 
-[node name="TextureRect" parent="RigidBody2D/Weapon" index="0"]
+[node name="TextureRect" parent="RigidBody2D/Weapon" parent_id_path=PackedInt32Array(1495547949) index="0" unique_id=138853334]
 offset_left = -62.0
 offset_top = -215.0
 offset_right = 150.0
 offset_bottom = 61.0
 scale = Vector2(0.598128, 0.598128)
 
-[node name="WeaponShape2D" parent="RigidBody2D" index="4"]
+[node name="WeaponShape2D" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="3" unique_id=720970176]
 position = Vector2(-30, -101)
 rotation = 1.53168
 
-[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" index="0"]
-shape = SubResource("CircleShape2D_8wfgu")
+[node name="CollisionShape2D" parent="RigidBody2D/Sensory Field" parent_id_path=PackedInt32Array(1493948663) index="0" unique_id=101097463]
+shape = SubResource("CircleShape2D_5e8a4")
 
-[node name="Face" parent="RigidBody2D/Sensory Field" index="1"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_diu0i")
+[node name="Face" parent="RigidBody2D/Sensory Field" parent_id_path=PackedInt32Array(1493948663) index="1" unique_id=1410089568]
+theme_override_styles/panel = SubResource("StyleBoxFlat_k6jcf")
 
-[node name="BurstGlow" parent="RigidBody2D" index="6"]
+[node name="BurstGlow" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="6" unique_id=508245418]
 visible = false
 
-[node name="AntiSpiralGlow" type="GPUParticles2D" parent="RigidBody2D" index="7"]
+[node name="AntiSpiralGlow" type="GPUParticles2D" parent="RigidBody2D" parent_id_path=PackedInt32Array(961107475) index="7" unique_id=1515812784]
 z_index = -1
 material = SubResource("CanvasItemMaterial_wo3ve")
 position = Vector2(2, 0)

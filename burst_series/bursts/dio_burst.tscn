@@ -11,7 +11,7 @@ colors = PackedColorArray(0.078431375, 0.09019608, 0.03137255, 0.30588236, 0.231
 gradient = SubResource("Gradient_ffy23")
 
 [node name="dio_burst" unique_id=177255232 instance=ExtResource("1_ffy23")]
-duration = 20.0
+duration = 12.0
 laser = false
 static_ = true
 time_stop = true

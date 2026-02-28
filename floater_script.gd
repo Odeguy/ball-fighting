@@ -1,22 +1,6 @@
 extends Ball
 
 class_name Floater
-#@export var color: Color
-#@export var border_color: Color
-#@export var radius: int
-#@export var lin_accel: int
-#@export var ang_accel: int
-#@export var lin_speed: int
-#@export var ang_speed: int
-#@export var health: int
-#@export var attack: int
-#@export var weapon: bool
-#var speed_bonus: float
-#@export var trail: bool
-#var hits: int
-#var total_damage: int
-#@export var center_force: bool
-#var center: Vector2
 @export var vulnerable: bool
 
 
@@ -30,11 +14,19 @@ func _ready() -> void:
 	
 	
 func _physics_process(delta: float) -> void:
-	if !vulnerable: health = 9999999
+	if !vulnerable: 
+		health = 9999999
+		
 	$RigidBody2D.apply_central_force((get_parent().get_body().position - $RigidBody2D.position) * 20)
 	speed_bonus = abs(get_velocity_mag()) / 1000 + abs($RigidBody2D.angular_velocity) / 24
+	
 	if center_force:
-		$RigidBody2D.apply_central_force(Vector2(center.x - $RigidBody2D.global_position.x, center.y - $RigidBody2D.global_position.y) * 2)
+		$RigidBody2D.apply_central_force(
+			Vector2(
+				center.x - $RigidBody2D.global_position.x, 
+				center.y - $RigidBody2D.global_position.y
+			) * 2
+		)
 	if trail: leave_trail()
 	
 func _on_rigid_body_2d_body_entered(body: Node) -> void:
@@ -53,24 +45,35 @@ func die() -> void:
 	$RigidBody2D.linear_velocity = Vector2(0, 0)
 	$RigidBody2D.angular_velocity = 0
 	$RigidBody2D/CollisionShape2D.disabled = true
-	if weapon: $RigidBody2D/WeaponShape2D.disabled = true
+	if weapon: 
+		$RigidBody2D/WeaponShape2D.disabled = true
 	health = 0
+	
 	while modulate.a <= 0:
 		modulate.a -= 0.05
 		await get_tree().process_frame
+		
 	self.queue_free()
 	
 
 func record_hit(damage: int) -> void:
 	super(damage)
-	if get_parent() is Burst_Ball && get_parent().burst < get_parent().burst_limit: 
+	if (
+		get_parent() is Burst_Ball && 
+		get_parent().burst < get_parent().burst_limit
+	): 
 		get_parent().record_hit(damage)
 	
 func damage_effect(num: int):
 	var effect = RichTextLabel.new()
 	get_parent().get_audio().stop()
 	get_parent().get_audio().play()
-	effect.set_position($RigidBody2D.position + Vector2(int($RigidBody2D.linear_velocity.x) % 10 * -1, int($RigidBody2D.linear_velocity.y) % 10 * -1))
+	effect.set_position(
+		$RigidBody2D.position + Vector2(
+			int($RigidBody2D.linear_velocity.x) % 10 * -1, 
+			int($RigidBody2D.linear_velocity.y) % 10 * -1
+		)
+	)
 	effect.push_font_size(25)
 	effect.push_color(get_parent().color)
 	effect.set_size(Vector2(100, 100))
@@ -101,7 +104,16 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 	var enemyCollider = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
 	var selfCollider = $RigidBody2D.shape_owner_get_owner($RigidBody2D.shape_find_owner(local_shape_index))
 	if vulnerable:
-		if enemyCollider is Weapon && opp.team != self.team|| opp is Ball && !opp.weapon  && selfCollider is not Weapon && opp.get_parent() != self && opp.get_parent() != self.get_parent() && opp.team != self.team: 
+		if (
+			enemyCollider is Weapon && 
+			opp.team != self.team || 
+			opp is Ball && 
+			!opp.weapon  && 
+			selfCollider is not Weapon && 
+			opp.get_parent() != self && 
+			opp.get_parent() != self.get_parent() && 
+			opp.team != self.team
+		): 
 			var damage: int = int(opp.attack + opp.speed_bonus)
 			if opp.black_flash && randf() <= opp.flash_chance:
 				damage *= 2
@@ -115,7 +127,8 @@ func _on_rigid_body_2d_body_shape_entered(body_rid: RID, body: Node, body_shape_
 				$RigidBody2D.linear_velocity = Vector2(0, 0)
 				$RigidBody2D.angular_velocity = 0
 				$RigidBody2D/CollisionShape2D.disabled = true
-				if weapon: $RigidBody2D/WeaponShape2D.disabled = true
+				if weapon: 
+					$RigidBody2D/WeaponShape2D.disabled = true
 				health = 0
 				while modulate.a <= 0:
 					modulate.a -= 0.05
